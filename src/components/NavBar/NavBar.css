@@ -1,0 +1,4 @@
+.search-btn:hover, .search-btn:active, .search-btn:visited {
+    background-color: #04369a !important;
+    border-color: #042c7c;
+}
