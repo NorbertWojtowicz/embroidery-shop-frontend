@@ -1,0 +1,25 @@
+#main-wrapper {
+    background-color: #fbfbfb;
+}
+.main-container {
+    width: 90%;
+    margin: 0 auto;
+}
+#top-section-wrapper {
+    background-image: url(/public/main-bg-1.jpg);
+    background-size:cover;
+    min-height: 90.4vh;
+}
+.top-section {
+    margin: 10em 0 0 4em;
+}
+.top-section h1, h4 {
+    margin: 0.5em 0 0.8em 0;
+}
+.check-btn {
+    margin: 1em 0 0 0.4em;
+}
+.check-btn, .check-btn:hover, .check-btn:active, .check-btn:visited {
+    background-color: #04369a !important;
+    border-color: #042c7c;
+}
