@@ -18,9 +18,9 @@ const NavBar = () => {
                     <Nav.Link href="/faq">FAQ</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-primary search-btn" type="submit">Search</button>
+                <form className="d-flex">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <button className="btn btn-outline-primary search-btn" type="submit">Search</button>
                 </form>
             </Container>
         </Navbar>

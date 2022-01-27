@@ -2,6 +2,7 @@ import React from 'react';
 import {Col, Row, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Main.css';
+import Products from "./Products/Products";
 
 const Main = () => {
     return (
@@ -16,6 +17,7 @@ const Main = () => {
                         </Col>
                     </Row>
                 </div>
+                <Products/>
             </div>
         </div>
     );

@@ -2,7 +2,7 @@
     background-color: #fbfbfb;
 }
 .main-container {
-    width: 90%;
+    width: 86%;
     margin: 0 auto;
 }
 #top-section-wrapper {
@@ -11,7 +11,7 @@
     min-height: 90.4vh;
 }
 .top-section {
-    margin: 10em 0 0 4em;
+    margin: 12em 0 0 5.5em;
 }
 .top-section h1, h4 {
     margin: 0.5em 0 0.8em 0;
