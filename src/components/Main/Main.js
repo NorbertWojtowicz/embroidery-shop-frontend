@@ -17,8 +17,8 @@ const Main = () => {
                         </Col>
                     </Row>
                 </div>
-                <Products/>
             </div>
+            <Products/>
         </div>
     );
 }
