@@ -8,7 +8,7 @@ const Product = ({product}) => {
         <div className='container'>
             <div className="card">
                 <div className='main-image'>
-                    <img src="java-logo.png"/>
+                    <img src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName}/>
                 </div>
                 <div className="card-body text-center mx-auto">
                     <div className='cvp'>
