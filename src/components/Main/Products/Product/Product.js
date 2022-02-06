@@ -5,7 +5,6 @@ import './Product.css';
 
 const Product = ({product}) => {
     return (
-        <div className='container'>
             <div className="card">
                 <div className='main-image'>
                     <img src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName}/>
@@ -13,12 +12,11 @@ const Product = ({product}) => {
                 <div className="card-body text-center mx-auto">
                     <div className='cvp'>
                         <h5 className="card-title font-weight-bold">{product.name}</h5>
-                        <p className="card-text">{product.price}zł</p> <a href="#" className="btn details">Zobacz detale</a><br/>
-                        <a href="#" className="btn cart">DO KOSZYKA</a>
+                        <p className="card-text">{product.price}zł</p> <a href={'produkt/' + product.name} className="btn details">Zobacz detale</a><br/>
+                        <a className="btn cart">DO KOSZYKA</a>
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 

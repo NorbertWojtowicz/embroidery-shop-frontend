@@ -1,0 +1,10 @@
+.main-container {
+    width: 90em;
+    margin: 0 auto;
+}
+
+.products-wrapper {
+    width: 68em;
+    margin-left: 1em;
+    float: left;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import {Col, Row, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Main.css';
-import Products from "./Products/Products";
+import ProductsWrapper from "./Products/ProductsWrapper";
 
 const Main = () => {
     return (
@@ -18,7 +18,7 @@ const Main = () => {
                     </Row>
                 </div>
             </div>
-            <Products/>
+            <ProductsWrapper/>
         </div>
     );
 }
