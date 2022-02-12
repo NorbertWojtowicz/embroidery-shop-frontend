@@ -4,6 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './ProductsWrapper.css';
 import Product from './Product/Product';
 import CategoriesMenu from "./CategoriesMenu/CategoriesMenu";
+import SortingBar from "./SortingBar/SortingBar";
 
 
 const ProductsWrapper = () => {
@@ -16,6 +17,7 @@ const ProductsWrapper = () => {
     console.log(products[0]);
     return (
         <div className="main-container">
+            <SortingBar/>
             <CategoriesMenu/>
           <div className="products-wrapper">
               {

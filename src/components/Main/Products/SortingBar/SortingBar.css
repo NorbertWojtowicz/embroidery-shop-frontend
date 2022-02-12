@@ -1,0 +1,25 @@
+/*panel*/
+.sorting-bar-wrapper {
+    width: 66em;
+    margin-right: 2em;
+    /*border: 1px solid #ddd3cf;*/
+    border: 1px solid #bbd1fc;
+    float: right;
+    /*background-color: #f1edeb;*/
+    background-color: #e0eafe;
+    border-radius: 0.2em;
+}
+
+.sorting-bar {
+    margin: 1em 1em 1em 0;
+}
+
+.sorting-bar-menu {
+    margin-left: 55em;
+    color:white;
+    background-color: #04369a;
+}
+
+.sorting-bar-menu:hover {
+    color:white;
+}

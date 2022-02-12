@@ -4,7 +4,7 @@ import './NavBar.css'
 
 const NavBar = () => {
     return (
-        <Navbar bg="light">
+        <Navbar bg="light" style={{height: '9.6vh'}}>
             <Container>
                 <Navbar.Brand href="/"><img src="/logo.png"
                     className="d-inline-block align-top"
