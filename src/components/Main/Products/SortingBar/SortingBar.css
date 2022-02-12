@@ -1,11 +1,8 @@
-/*panel*/
 .sorting-bar-wrapper {
     width: 66em;
     margin-right: 2em;
-    /*border: 1px solid #ddd3cf;*/
     border: 1px solid #bbd1fc;
     float: right;
-    /*background-color: #f1edeb;*/
     background-color: #e0eafe;
     border-radius: 0.2em;
 }

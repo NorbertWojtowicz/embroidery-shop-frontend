@@ -9,16 +9,18 @@ import SearchBar from "./SearchBar/SearchBar";
 
 const ProductsWrapper = () => {
     const [products, setProducts] = useState([]);
+    const [sortCriteria, setSortCriteria] = useState("desc-id");
     useEffect(() => {
-        fetch("http://localhost:8080/products").then(res => res.json()).then(data => setProducts(data));
-    }, []);
+        fetch(`http://localhost:8080/products?sort=${sortCriteria}`).then(res => res.json()).then(data => setProducts(data));
+    }, [sortCriteria]);
 
 
     console.log(products[0]);
+    console.log(sortCriteria);
     return (
         <div className="main-container">
             <SearchBar/>
-            <SortingBar/>
+            <SortingBar setSortCriteria={setSortCriteria}/>
             <CategoriesMenu/>
           <div className="products-wrapper">
               {
