@@ -5,7 +5,7 @@ import './ProductsWrapper.css';
 import Product from './Product/Product';
 import CategoriesMenu from "./CategoriesMenu/CategoriesMenu";
 import SortingBar from "./SortingBar/SortingBar";
-
+import SearchBar from "./SearchBar/SearchBar";
 
 const ProductsWrapper = () => {
     const [products, setProducts] = useState([]);
@@ -17,6 +17,7 @@ const ProductsWrapper = () => {
     console.log(products[0]);
     return (
         <div className="main-container">
+            <SearchBar/>
             <SortingBar/>
             <CategoriesMenu/>
           <div className="products-wrapper">
