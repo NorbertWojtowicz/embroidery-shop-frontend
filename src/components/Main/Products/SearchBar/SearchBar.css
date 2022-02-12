@@ -1,6 +1,12 @@
-.search-bar {
+.search-bar-wrapper {
     padding: 1em;
     background-color: #e0eafe;
     border: 1px solid #bbd1fc;
     border-radius: 0.2em;
+}
+
+.search-bar-input {
+    float: left;
+    width: 12em;
+    margin-right: 0.48em;
 }
