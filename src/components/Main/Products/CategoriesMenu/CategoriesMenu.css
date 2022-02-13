@@ -15,6 +15,11 @@
     color: white;
 }
 
+.category-header-wrapper:active {
+    pointer-events: none;
+}
+
+
 .category-header-wrapper:hover {
     color: white;
 }

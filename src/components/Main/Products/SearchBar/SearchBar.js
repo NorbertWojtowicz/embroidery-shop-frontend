@@ -1,6 +1,6 @@
 import './SearchBar.css';
 
-const SearchBar = ({setSearchType, setSearchProductName}) => {
+const SearchBar = ({setSearchType, setSearchName}) => {
 
     function searchProduct(e) {
         e.preventDefault();
@@ -8,7 +8,7 @@ const SearchBar = ({setSearchType, setSearchProductName}) => {
         if (inputValue.length === 0) return;
         if (isNaN(inputValue) && !inputValue.match(/[a-z]/i)) return;
         setSearchType("/search/");
-        setSearchProductName(inputValue);
+        setSearchName(inputValue);
     }
 
     return (

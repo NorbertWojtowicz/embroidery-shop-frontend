@@ -11,22 +11,22 @@ const ProductsWrapper = () => {
     const [products, setProducts] = useState([{}]);
     const [sortCriteria, setSortCriteria] = useState("desc-id");
     let [searchType, setSearchType] = useState("");
-    let [searchProductName, setSearchProductName] = useState("");
+    let [searchName, setSearchName] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:8080/products${searchType}${searchProductName}?sort=${sortCriteria}`).then(res => res.json()).then(data => setProducts(data));
-    }, [sortCriteria, searchType, searchProductName]);
+        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}`).then(res => res.json()).then(data => setProducts(data));
+    }, [sortCriteria, searchType, searchName]);
 
 
-    console.log(products[0]);
-    console.log(sortCriteria);
-    console.log(searchType);
-    console.log(searchProductName);
+    console.log("First Product: " + products[0]);
+    console.log("Sort Criteria: " + sortCriteria);
+    console.log("Search Type: " + searchType);
+    console.log("Search Name: " + searchName);
     return (
         <div className="main-container">
-            <SearchBar setSearchType={setSearchType} setSearchProductName={setSearchProductName}/>
+            <SearchBar setSearchType={setSearchType} setSearchName={setSearchName}/>
             <SortingBar setSortCriteria={setSortCriteria}/>
-            <CategoriesMenu/>
+            <CategoriesMenu setSearchType={setSearchType} setSearchName={setSearchName}/>
           <div className="products-wrapper">
               {
                   products.map(product =>
