@@ -7,7 +7,7 @@ const CategoriesMenu = ({setSearchType, setSearchName}) => {
     useEffect(() => {
         console.log("Fetching...");
         fetch("http://localhost:8080/products/category").then(res => res.json()).then(data => setCategories(data));
-    }, []);
+    }, [activeCategory]);
 
     function searchProductsByCategory(e) {
         e.preventDefault();
@@ -17,11 +17,15 @@ const CategoriesMenu = ({setSearchType, setSearchName}) => {
     }
 
     function setActiveOnElement(el) {
-        if (activeCategory) {
-            activeCategory.classList.remove("active");
-        }
+        removeActiveTagFromElement(activeCategory)
         setActiveCategory(el);
         el.classList.add("active");
+    }
+
+    function removeActiveTagFromElement(el) {
+        if (el) {
+            el.classList.remove("active");
+        }
     }
 
     return (

@@ -6,6 +6,7 @@ import Product from './Product/Product';
 import CategoriesMenu from "./CategoriesMenu/CategoriesMenu";
 import SortingBar from "./SortingBar/SortingBar";
 import SearchBar from "./SearchBar/SearchBar";
+import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 
 const ProductsWrapper = () => {
     const [products, setProducts] = useState([{}]);
@@ -29,10 +30,12 @@ const ProductsWrapper = () => {
             <CategoriesMenu setSearchType={setSearchType} setSearchName={setSearchName}/>
           <div className="products-wrapper">
               {
-                  products.map(product =>
-                      <div className="product" key={product.id}>
-                        <Product product={product} />
-                      </div>
+                  products.length === 0
+                      ? <ErrorMessage message={"Żaden z produktów nie spełnia określonych kryteriów..."}/>
+                      : products.map(product =>
+                          <div className="product" key={product.id}>
+                            <Product product={product} />
+                          </div>
               )}
           </div>
         </div>
