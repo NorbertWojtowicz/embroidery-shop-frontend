@@ -9,17 +9,19 @@ import SearchBar from "./SearchBar/SearchBar";
 import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 
 const ProductsWrapper = () => {
-    const [products, setProducts] = useState([{}]);
+    const [state, setState] = useState({
+        products: []
+    });
     const [sortCriteria, setSortCriteria] = useState("desc-id");
     let [searchType, setSearchType] = useState("");
     let [searchName, setSearchName] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}`).then(res => res.json()).then(data => setProducts(data));
+        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}`).then(res => res.json()).then(data => setState(data));
     }, [sortCriteria, searchType, searchName]);
 
 
-    console.log("First Product: " + products[0]);
+    console.log("First Product: " + state.products[0]);
     console.log("Sort Criteria: " + sortCriteria);
     console.log("Search Type: " + searchType);
     console.log("Search Name: " + searchName);
@@ -30,9 +32,9 @@ const ProductsWrapper = () => {
             <CategoriesMenu setSearchType={setSearchType} setSearchName={setSearchName}/>
           <div className="products-wrapper">
               {
-                  products.length === 0
+                  state.products.length === 0
                       ? <ErrorMessage message={"Żaden z produktów nie spełnia określonych kryteriów..."}/>
-                      : products.map(product =>
+                      : state.products.map(product =>
                           <div className="product" key={product.id}>
                             <Product product={product} />
                           </div>
