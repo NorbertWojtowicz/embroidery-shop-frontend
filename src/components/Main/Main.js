@@ -3,6 +3,7 @@ import {Col, Row, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Main.css';
 import ProductsWrapper from "./Products/ProductsWrapper";
+import Footer from "../Footer/Footer";
 
 const Main = () => {
     return (
@@ -19,6 +20,7 @@ const Main = () => {
                 </div>
             </div>
             <ProductsWrapper/>
+            <Footer/>
         </div>
     );
 }

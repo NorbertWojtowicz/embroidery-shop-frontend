@@ -31,7 +31,7 @@ const ProductsWrapper = () => {
     console.log("Search Type: " + searchType);
     console.log("Search Name: " + searchName);
     return (
-        <div className="main-container">
+        <div className="main-container" id="produkty">
             <SearchBar setSearchType={setSearchType} setSearchName={setSearchName}/>
             <SortingBar setSortCriteria={setSortCriteria}/>
             <CategoriesMenu setSearchType={setSearchType} setSearchName={setSearchName}/>

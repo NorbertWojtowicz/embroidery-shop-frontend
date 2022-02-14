@@ -21,10 +21,10 @@ const NavBar = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
-                    <Nav.Link href="/produkty">Produkty</Nav.Link>
-                    <Nav.Link href="/kontakt">Kontakt</Nav.Link>
-                    <Nav.Link href="/regulamin">Regulamin</Nav.Link>
-                    <Nav.Link href="/faq">FAQ</Nav.Link>
+                    <Nav.Link href="#produkty">Produkty</Nav.Link>
+                    <Nav.Link href="#kontakt">Kontakt</Nav.Link>
+                    {/*<Nav.Link href="/regulamin">Regulamin</Nav.Link>*/}
+                    {/*<Nav.Link href="/faq">FAQ</Nav.Link>*/}
                 </Nav>
                 </Navbar.Collapse>
                 <form className="d-flex">

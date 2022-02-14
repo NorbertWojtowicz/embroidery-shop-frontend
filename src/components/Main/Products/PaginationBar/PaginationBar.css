@@ -2,3 +2,11 @@
     margin: 1em 0;
     justify-content: center;
 }
+
+.bottom-margin-8 {
+    margin-bottom: 8em;
+}
+
+.top-margin-3 {
+    margin-top: 3em;
+}
