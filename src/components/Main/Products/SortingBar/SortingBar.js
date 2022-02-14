@@ -12,7 +12,7 @@ const SortingBar = ({setSortCriteria}) => {
     }
 
     return (
-        <section className="sorting-bar-wrapper panel">
+        <section className="blue-wrapper panel">
             <div className="dropdown sorting-bar">
                 <button className="btn dropdown-toggle sorting-bar-menu" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">

@@ -3,7 +3,7 @@
     height: 90.4vh;
 }
 .main-container {
-    width: 100%;
+    /*width: 90vw!important;*/
     margin: 0 auto;
 }
 #top-section-wrapper {

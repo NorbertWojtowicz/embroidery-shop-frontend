@@ -7,18 +7,23 @@ import CategoriesMenu from "./CategoriesMenu/CategoriesMenu";
 import SortingBar from "./SortingBar/SortingBar";
 import SearchBar from "./SearchBar/SearchBar";
 import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
+import PaginationBar from "./PaginationBar/PaginationBar";
 
 const ProductsWrapper = () => {
     const [state, setState] = useState({
-        products: []
+        products: [],
+        currentPage: 1
     });
     const [sortCriteria, setSortCriteria] = useState("desc-id");
     let [searchType, setSearchType] = useState("");
     let [searchName, setSearchName] = useState("");
+    let [page, setPage] = useState(state.currentPage);
+    console.log("Page: " + state.currentPage);
+    console.log("Total pages: " + state.totalPages);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}`).then(res => res.json()).then(data => setState(data));
-    }, [sortCriteria, searchType, searchName]);
+        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}&page=${page - 1}`).then(res => res.json()).then(data => setState(data));
+    }, [sortCriteria, searchType, searchName, page]);
 
 
     console.log("First Product: " + state.products[0]);
@@ -40,6 +45,7 @@ const ProductsWrapper = () => {
                           </div>
               )}
           </div>
+            <PaginationBar state={state} setPage={setPage}/>
         </div>
     );
 }
