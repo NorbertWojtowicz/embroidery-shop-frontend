@@ -23,7 +23,7 @@ const LoginForm = () => {
                 {/*</div>*/}
 
                 <div id="formFooter">
-                    Nie masz konta? <a className="underlineHover" href="#">Zarejestruj się</a>
+                    Nie masz konta? <a className="underlineHover" href={"/rejestracja"}>Zarejestruj się</a>
                 </div>
 
             </div>
