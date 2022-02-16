@@ -2,3 +2,10 @@
     background-color: #04369a !important;
     border-color: #042c7c;
 }
+
+.bg-navbar {
+    background-color: #ebf2fe;
+    /*-webkit-box-shadow: 0px 18px 30px 0px rgba(66, 68, 90, 1);*/
+    /*-moz-box-shadow: 0px 18px 30px 0px rgba(66, 68, 90, 1);*/
+    box-shadow: 0px 1px 30px 0px lightgray;
+}

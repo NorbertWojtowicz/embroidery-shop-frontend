@@ -52,7 +52,7 @@ const ProductDetails = () => {
 
                                     <form className="d-flex justify-content-left top-margin-2">
                                         <input type="number" aria-label="Search" className="form-control quantity-input"/>
-                                        <button className="btn btn-primary btn-md my-0 p" type="submit">Dodaj do koszyka
+                                        <button className="btn btn-add-to-cart btn-primary btn-md my-0 p" type="submit">Dodaj do koszyka
                                             <i className="fas fa-shopping-cart ml-1"/>
                                         </button>
                                     </form>

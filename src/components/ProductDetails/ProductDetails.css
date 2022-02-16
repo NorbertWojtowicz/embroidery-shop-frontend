@@ -5,6 +5,7 @@
 
 .quantity-input {
     width: 100px;
+    margin-right: 0.5em;
 }
 
 .img-container {
@@ -14,7 +15,7 @@
 }
 
 .details-container {
-    width: 45em;
+    width: 35em;
     float: left;
     margin-top: 10em;
     margin-left: 5em;
@@ -35,6 +36,7 @@
     color: white;
     float: left;
     margin-left: 0.1em;
+    box-shadow: 0px 0px 6px grey;
 }
 
 .id-wrapper {
@@ -44,6 +46,7 @@
     color: white;
     margin-left: 0.7em;
     float: left;
+    box-shadow: 0px 0px 6px grey;
 }
 
 .clear-both {
@@ -64,4 +67,9 @@
 
 .name-header {
     margin-bottom: 0.3em;
+}
+
+.btn-add-to-cart {
+    box-shadow: 0px 0px 6px grey;
+    border-radius: 0.1em;
 }

@@ -13,7 +13,7 @@ const NavBar = () => {
     }
 
     return (
-        <Navbar bg="light" style={{height: '9.6vh'}}>
+        <Navbar className="bg-navbar" style={{height: '9.6vh'}}>
             <Container>
                 <Navbar.Brand href="/"><img alt={"logo"} src="/logo.png"
                     className="d-inline-block align-top"
