@@ -9,3 +9,32 @@
     -moz-box-shadow: 0px 1px 30px 0px lightgray;
     box-shadow: 0px 1px 30px 0px lightgray;
 }
+.bg-navbar a {
+    color: #04369a;
+    text-decoration: none;
+}
+
+.bg-navbar .name-header {
+    font-size: 1.1em;
+    padding-top: 0.3em;
+}
+
+/* Simple CSS3 Fade-in Animation */
+.underlineHover:after {
+    display: block;
+    left: 0;
+    bottom: -10px;
+    width: 0;
+    height: 2px;
+    background-color: #56baed;
+    content: "";
+    transition: width 0.2s;
+}
+
+.underlineHover:hover {
+    color: #0d0d0d;
+}
+
+.underlineHover:hover:after{
+    width: 100%;
+}

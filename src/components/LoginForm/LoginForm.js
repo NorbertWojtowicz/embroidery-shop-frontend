@@ -2,12 +2,10 @@ import './LoginForm.css';
 import React, {useState} from "react";
 import axios from "axios";
 import FormError from "../ErrorContainers/FormError/FormError";
-import {useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
 
     const [error, setError] = useState("");
-    const navigate = useNavigate();
 
     async function login(e) {
         e.preventDefault();
@@ -19,7 +17,10 @@ const LoginForm = () => {
         if (validateUser(user)) {
             await axios.post("http://localhost:8080/login", user)
                 .then(res => setTokenAndNavigateToHome(res.headers.authorization))
-                .catch(err => setError(err.response.data.message));
+                .catch(err => {
+                    const error = err.response.data.message;
+                    setError(error === undefined ? `Sprawdź dane jeszcze raz...` : error)
+                });
         }
     }
 
@@ -27,7 +28,7 @@ const LoginForm = () => {
         const cookieExpire = new Date();
         cookieExpire.setTime(Date.now() + 3600000 * 24 * 7);
         document.cookie = `token=${encodeURI(token)};expires=${cookieExpire.toGMTString()}`;
-        navigate("/");
+        document.location.replace("/");
     }
 
     function validateUser(user) {

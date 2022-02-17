@@ -1,19 +1,33 @@
 import {Navbar, Container, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavBar.css'
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 const NavBar = () => {
 
-    function searchForProduct(e) {
-        e.preventDefault();
-        const inputValue = document.querySelector(".search-input").value;
-        document.querySelector(".search-bar-input").value = inputValue;
-        document.location.href = "#szukaj";
-        document.querySelector("#search-btn-id").click();
+    const [user, setUser] = useState({});
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [token, setToken] = useState("");
+    const tokenTemp = decodeURI(document.cookie.split("=")[1]);
+    if (token !== tokenTemp) {
+        setToken(tokenTemp);
     }
+
+    useEffect(() => {
+        async function fetchProfileData() {
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            })
+                .then(res => {setUser(res.data); setLoggedIn(true)})
+                .catch(err => setLoggedIn(false));
+        }
+        fetchProfileData();
+    }, [token]);
 
     return (
         <Navbar className="bg-navbar" style={{height: '9.6vh'}}>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
             <Container>
                 <Navbar.Brand href="/"><img alt={"logo"} src="/logo.png"
                     className="d-inline-block align-top"
@@ -27,10 +41,12 @@ const NavBar = () => {
                     {/*<Nav.Link href="/faq">FAQ</Nav.Link>*/}
                 </Nav>
                 </Navbar.Collapse>
-                <form className="d-flex">
-                    <input className="form-control me-2 search-input" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-primary search-btn" type="submit" onClick={(e) => searchForProduct(e)}>Search</button>
-                </form>
+                {!loggedIn ? <a href={"/logowanie"} type="button" className="btn btn-outline-primary search-btn">Zaloguj się</a> :
+                    <div>
+                        <span className="name-header">Witaj {user.username}</span>
+                        <button type="button" className="btn btn-outline-primary" style={{margin: "0 1em"}}>Koszyk</button>
+                    </div>
+                }
             </Container>
         </Navbar>
     );
