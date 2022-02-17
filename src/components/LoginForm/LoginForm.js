@@ -24,7 +24,9 @@ const LoginForm = () => {
     }
 
     function setTokenAndNavigateToHome(token) {
-        sessionStorage.setItem("token", token);
+        const cookieExpire = new Date();
+        cookieExpire.setTime(Date.now() + 3600000 * 24 * 7);
+        document.cookie = `token=${encodeURI(token)};expires=${cookieExpire.toGMTString()}`;
         navigate("/");
     }
 
