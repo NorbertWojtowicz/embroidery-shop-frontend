@@ -25,6 +25,11 @@ const NavBar = () => {
         fetchProfileData();
     }, [token]);
 
+    function logout() {
+        document.cookie = "token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        document.location.replace("/");
+    }
+
     return (
         <Navbar className="bg-navbar" style={{height: '9.6vh'}}>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -45,6 +50,7 @@ const NavBar = () => {
                     <div>
                         <span className="name-header">Witaj {user.username}</span>
                         <button type="button" className="btn btn-outline-primary" style={{margin: "0 1em"}}>Koszyk</button>
+                        <button type="button" className="btn btn-outline-danger" onClick={() => logout()}>Wyloguj</button>
                     </div>
                 }
             </Container>
