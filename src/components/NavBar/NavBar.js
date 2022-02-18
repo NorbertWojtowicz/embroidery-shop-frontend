@@ -3,9 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavBar.css'
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const NavBar = () => {
 
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
     const [token, setToken] = useState("");
@@ -49,7 +51,7 @@ const NavBar = () => {
                 {!loggedIn ? <a href={"/logowanie"} type="button" className="btn btn-outline-primary search-btn">Zaloguj się</a> :
                     <div>
                         <span className="name-header">Witaj {user.username}</span>
-                        <button type="button" className="btn btn-outline-primary" style={{margin: "0 1em"}}>Koszyk</button>
+                        <button type="button" className="btn btn-outline-primary" style={{margin: "0 1em"}} onClick={() => navigate("/koszyk")}>Koszyk</button>
                         <button type="button" className="btn btn-outline-danger" onClick={() => logout()}>Wyloguj</button>
                     </div>
                 }

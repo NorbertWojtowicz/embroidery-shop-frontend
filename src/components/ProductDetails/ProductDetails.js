@@ -31,7 +31,7 @@ const ProductDetails = () => {
                 {product.isLoaded ?
                     error ? "Brak podanego produktu..." :
                             <div className="product-details-wrapper">
-                                <div className="img-container">
+                                <div className="img-container bottom-margin-8">
                                     <img src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName} alt="Zdjecie produktu"/>
                                 </div>
                                 <div className="details-container">
@@ -52,8 +52,8 @@ const ProductDetails = () => {
 
                                     <form className="d-flex justify-content-left top-margin-2">
                                         <input type="number" aria-label="Search" className="form-control quantity-input"/>
-                                        <button className="btn btn-add-to-cart btn-primary btn-md my-0 p" type="submit">Dodaj do koszyka
-                                            <i className="fas fa-shopping-cart ml-1"/>
+                                        <button className="btn btn-add-to-cart btn-primary btn-md my-0 p" type="submit">Dodaj do koszyka&nbsp;
+                                            <i className="fa fa-shopping-cart ml-1"/>
                                         </button>
                                     </form>
                                 </div>

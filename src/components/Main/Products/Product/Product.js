@@ -26,9 +26,9 @@ const Product = ({product}) => {
     }
 
     return (
-            <div className="card">
+            <div className="product-wrapper">
                 <div className='main-image'>
-                    <img src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName} alt="Zdjecie produktu"/>
+                    <img className='product-details-image' src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName} alt="Zdjecie produktu"/>
                 </div>
                 <div className="card-body text-center mx-auto">
                     <div className='cvp'>

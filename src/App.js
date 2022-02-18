@@ -5,6 +5,9 @@ import Main from './components/Main/Main';
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import LoginForm from "./components/LoginForm/LoginForm";
 import RegisterForm from "./components/RegisterForm/RegisterForm";
+import Cart from "./components/Cart/Cart";
+import Footer from "./components/Footer/Footer";
+import React from "react";
 
 function App() {
 
@@ -16,7 +19,9 @@ function App() {
               <Route exact path={`/produkty/:id`} element={<ProductDetails/>}/>
               <Route exact path={"/logowanie"} element={<LoginForm/>}/>
               <Route exact path={"/rejestracja"} element={<RegisterForm/>}/>
+              <Route exact path={"/koszyk"} element={<Cart/>}/>
             </Routes>
+          <Footer/>
     </Router>
   );
 }
