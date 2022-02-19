@@ -8,6 +8,10 @@
     text-align: center;
 }
 
+.cart-wrapper .row-summary {
+    margin-top: 35%!important;
+}
+
 @media(max-width:1000px) {
     .alert-cart {
         max-width: 45em;
@@ -17,6 +21,9 @@
 @media(max-width:767px) {
     .alert-cart {
         width: 90%;
+    }
+    .cart-wrapper .row-summary {
+        margin-top: 5%!important;
     }
 }
 
@@ -166,7 +173,7 @@
     color: white;
     width: 100%;
     font-size: 0.7rem;
-    margin-top: 2vh;
+    /*margin-top: 50%;*/
     padding: 1vh;
     border-radius: 0;
 }

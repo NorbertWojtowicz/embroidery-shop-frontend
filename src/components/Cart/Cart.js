@@ -6,17 +6,22 @@ const Cart = () => {
 
     const [cartItems, setCartItems] = useState([]);
     const token = decodeURI(document.cookie.split("=")[1]);
+    let totalPrice = 0;
+    if (cartItems.length !== 0) {
+        totalPrice = cartItems.reduce((prev, cur) => prev.subtotal + cur.subtotal)
+    }
     useState(() => {
         async function fetchData() {
             await axios.get("http://localhost:8080/cart", {headers: {
                 "Authorization": token
                 }
-            }).then(res => setCartItems(res.data)).catch();
+            }).then(res => {
+                setCartItems(res.data);
+            }).catch();
         }
         fetchData();
     }, []);
-    console.log(cartItems.length);
-    console.log(cartItems);
+
     return (
         <div>
             {cartItems.length === 0 ?
@@ -37,36 +42,30 @@ const Cart = () => {
                 <div className="col">
                 <h4><b>Twój koszyk</b></h4>
                 </div>
-                <div className="col align-self-center text-right text-muted">Ilość przedmiotów: 2</div>
+                <div className="col align-self-center text-right text-muted">Ilość przedmiotów: {cartItems.length}</div>
                 </div>
                 </div>
-                Koszyk pusty
-                <div className="row border-top border-bottom">
-                <div className="row main align-items-center">
-                <div className="col-2"><img className="img-fluid" src="http://localhost:8080/resources/mainImages/98/java-logo.png"/>
-                </div>
-                <div className="col">
-                <div className="row text-muted">Kategoria</div>
-                <div className="row">Nazwa produktu</div>
-                </div>
-                <div className="col"><a href="#" className="operator-sign">-</a><a href="#" className="border">1</a><a href="#" className="operator-sign">+</a>
-                </div>
-                <div className="col">44 zł<a className="close">&#10005;</a></div>
-                </div>
-                </div>
-            {/*<div className="row border-top border-bottom">*/}
-            {/*    <div className="row main align-items-center">*/}
-            {/*        <div className="col-2"><img className="img-fluid" src="http://localhost:8080/resources/mainImages/98/java-logo.png"/>*/}
-            {/*        </div>*/}
-            {/*        <div className="col">*/}
-            {/*            <div className="row text-muted">Kategoria</div>*/}
-            {/*            <div className="row">Nazwa produktu</div>*/}
-            {/*        </div>*/}
-            {/*        <div className="col"><a href="#" className="operator-sign">-</a><a href="#" className="border">1</a><a href="#" className="operator-sign">+</a>*/}
-            {/*        </div>*/}
-            {/*        <div className="col">120.55 zł<a className="close">&#10005;</a></div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+                    {cartItems.map(cartItem =>
+                            <div className="row border-top border-bottom">
+                                <div className="row main align-items-center">
+                                    <div className="col-2">
+                                        <img className="img-fluid"
+                                             src={"http://localhost:8080/resources/mainImages/" + cartItem.product.id + "/" + cartItem.product.mainImageName}
+                                             alt="Zdjęcie produktu"
+                                        />
+                                    </div>
+                                    <div className="col">
+                                        <div className="row text-muted">{cartItem.product.category.name}</div>
+                                        <div className="row">{cartItem.product.name}</div>
+                                    </div>
+                                    <div className="col"><a href="#" className="operator-sign">-</a>
+                                        <a href="#" className="border">{cartItem.quantity}</a>
+                                        <a href="#" className="operator-sign">+</a>
+                                    </div>
+                                    <div className="col">{cartItem.subtotal} zł<a className="close">&#10005;</a></div>
+                                </div>
+                            </div>
+                        )}
                 <div className="back-to-shop"><a href="/" className="left-arrow"><i className="fa fa-arrow-left"/></a><span
                 className="text-muted">Wróć do strony głównej</span></div>
                 </div>
@@ -75,22 +74,21 @@ const Cart = () => {
                 <h5><b>Podsumowanie</b></h5>
                 </div>
                 <hr/>
-                <div className="row" style={{marginBottom: "0.5em"}}>
-                <div className="col-7" style={{paddingLeft: "0"}}>Nazwa produktu</div>
-                <div className="col-5 text-right" style={{paddingLeft: "0"}}>1 x 44 zł</div>
-                </div>
-            {/*<div className="row" style={{marginBottom: "0.5em"}}>*/}
-            {/*    <div className="col-7" style={{paddingLeft: "0"}}>Nazwa produktu</div>*/}
-            {/*    <div className="col-5 text-right" style={{paddingLeft: "0"}}>1 x 120.55 zł</div>*/}
-            {/*</div>*/}
+                    {cartItems.map(cartItem =>
+                            <div className="row" style={{marginBottom: "0.5em"}}>
+                                <div className="col-7" style={{paddingLeft: "0"}}>{cartItem.product.name}</div>
+                                <div className="col-5 text-right" style={{paddingLeft: "0"}}>{cartItem.quantity} x {cartItem.product.price} zł</div>
+                            </div>
+                        )}
+
             {/*<form>*/}
-            {/*    Future promo code*/}
+            {/*    /!*Future promo code*!/*/}
             {/*    <p>PODAJ KOD</p> <input id="code" placeholder="Wpisz kod promocyjny"/>*/}
             {/*</form>*/}
 
-                <div className="row" style={{borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0"}}>
-                <div className="col-7">SUMA</div>
-                <div className="col-5 text-right">164.55 zł</div>
+                <div className="row row-summary" style={{borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0"}}>
+                    <div className="col-7">SUMA</div>
+                    <div className="col-5 text-right">{totalPrice} zł</div>
                 </div>
                 <button className="btn">ZATWIERDŹ ZAMÓWIENIE</button>
                 </div>

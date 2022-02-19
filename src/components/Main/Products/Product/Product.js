@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Product = ({product}) => {
+
     const navigate = useNavigate();
+    const token = decodeURI(document.cookie.split("=")[1]);
 
     function navigateToProductDetails(e) {
         e.preventDefault();
@@ -15,8 +17,10 @@ const Product = ({product}) => {
 
     async function addToCart(e, quantity) {
         e.preventDefault();
-        await axios.post(`http://localhost:8080/cart/add/${product.id}/${quantity}`).then(res => console.log(res))
+        console.log(token);
+        await axios.post(`http://localhost:8080/cart/add/${product.id}/${quantity}`, {}, {headers: {"Authorization": token}}).then(res => console.log(res))
             .catch(err => {
+                console.log(err + "Id:" + product.id + " Q: " + quantity);
                 if (err.response.status === 401) {
                     navigate("/logowanie");
                 } else {

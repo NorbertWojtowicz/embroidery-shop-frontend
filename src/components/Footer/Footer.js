@@ -6,7 +6,7 @@ const Footer = () => {
             <footer style={{marginTop: "15em"}}>
                 <div className="footer-top">
                     <div className="footer-left-top">
-                        <a href={"/"}><img src="/logo-white.png"/></a>
+                        <a href={"/"}><img src="/logo-white.png" alt="Logo"/></a>
                     </div>
                     <div className="footer-right-top">
                         <h2 id="kontakt">Kontakt</h2>
