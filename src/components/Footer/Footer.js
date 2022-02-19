@@ -3,8 +3,7 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <div style={{marginTop: "8em"}}>
-            <footer>
+            <footer style={{marginTop: "15em"}}>
                 <div className="footer-top">
                     <div className="footer-left-top">
                         <a href={"/"}><img src="/logo-white.png"/></a>
@@ -23,7 +22,6 @@ const Footer = () => {
                     Copyright &copy; 2022 <a href="https://github.com/MokrySzczupak">Norbert Wojtowicz</a>. All Rights Reserved
                 </div>
             </footer>
-        </div>
     )
 }
 
