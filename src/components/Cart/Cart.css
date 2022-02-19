@@ -12,6 +12,11 @@
     margin-top: 35%!important;
 }
 
+.cart-wrapper a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
 @media(max-width:1000px) {
     .alert-cart {
         max-width: 45em;

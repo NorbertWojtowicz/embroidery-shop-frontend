@@ -4,27 +4,77 @@ import axios from "axios";
 
 const Cart = () => {
 
-    const [cartItems, setCartItems] = useState([]);
+    const [state, setState] = useState({
+        cartItems: [],
+        totalPrice: 0,
+    })
     const token = decodeURI(document.cookie.split("=")[1]);
-    let totalPrice = 0;
-    if (cartItems.length !== 0) {
-        totalPrice = cartItems.reduce((prev, cur) => prev.subtotal + cur.subtotal)
-    }
+
     useState(() => {
-        async function fetchData() {
-            await axios.get("http://localhost:8080/cart", {headers: {
-                "Authorization": token
-                }
-            }).then(res => {
-                setCartItems(res.data);
-            }).catch();
+        axios.get("http://localhost:8080/cart", {headers: {
+            "Authorization": token
+            }
+        }).then(res => {
+            setState({
+                cartItems: [...res.data],
+                totalPrice: res.data.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0)
+            });
+        }).catch();
+    }, [token]);
+
+    async function updateProductQuantity(e, cartItem, operation) {
+        e.preventDefault();
+        const updatedQuantity = getUpdatedQuantity(operation, cartItem.quantity);
+        if (!updatedQuantity.isValid) return;
+        await sendRequestToUpdateQuantity(cartItem, updatedQuantity.value);
+        const updatedTotalPrice = state.cartItems.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0);
+        if (updatedQuantity.value === 0) {
+            updateStatePriceAndRemoveCartItem(updatedTotalPrice, cartItem);
+            return;
         }
-        fetchData();
-    }, []);
+        updateStatePrice(updatedTotalPrice);
+    }
+
+    function getUpdatedQuantity(operation, prevQuantity) {
+        if (operation === "+")  return {value: prevQuantity + 1, isValid: true};
+        else if (operation === "-")  return {value: prevQuantity - 1, isValid: true};
+        else return {value: prevQuantity, isValid: false};
+    }
+
+    async function sendRequestToUpdateQuantity(cartItem, quantity) {
+        await axios.put(`http://localhost:8080/cart/update/${cartItem.product.id}/${quantity}`, {}, {
+            headers: {"Authorization": token}
+        }).then((res) => {
+            updateCartItemQuantity(cartItem.id, quantity);
+        });
+    }
+
+    function updateCartItemQuantity(cartItemId, quantity) {
+        for (let i = 0; i < state.cartItems.length; i++) {
+            if (state.cartItems[i].id === cartItemId) {
+                state.cartItems[i].quantity = quantity;
+                break;
+            }
+        }
+    }
+
+    function updateStatePriceAndRemoveCartItem(updatedTotalPrice, cartItem) {
+        setState({
+            totalPrice: updatedTotalPrice,
+            cartItems: state.cartItems.filter(item => item.id !== cartItem.id)
+        });
+    }
+
+    function updateStatePrice(updatedTotalPrice) {
+        setState({
+            totalPrice: updatedTotalPrice,
+            cartItems: state.cartItems,
+        });
+    }
 
     return (
         <div>
-            {cartItems.length === 0 ?
+            {state.cartItems.length === 0 ?
                 <div className="alert alert-danger alert-cart" role="alert" style={{marginBottom: "30em"}}>
                     {token !== "undefined" ? "Koszyk jest pusty" : "Nie jesteś zalogowany"}
                 </div>
@@ -42,11 +92,11 @@ const Cart = () => {
                 <div className="col">
                 <h4><b>Twój koszyk</b></h4>
                 </div>
-                <div className="col align-self-center text-right text-muted">Ilość przedmiotów: {cartItems.length}</div>
+                <div className="col align-self-center text-right text-muted">Ilość przedmiotów: {state.cartItems.length}</div>
                 </div>
                 </div>
-                    {cartItems.map(cartItem =>
-                            <div className="row border-top border-bottom">
+                    {state.cartItems.map(cartItem =>
+                            <div className="row border-top border-bottom" key={cartItem.product.id}>
                                 <div className="row main align-items-center">
                                     <div className="col-2">
                                         <img className="img-fluid"
@@ -58,11 +108,20 @@ const Cart = () => {
                                         <div className="row text-muted">{cartItem.product.category.name}</div>
                                         <div className="row">{cartItem.product.name}</div>
                                     </div>
-                                    <div className="col"><a href="#" className="operator-sign">-</a>
-                                        <a href="#" className="border">{cartItem.quantity}</a>
-                                        <a href="#" className="operator-sign">+</a>
+                                    <div className="col">
+                                        <a href="#"
+                                           onClick={e =>
+                                               updateProductQuantity(e, cartItem, "-")}
+                                           className="operator-sign">-</a>
+
+                                        <a href="/" className="border disabled">{cartItem.quantity}</a>
+
+                                        <a href="/"
+                                           onClick={(e) =>
+                                               updateProductQuantity(e, cartItem, "+")}
+                                           className="operator-sign">+</a>
                                     </div>
-                                    <div className="col">{cartItem.subtotal} zł<a className="close">&#10005;</a></div>
+                                    <div className="col">{cartItem.product.price * cartItem.quantity} zł<a className="close">&#10005;</a></div>
                                 </div>
                             </div>
                         )}
@@ -74,8 +133,8 @@ const Cart = () => {
                 <h5><b>Podsumowanie</b></h5>
                 </div>
                 <hr/>
-                    {cartItems.map(cartItem =>
-                            <div className="row" style={{marginBottom: "0.5em"}}>
+                    {state.cartItems.map(cartItem =>
+                            <div className="row" style={{marginBottom: "0.5em"}} key={cartItem.product.id}>
                                 <div className="col-7" style={{paddingLeft: "0"}}>{cartItem.product.name}</div>
                                 <div className="col-5 text-right" style={{paddingLeft: "0"}}>{cartItem.quantity} x {cartItem.product.price} zł</div>
                             </div>
@@ -88,7 +147,7 @@ const Cart = () => {
 
                 <div className="row row-summary" style={{borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0"}}>
                     <div className="col-7">SUMA</div>
-                    <div className="col-5 text-right">{totalPrice} zł</div>
+                    <div className="col-5 text-right">{state.totalPrice} zł</div>
                 </div>
                 <button className="btn">ZATWIERDŹ ZAMÓWIENIE</button>
                 </div>
