@@ -91,8 +91,29 @@ const Cart = () => {
            }).catch();
     }
 
+    async function finalizeCart() {
+        await axios.post("http://localhost:8080/cart/finalize", {}, {
+            headers: {"Authorization": token}
+        })
+            .then(() => setState(
+                {
+                    cartItems: [],
+                    totalPrice: 0,
+                    message: "Zamówienie zostało pomyślnie zatwierdzone, " +
+                        "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
+                        "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie 'TUTAJ' " +
+                        "spowoduje przejście do konwersacji.</a>"
+                }))
+            .catch();
+    }
+
     return (
         <div>
+            {state.message !== "" ?
+                <div className="alert alert-success alert-cart" dangerouslySetInnerHTML={{__html: state.message}}
+                     role="alert" style={{margin: "2em auto"}}>
+                </div>
+                : ""}
 
             {state.cartItems.length === 0 ?
                 <div className="alert alert-danger alert-cart" role="alert" style={{marginBottom: "30em"}}>
@@ -169,7 +190,7 @@ const Cart = () => {
                     <div className="col-7">SUMA</div>
                     <div className="col-5 text-right">{state.totalPrice} zł</div>
                 </div>
-                <button className="btn">ZATWIERDŹ ZAMÓWIENIE</button>
+                <button className="btn" onClick={() => finalizeCart()}>ZATWIERDŹ ZAMÓWIENIE</button>
                 </div>
                 </div>
                 </div>
