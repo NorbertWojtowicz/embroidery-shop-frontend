@@ -1,5 +1,5 @@
 import './Cart.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 
 const Cart = () => {
@@ -7,17 +7,19 @@ const Cart = () => {
     const [state, setState] = useState({
         cartItems: [],
         totalPrice: 0,
+        message: ""
     })
     const token = decodeURI(document.cookie.split("=")[1]);
 
-    useState(() => {
+    useEffect(() => {
         axios.get("http://localhost:8080/cart", {headers: {
             "Authorization": token
             }
         }).then(res => {
             setState({
                 cartItems: [...res.data],
-                totalPrice: res.data.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0)
+                totalPrice: res.data.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0),
+                message: ""
             });
         }).catch();
     }, [token]);
@@ -61,7 +63,8 @@ const Cart = () => {
     function updateStatePriceAndRemoveCartItem(updatedTotalPrice, cartItem) {
         setState({
             totalPrice: updatedTotalPrice,
-            cartItems: state.cartItems.filter(item => item.id !== cartItem.id)
+            cartItems: state.cartItems.filter(item => item.id !== cartItem.id),
+            message: ""
         });
     }
 
@@ -69,11 +72,28 @@ const Cart = () => {
         setState({
             totalPrice: updatedTotalPrice,
             cartItems: state.cartItems,
+            message: ""
         });
+    }
+
+    async function removeCartItem(e, cartItem) {
+       e.preventDefault();
+       await axios.delete(`http://localhost:8080/cart/remove/${cartItem.product.id}`, {
+           headers: {"Authorization": token}
+       })
+           .then(res => {
+               const updatedItems = state.cartItems.filter(item => item.id !== cartItem.id);
+               setState({
+                   cartItems: updatedItems,
+                   totalPrice: updatedItems.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0),
+                   message: ""
+               })
+           }).catch();
     }
 
     return (
         <div>
+
             {state.cartItems.length === 0 ?
                 <div className="alert alert-danger alert-cart" role="alert" style={{marginBottom: "30em"}}>
                     {token !== "undefined" ? "Koszyk jest pusty" : "Nie jesteś zalogowany"}
@@ -121,7 +141,7 @@ const Cart = () => {
                                                updateProductQuantity(e, cartItem, "+")}
                                            className="operator-sign">+</a>
                                     </div>
-                                    <div className="col">{cartItem.product.price * cartItem.quantity} zł<a className="close">&#10005;</a></div>
+                                    <div className="col">{cartItem.product.price * cartItem.quantity} zł<a href={"/"} className="close" onClick={(e) => removeCartItem(e, cartItem)}>&#10005;</a></div>
                                 </div>
                             </div>
                         )}
