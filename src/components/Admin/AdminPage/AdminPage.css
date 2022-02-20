@@ -1,0 +1,59 @@
+.admin-page-container {
+    margin: 5em auto 0 auto;
+    color: black;
+    width: 52em;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding-bottom: 1em;
+    border-radius: 1em;
+}
+
+.components-wrapper {
+    width: 52em;
+    height: 25em;
+}
+
+.component {
+    width: 23em;
+    height: 10em;
+    margin: 1.5em 1.5em;
+    float: left;
+}
+
+.component h3 {
+    margin: 0.5em;
+    padding: 0;
+}
+
+.component hr {
+    margin: 4em 0 0 0;
+}
+
+.component h5 {
+    padding: 0.55em 0;
+    filter: brightness(85%);
+}
+
+.component p {
+    margin: 0 0 0 0.5em;
+}
+
+.component a {
+    text-decoration: none;
+    color: black;
+}
+
+.background-darkred {
+    background-color: darkred;
+}
+
+.background-lightblue {
+    background-color: #6698f8;
+}
+
+.background-darkmagenta {
+    background-color: darkmagenta;
+}
+
+.background-darkcyan {
+    background-color: darkcyan;
+}

@@ -8,6 +8,7 @@ import RegisterForm from "./components/RegisterForm/RegisterForm";
 import Cart from "./components/Cart/Cart";
 import Footer from "./components/Footer/Footer";
 import React from "react";
+import AdminPage from "./components/Admin/AdminPage/AdminPage";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
               <Route exact path={"/logowanie"} element={<LoginForm/>}/>
               <Route exact path={"/rejestracja"} element={<RegisterForm/>}/>
               <Route exact path={"/koszyk"} element={<Cart/>}/>
+              <Route exact path={"/admin/glowna"} element={<AdminPage/>}/>
             </Routes>
           <Footer/>
     </Router>
