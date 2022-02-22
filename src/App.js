@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer";
 import React from "react";
 import AdminPage from "./components/Admin/AdminPage/AdminPage";
 import ProductCreator from "./components/Admin/ProductCreator/ProductCreator";
+import ProductManager from "./components/Admin/ProductManager/ProductManager";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
               <Route exact path={"/koszyk"} element={<Cart/>}/>
               <Route exact path={"/admin/glowna"} element={<AdminPage/>}/>
               <Route exact path={"/admin/kreator-produktow"} element={<ProductCreator/>}/>
+              <Route exact path={"/admin/menedzer-produktow"} element={<ProductManager/>}/>
             </Routes>
           <Footer/>
     </Router>
