@@ -15,6 +15,28 @@ const ProductCreator = () => {
         axios.get("http://localhost:8080/products/category").then(res => setState({categories: res.data, message: ""}));
     }, []);
 
+    async function addProduct(e) {
+        e.preventDefault();
+        const productForm = document.querySelector("#product-form");
+        const newProduct = {
+            name: productForm.name.value,
+            description: productForm.description.value,
+            price: Number(productForm.price.value),
+            mainImageName: productForm.file.value.replace(/.*[/\\]/, '')
+        }
+        const formData = new FormData();
+        formData.append("product", JSON.stringify(newProduct));
+        formData.append("multipartFile", productForm.file.files[0]);
+        formData.append("category", JSON.stringify(productForm.category.value));
+        await axios.post("http://localhost:8080/products", formData, {
+            headers: {"Authorization": token, "Content-Type": "multipart/form-data"},
+        })
+            .then(res => setState({
+                categories: state.categories,
+                message: "Produkt pomyślnie dodany"
+            })).catch();
+    }
+
     return (
         <div className="product-creator">
             {state.message !== "" ?
@@ -37,7 +59,7 @@ const ProductCreator = () => {
                 <div className="form-group">
                     <label htmlFor="category">Wybierz kategorię</label>
                     <select className="form-control" id="category">
-                        {state.categories.map(category => <option key={category.categoryId} value={category.categoryId}>{category.name}</option>)}
+                        {state.categories.map(category => <option key={category.categoryId}>{category.name}</option>)}
                     </select>
                 </div>
                 <div className="form-group">
@@ -48,7 +70,7 @@ const ProductCreator = () => {
                     <label htmlFor="file">Główny obraz produktu</label>
                     <input type="file" className="form-control" id="file"/>
                 </div>
-                <button type="submit" className="btn btn-primary form-control">Dodaj produkt</button>
+                <button type="submit" className="btn btn-primary form-control" onClick={(e) => addProduct(e)}>Dodaj produkt</button>
             </form>
         </div>
     );
