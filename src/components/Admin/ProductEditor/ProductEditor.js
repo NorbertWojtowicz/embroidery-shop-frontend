@@ -1,12 +1,13 @@
 import './ProductEditor.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const ProductEditor = () => {
 
     const {id} = useParams();
     const token = decodeURI(document.cookie.split("=")[1]);
+    const navigate = useNavigate();
 
     const [state, setState] = useState({
         categories: [],
@@ -46,6 +47,10 @@ const ProductEditor = () => {
             .catch(err => setState({categories: state.categories, message: err.response.data.message, product: modifiedProduct, isLoaded: true}));
     }
 
+    function backToProductManager() {
+        navigate("/admin/menedzer-produktow");
+    }
+
     return (
         <div>
         {state.isLoaded ?
@@ -56,6 +61,10 @@ const ProductEditor = () => {
                         </div>
                         : ""}
                     <form id="product-form">
+                        <button type="button" className="btn btn-primary btn-sm btn-block" style={{margin: "0"}}
+                                onClick={() => backToProductManager()}>
+                            <span className="glyphicon glyphicon-share-alt"/> Wróć do menedżera produktów
+                        </button>
                         <h1>Edytuj produkt</h1>
                         <div className="form-group">
                             <label htmlFor="name">Nazwa produktu</label>

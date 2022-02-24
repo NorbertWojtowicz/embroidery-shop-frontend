@@ -38,6 +38,10 @@ const ProductManager = () => {
             })).catch();
     }
 
+    function backToAdminPage() {
+        navigate("/admin/glowna");
+    }
+
     return (
         <div className="container">
             {state.message !== "" ?
@@ -56,7 +60,8 @@ const ProductManager = () => {
                                         <h3 style={{margin: "0"}}>Menedżer produktów</h3>
                                     </div>
                                     <div className="col-xs-6">
-                                        <button type="button" className="btn btn-primary btn-sm btn-block">
+                                        <button type="button" className="btn btn-primary btn-sm btn-block"
+                                        onClick={() => backToAdminPage()}>
                                             <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
                                         </button>
                                     </div>

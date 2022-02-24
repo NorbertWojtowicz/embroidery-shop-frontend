@@ -1,9 +1,11 @@
 import './ProductCreator.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const ProductCreator = () => {
 
+    const navigate = useNavigate();
     const token = decodeURI(document.cookie.split("=")[1]);
 
     const [state, setState] = useState({
@@ -37,6 +39,10 @@ const ProductCreator = () => {
             })).catch();
     }
 
+    function backToAdminPage() {
+        navigate("/admin/glowna");
+    }
+
     return (
         <div className="product-creator">
             {state.message !== "" ?
@@ -45,6 +51,10 @@ const ProductCreator = () => {
                 </div>
                 : ""}
             <form id="product-form">
+                <button type="button" className="btn btn-primary btn-sm btn-block"
+                        onClick={() => backToAdminPage()} style={{margin: "0"}}>
+                    <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
+                </button>
                 <h1>Stwórz produkt</h1>
                 <div className="form-group">
                     <label htmlFor="name">Nazwa produktu</label>
