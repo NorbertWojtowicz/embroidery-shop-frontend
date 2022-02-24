@@ -2,27 +2,49 @@ import './ProductManager.css';
 import PaginationBar from "../../Main/Products/PaginationBar/PaginationBar";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const ProductManager = () => {
 
+    const token = decodeURI(document.cookie.split("=")[1]);
     const navigate = useNavigate();
 
     const [state, setState] = useState({
         products: [],
-        currentPage: 1
+        currentPage: 1,
+        message: ""
     });
     let [page, setPage] = useState(state.currentPage);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json()).then(data => setState(data));
+        fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json())
+            .then(data => setState({message: "", ...data}));
     }, [page]);
+
+    console.log(state);
 
     function openEditor(id) {
         navigate(`/admin/edytor-produktow/${id}`);
     }
 
+    function deleteProduct(id) {
+        axios.delete(`http://localhost:8080/products/${id}`, {
+            headers: {"Authorization": token},
+        })
+            .then(() => setState({
+                message: `Produkt ${id} usuniety`,
+                products: state.products,
+                currentPage: state.currentPage
+            })).catch();
+    }
+
     return (
         <div className="container">
+            {state.message !== "" ?
+                <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
+                    {state.message}
+                </div>
+                : ""}
             <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
             <div className="row">
                 <div className="col-xs-8">
@@ -43,7 +65,7 @@ const ProductManager = () => {
                         </div>
                         <div className="panel-body">
                             {state.products.map(product =>
-                                <div>
+                                <div key={product.id}>
                                     <div className="row">
                                         <div className="col-xs-2"><img className="img-responsive"
                                                                        src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName} alt="Zdjecie produktu"/>
@@ -59,10 +81,12 @@ const ProductManager = () => {
                                             </div>
                                             <div className="col-xs-2">
                                                 <button type="button" className="btn btn-link btn-xs">
-                                                    <span className="glyphicon glyphicon-trash btn-option"> </span>
+                                                    <span className="glyphicon glyphicon-trash btn-option"
+                                                          onClick={() => deleteProduct(product.id)}> </span>
                                                 </button>
                                                 <button type="button" className="btn btn-link btn-xs" style={{marginTop: "1em"}}>
-                                                    <span className="glyphicon glyphicon-edit btn-option" onClick={() => openEditor(product.id)}> </span>
+                                                    <span className="glyphicon glyphicon-edit btn-option"
+                                                          onClick={() => openEditor(product.id)}> </span>
                                                 </button>
                                             </div>
                                         </div>
