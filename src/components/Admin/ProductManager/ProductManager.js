@@ -1,8 +1,11 @@
 import './ProductManager.css';
 import PaginationBar from "../../Main/Products/PaginationBar/PaginationBar";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const ProductManager = () => {
+
+    const navigate = useNavigate();
 
     const [state, setState] = useState({
         products: [],
@@ -13,6 +16,10 @@ const ProductManager = () => {
     useEffect(() => {
         fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json()).then(data => setState(data));
     }, [page]);
+
+    function openEditor(id) {
+        navigate(`/admin/edytor-produktow/${id}`);
+    }
 
     return (
         <div className="container">
@@ -50,9 +57,12 @@ const ProductManager = () => {
                                             <div className="col-xs-6 text-right">
                                                 <h6><strong>{product.price}<span className="text-muted">zł</span></strong></h6>
                                             </div>
-                                            <div className="col-xs-2" style={{marginTop: "0.3em"}}>
+                                            <div className="col-xs-2">
                                                 <button type="button" className="btn btn-link btn-xs">
-                                                    <span className="glyphicon glyphicon-trash"> </span>
+                                                    <span className="glyphicon glyphicon-trash btn-option"> </span>
+                                                </button>
+                                                <button type="button" className="btn btn-link btn-xs" style={{marginTop: "1em"}}>
+                                                    <span className="glyphicon glyphicon-edit btn-option" onClick={() => openEditor(product.id)}> </span>
                                                 </button>
                                             </div>
                                         </div>

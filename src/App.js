@@ -11,6 +11,7 @@ import React from "react";
 import AdminPage from "./components/Admin/AdminPage/AdminPage";
 import ProductCreator from "./components/Admin/ProductCreator/ProductCreator";
 import ProductManager from "./components/Admin/ProductManager/ProductManager";
+import ProductEditor from "./components/Admin/ProductEditor/ProductEditor";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
               <Route exact path={"/admin/glowna"} element={<AdminPage/>}/>
               <Route exact path={"/admin/kreator-produktow"} element={<ProductCreator/>}/>
               <Route exact path={"/admin/menedzer-produktow"} element={<ProductManager/>}/>
+              <Route exact path={"/admin/edytor-produktow/:id"} element={<ProductEditor/>}/>
             </Routes>
           <Footer/>
     </Router>
