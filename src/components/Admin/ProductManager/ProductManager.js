@@ -21,7 +21,6 @@ const ProductManager = () => {
             .then(data => setState({message: "", ...data}));
     }, [page]);
 
-    console.log(state);
 
     function openEditor(id) {
         navigate(`/admin/edytor-produktow/${id}`);

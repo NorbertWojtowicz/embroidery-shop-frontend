@@ -22,7 +22,17 @@ const CategoryManager = () => {
     }
 
     function deleteCategory(id) {
-
+        axios.delete(`http://localhost:8080/products/category/${id}`, {
+            headers: {"Authorization": token},
+        })
+            .then(() => setState({
+                message: `Kategoria ${id} usunieta`,
+                categories: state.categories
+            }))
+            .catch((err) => setState({
+            message: err.response.data.message,
+            categories: state.categories
+        }));
     }
 
     function openCategoryEditor(id) {
