@@ -39,6 +39,10 @@ const CategoryManager = () => {
         navigate(`/admin/edytor-kategorii/${id}`);
     }
 
+    function openCategoryCreator() {
+        navigate("/admin/kreator-kategorii");
+    }
+
     return (
         <div className="container">
             {state.message !== "" ?
@@ -56,10 +60,16 @@ const CategoryManager = () => {
                                     <div className="col-xs-6">
                                         <h3 style={{margin: "0"}}>Menedżer kategorii</h3>
                                     </div>
-                                    <div className="col-xs-6">
+                                    <div className="col-xs-3">
                                         <button type="button" className="btn btn-primary btn-sm btn-block"
                                                 onClick={() => backToAdminPage()}>
                                             <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
+                                        </button>
+                                    </div>
+                                    <div className="col-xs-3">
+                                        <button type="button" className="btn btn-primary btn-sm btn-block"
+                                                onClick={() => openCategoryCreator()}>
+                                            <span className="glyphicon glyphicon-share-alt"/> Kreator kategorii
                                         </button>
                                     </div>
                                 </div>

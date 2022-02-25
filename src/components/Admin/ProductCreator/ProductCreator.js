@@ -43,6 +43,10 @@ const ProductCreator = () => {
         navigate("/admin/glowna");
     }
 
+    function backToProductManager() {
+        navigate("/admin/menedzer-produktow");
+    }
+
     return (
         <div className="product-creator">
             {state.message !== "" ?
@@ -54,6 +58,10 @@ const ProductCreator = () => {
                 <button type="button" className="btn btn-primary btn-sm btn-block"
                         onClick={() => backToAdminPage()} style={{margin: "0"}}>
                     <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
+                </button>
+                <button type="button" className="btn btn-primary btn-sm btn-block"
+                        onClick={() => backToProductManager()} style={{margin: "0 0 0 2em"}}>
+                    <span className="glyphicon glyphicon-share-alt"/> Wróć do menedżera produktów
                 </button>
                 <h1>Stwórz produkt</h1>
                 <div className="form-group">
