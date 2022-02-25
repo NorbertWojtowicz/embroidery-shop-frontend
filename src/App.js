@@ -15,6 +15,7 @@ import ProductEditor from "./components/Admin/ProductEditor/ProductEditor";
 import CategoryManager from "./components/Admin/CategoryManager/CategoryManager";
 import CategoryEditor from "./components/Admin/CategoryEditor/CategoryEditor";
 import CategoryCreator from "./components/Admin/CategoryCreator/CategoryCreator";
+import CartManager from "./components/Admin/CartManager/CartManager";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
               <Route exact path={"/admin/menedzer-kategorii"} element={<CategoryManager/>}/>
               <Route exact path={"/admin/edytor-kategorii/:id"} element={<CategoryEditor/>}/>
               <Route exact path={"/admin/kreator-kategorii"} element={<CategoryCreator/>}/>
+              <Route exact path={"/admin/menedzer-zamowien"} element={<CartManager/>}/>
             </Routes>
           <Footer/>
     </Router>
