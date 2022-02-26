@@ -24,7 +24,7 @@ const CartManager = () => {
     }
 
     function openCartDetails(id) {
-
+        navigate(`/admin/menedzer-zamowien/${id}`);
     }
 
     function completeOrder(id) {
