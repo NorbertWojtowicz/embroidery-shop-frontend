@@ -13,23 +13,28 @@ const CategoryEditor = () => {
         category: {},
         message: "",
         isLoaded: false,
+        isAdmin: false
     });
 
     useEffect(() => {
         async function fetchData() {
+            let isAdminTemp = false;
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             let categories = [];
             await axios.get(`http://localhost:8080/products/category`)
                 .then(res => {categories = res.data})
                 .catch();
             for (const cat of categories) {
                 if (cat.categoryId === Number(id)) {
-                    setState({category: cat, message: "", isLoaded: true});
+                    setState({category: cat, message: "", isLoaded: true, isAdmin: isAdminTemp});
                     break;
                 }
             }
         }
         fetchData();
-    }, [id]);
+    }, [id, token]);
 
     function backToCategoryManager() {
         navigate("/admin/menedzer-kategorii");
@@ -45,13 +50,15 @@ const CategoryEditor = () => {
         axios.put("http://localhost:8080/products/category", modifiedCategory, {
             headers: {"Authorization": token},
         })
-            .then(res => setState({category: res.data, message: "Edycja przebiegła pomyślnie", isLoaded: true}))
-            .catch(err => setState({category: state.category, message: err.response.data.message, isLoaded: true}));
+            .then(res => setState({category: res.data, message: "Edycja przebiegła pomyślnie",
+                isLoaded: true, isAdmin: state.isAdmin}))
+            .catch(err => setState({category: state.category, message: err.response.data.message,
+                isLoaded: true, isAdmin: state.isAdmin}));
     }
 
     return (
         <div>
-            {state.isLoaded ?
+            {state.isLoaded && state.isAdmin ?
                 <div className="product-creator">
                     {state.message !== "" ?
                         <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>

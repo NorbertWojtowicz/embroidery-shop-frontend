@@ -13,13 +13,21 @@ const CartDetails = () => {
         cart: {},
         message: "",
         isLoaded: false,
+        isAdmin: false,
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/cart/${id}`,
-            {headers: {"Authorization": token}})
-            .then(res => setState({cart: res.data, message: "", isLoaded: true}))
-            .catch();
+        async function fetchData() {
+            let isAdminTemp = false;
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
+            await axios.get(`http://localhost:8080/cart/${id}`,
+                {headers: {"Authorization": token}})
+                .then(res => setState({cart: res.data, message: "", isLoaded: true, isAdmin: isAdminTemp}))
+                .catch();
+        }
+        fetchData();
     }, [id, token])
 
     function backToCartManager() {
@@ -28,18 +36,21 @@ const CartDetails = () => {
 
     function completeOrder(id) {
         if (state.cart.completed) {
-            setState({cart: state.cart, isLoaded: true, message: "Zamówienie jest już zakończone"});
+            setState({cart: state.cart, isLoaded: true,
+                message: "Zamówienie jest już zakończone", isAdmin: state.isAdmin});
         } else {
             axios.post(`http://localhost:8080/cart/complete/${id}`, {},
                 {headers: {"Authorization": token}})
-                .then(res => setState({cart: state.cart, isLoaded: true, message: "Zamówienie zostało zakończone"}))
-                .catch(err => setState({cart: state.cart, isLoaded: true, message: "Nie można zakończyć zamówienia"}));
+                .then(res => setState({cart: state.cart, isLoaded: true,
+                    message: "Zamówienie zostało zakończone", isAdmin: state.isAdmin}))
+                .catch(err => setState({cart: state.cart, isLoaded: true,
+                    message: "Nie można zakończyć zamówienia", isAdmin: state.isAdmin}));
         }
     }
 
     return (
         <div className="container">
-            {state.isLoaded ? <div>
+            {state.isLoaded && state.isAdmin ? <div>
                 {state.message !== "" ?
                     <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
                         {state.message}
@@ -63,7 +74,7 @@ const CartDetails = () => {
                                         <div className="col-xs-3">
                                             <button type="button" className="btn btn-primary btn-sm btn-block"
                                                     onClick={() => backToCartManager()}>
-                                                <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
+                                                <span className="glyphicon glyphicon-share-alt"/> Wróć do zamówień
                                             </button>
                                         </div>
                                         <div className="col-xs-3">

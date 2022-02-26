@@ -12,14 +12,23 @@ const ProductManager = () => {
     const [state, setState] = useState({
         products: [],
         currentPage: 1,
-        message: ""
+        message: "",
+        isAdmin: false
     });
     let [page, setPage] = useState(state.currentPage);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json())
-            .then(data => setState({message: "", ...data}));
-    }, [page]);
+        async function fetchData() {
+            let isAdminTemp = false;
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
+            await fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json())
+                .then(data => setState({message: "", currentPage: data.currentPage,
+                    isAdmin: isAdminTemp, products: data.products}));
+        }
+        fetchData();
+    }, [page, token]);
 
 
     function openEditor(id) {
@@ -46,13 +55,16 @@ const ProductManager = () => {
     }
 
     return (
+        <div>
+        {!state.isAdmin ? "" :
         <div className="container">
             {state.message !== "" ?
                 <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
                     {state.message}
                 </div>
                 : ""}
-            <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+            <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
+                  rel="stylesheet" id="bootstrap-css"/>
             <div className="row">
                 <div className="col-xs-8">
                     <div className="panel panel-info" style={{width: "100%"}}>
@@ -64,7 +76,7 @@ const ProductManager = () => {
                                     </div>
                                     <div className="col-xs-3">
                                         <button type="button" className="btn btn-primary btn-sm btn-block"
-                                        onClick={() => backToAdminPage()}>
+                                                onClick={() => backToAdminPage()}>
                                             <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
                                         </button>
                                     </div>
@@ -81,26 +93,36 @@ const ProductManager = () => {
                             {state.products.map(product =>
                                 <div key={product.id}>
                                     <div className="row">
-                                        <div className="col-xs-2"><img className="img-responsive"
-                                                                       src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName} alt="Zdjecie produktu"/>
+                                        <div className="col-xs-2">
+                                            <img className="img-responsive"
+                                                                       src={"http://localhost:8080/resources/mainImages/"
+                                                                           + product.id + "/" + product.mainImageName}
+                                                 alt="Zdjecie produktu"/>
                                         </div>
                                         <div className="col-xs-7">
-                                            <h4 className="product-name"><strong>{product.name} #{product.id}</strong></h4>
+                                            <h4 className="product-name">
+                                                <strong>{product.name} #{product.id}</strong>
+                                            </h4>
                                             <h4><small>{product.category.name}</small></h4>
                                             <h4><small>{product.description}</small></h4>
                                         </div>
                                         <div className="col-xs-3" style={{marginTop: "2em"}}>
                                             <div className="col-xs-6 text-right">
-                                                <h6><strong>{product.price}<span className="text-muted">zł</span></strong></h6>
+                                                <h6>
+                                                    <strong>
+                                                        {product.price}<span className="text-muted">zł</span>
+                                                    </strong>
+                                                </h6>
                                             </div>
                                             <div className="col-xs-2">
                                                 <button type="button" className="btn btn-link btn-xs">
-                                                    <span className="glyphicon glyphicon-trash btn-option"
-                                                          onClick={() => deleteProduct(product.id)}> </span>
+                                                <span className="glyphicon glyphicon-trash btn-option"
+                                                      onClick={() => deleteProduct(product.id)}> </span>
                                                 </button>
-                                                <button type="button" className="btn btn-link btn-xs" style={{marginTop: "1em"}}>
-                                                    <span className="glyphicon glyphicon-edit btn-option"
-                                                          onClick={() => openEditor(product.id)}> </span>
+                                                <button type="button" className="btn btn-link btn-xs"
+                                                        style={{marginTop: "1em"}}>
+                                                <span className="glyphicon glyphicon-edit btn-option"
+                                                      onClick={() => openEditor(product.id)}> </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -111,12 +133,14 @@ const ProductManager = () => {
                         </div>
                         <div className="panel-footer">
                             <div className="row text-center">
-                               <PaginationBar state={state} setPage={setPage}/>
+                                <PaginationBar state={state} setPage={setPage}/>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        }
         </div>
     )
 }

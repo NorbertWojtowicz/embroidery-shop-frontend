@@ -12,7 +12,6 @@ const AdminPage = () => {
                 headers: {'Authorization': token}
             })
                 .then(res => {
-                    console.log(res.data.roles);
                     res.data.roles.includes("ADMIN") ? setAdmin(true) : setAdmin(false);
                 })
                 .catch(err => setAdmin(false));

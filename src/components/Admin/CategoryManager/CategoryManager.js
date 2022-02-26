@@ -10,12 +10,21 @@ const CategoryManager = () => {
 
     const [state, setState] = useState({
         categories: [],
-        message: ""
+        message: "",
+        isAdmin: false
     });
 
     useEffect(() => {
-        axios.get("http://localhost:8080/products/category").then(res => setState({categories: res.data, message: ""}));
-    }, []);
+        async function fetchData() {
+            let isAdminTemp = false;
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
+            await axios.get("http://localhost:8080/products/category")
+                .then(res => setState({categories: res.data, message: "", isAdmin: isAdminTemp}));
+        }
+        fetchData();
+    }, [token]);
 
     function backToAdminPage() {
         navigate("/admin/glowna");
@@ -44,13 +53,16 @@ const CategoryManager = () => {
     }
 
     return (
+        <div>
+        {!state.isAdmin ? "" :
         <div className="container">
             {state.message !== "" ?
                 <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
                     {state.message}
                 </div>
                 : ""}
-            <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+            <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
+                  rel="stylesheet" id="bootstrap-css"/>
             <div className="row">
                 <div className="col-xs-8">
                     <div className="panel panel-info" style={{width: "100%"}}>
@@ -85,12 +97,12 @@ const CategoryManager = () => {
                                         <div className="col-xs-3" style={{marginTop: "2em"}}>
                                             <div className="col-xs-2">
                                                 <button type="button" className="btn btn-link btn-xs">
-                                                    <span className="glyphicon glyphicon-trash btn-option"
-                                                          onClick={() => deleteCategory(category.categoryId)}> </span>
+                                                <span className="glyphicon glyphicon-trash btn-option"
+                                                      onClick={() => deleteCategory(category.categoryId)}> </span>
                                                 </button>
                                                 <button type="button" className="btn btn-link btn-xs" style={{marginTop: "1em"}}>
-                                                    <span className="glyphicon glyphicon-edit btn-option"
-                                                          onClick={() => openCategoryEditor(category.categoryId)}> </span>
+                                                <span className="glyphicon glyphicon-edit btn-option"
+                                                      onClick={() => openCategoryEditor(category.categoryId)}> </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -102,6 +114,8 @@ const CategoryManager = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        }
         </div>
     )
 }

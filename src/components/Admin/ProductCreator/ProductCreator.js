@@ -10,12 +10,21 @@ const ProductCreator = () => {
 
     const [state, setState] = useState({
         categories: [],
-        message: ""
+        message: "",
+        isAdmin: false
     });
 
     useEffect(() => {
-        axios.get("http://localhost:8080/products/category").then(res => setState({categories: res.data, message: ""}));
-    }, []);
+        async function fetchData() {
+            let isAdminTemp = false;
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
+            await axios.get("http://localhost:8080/products/category")
+                .then(res => setState({categories: res.data, message: "", isAdmin: isAdminTemp}));
+        }
+        fetchData();
+    }, [token]);
 
     async function addProduct(e) {
         e.preventDefault();
@@ -48,48 +57,53 @@ const ProductCreator = () => {
     }
 
     return (
-        <div className="product-creator">
-            {state.message !== "" ?
-                <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
-                    {state.message}
-                </div>
-                : ""}
-            <form id="product-form">
-                <button type="button" className="btn btn-primary btn-sm btn-block"
-                        onClick={() => backToAdminPage()} style={{margin: "0"}}>
-                    <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
-                </button>
-                <button type="button" className="btn btn-primary btn-sm btn-block"
-                        onClick={() => backToProductManager()} style={{margin: "0 0 0 2em"}}>
-                    <span className="glyphicon glyphicon-share-alt"/> Wróć do menedżera produktów
-                </button>
-                <h1>Stwórz produkt</h1>
-                <div className="form-group">
-                    <label htmlFor="name">Nazwa produktu</label>
-                    <input type="text" className="form-control" id="name"
-                           placeholder="Pluszak"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="price">Cena produktu</label>
-                    <input type="number" step="0.1" className="form-control" id="price"
-                           placeholder="39.99"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="category">Wybierz kategorię</label>
-                    <select className="form-control" id="category">
-                        {state.categories.map(category => <option key={category.categoryId}>{category.name}</option>)}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="description">Opis produktu</label>
-                    <textarea className="form-control" id="description" rows="3"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="file">Główny obraz produktu</label>
-                    <input type="file" className="form-control" id="file"/>
-                </div>
-                <button type="submit" className="btn btn-primary form-control" onClick={(e) => addProduct(e)}>Dodaj produkt</button>
-            </form>
+        <div>
+        {!state.isAdmin ? "" :
+            <div className="product-creator">
+                {state.message !== "" ?
+                    <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
+                        {state.message}
+                    </div>
+                    : ""}
+                <form id="product-form">
+                    <button type="button" className="btn btn-primary btn-sm btn-block"
+                            onClick={() => backToAdminPage()} style={{margin: "0"}}>
+                        <span className="glyphicon glyphicon-share-alt"/> Wróć do panelu admina
+                    </button>
+                    <button type="button" className="btn btn-primary btn-sm btn-block"
+                            onClick={() => backToProductManager()} style={{margin: "0 0 0 2em"}}>
+                        <span className="glyphicon glyphicon-share-alt"/> Wróć do menedżera produktów
+                    </button>
+                    <h1>Stwórz produkt</h1>
+                    <div className="form-group">
+                        <label htmlFor="name">Nazwa produktu</label>
+                        <input type="text" className="form-control" id="name"
+                               placeholder="Pluszak"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="price">Cena produktu</label>
+                        <input type="number" step="0.1" className="form-control" id="price"
+                               placeholder="39.99"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="category">Wybierz kategorię</label>
+                        <select className="form-control" id="category">
+                            {state.categories.map(category => <option key={category.categoryId}>{category.name}</option>)}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="description">Opis produktu</label>
+                        <textarea className="form-control" id="description" rows="3"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="file">Główny obraz produktu</label>
+                        <input type="file" className="form-control" id="file"/>
+                    </div>
+                    <button type="submit" className="btn btn-primary form-control"
+                            onClick={(e) => addProduct(e)}>Dodaj produkt</button>
+                </form>
+            </div>
+        }
         </div>
     );
 }

@@ -14,20 +14,26 @@ const ProductEditor = () => {
         product: {},
         message: "",
         isLoaded: false,
+        isAdmin: false,
     });
 
     useEffect(() => {
         async function fetchData() {
+            let isAdminTemp = false;
+            await axios.get("http://localhost:8080/profile/details", {
+                headers: {'Authorization': token}
+            }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             let categories = [];
             await axios.get("http://localhost:8080/products/category")
                 .then(res => {categories = res.data})
                 .catch(err => console.log(err));
             await axios.get(`http://localhost:8080/products/${id}`)
-                .then(res => setState({categories: categories, message: "", product: res.data, isLoaded: true}))
+                .then(res => setState({categories: categories, message: "", product: res.data,
+                    isLoaded: true, isAdmin: isAdminTemp}))
                 .catch(err => console.log(err));
         }
         fetchData();
-    }, [id]);
+    }, [id, token]);
 
     function editProduct(e) {
         e.preventDefault();
@@ -43,8 +49,10 @@ const ProductEditor = () => {
         axios.put("http://localhost:8080/products", modifiedProduct, {
             headers: {"Authorization": token},
         })
-            .then(res => setState({categories: state.categories, message: "Edycja przebiegła pomyślnie", product: res.data, isLoaded: true}))
-            .catch(err => setState({categories: state.categories, message: err.response.data.message, product: modifiedProduct, isLoaded: true}));
+            .then(res => setState({categories: state.categories, message: "Edycja przebiegła pomyślnie",
+                product: res.data, isLoaded: true, isAdmin: state.isAdmin}))
+            .catch(err => setState({categories: state.categories, message: err.response.data.message,
+                product: modifiedProduct, isLoaded: true, isAdmin: state.isAdmin}));
     }
 
     function backToProductManager() {
@@ -53,7 +61,7 @@ const ProductEditor = () => {
 
     return (
         <div>
-        {state.isLoaded ?
+        {state.isLoaded && state.isAdmin ?
                 <div className="product-creator">
                     {state.message !== "" ?
                         <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
