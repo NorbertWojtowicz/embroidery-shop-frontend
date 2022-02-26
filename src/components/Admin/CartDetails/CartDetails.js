@@ -27,7 +27,14 @@ const CartDetails = () => {
     }
 
     function completeOrder(id) {
-
+        if (state.cart.completed) {
+            setState({cart: state.cart, isLoaded: true, message: "Zamówienie jest już zakończone"});
+        } else {
+            axios.post(`http://localhost:8080/cart/complete/${id}`, {},
+                {headers: {"Authorization": token}})
+                .then(res => setState({cart: state.cart, isLoaded: true, message: "Zamówienie zostało zakończone"}))
+                .catch(err => setState({cart: state.cart, isLoaded: true, message: "Nie można zakończyć zamówienia"}));
+        }
     }
 
     return (

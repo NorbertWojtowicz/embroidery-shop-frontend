@@ -27,8 +27,15 @@ const CartManager = () => {
         navigate(`/admin/menedzer-zamowien/${id}`);
     }
 
-    function completeOrder(id) {
-
+    function completeOrder(cart) {
+        if (cart.completed) {
+            setState({carts: state.carts, isLoaded: true, message: "Zamówienie jest już zakończone"});
+        } else {
+            axios.post(`http://localhost:8080/cart/complete/${cart.id}`, {},
+                {headers: {"Authorization": token}})
+                .then(res => setState({carts: state.carts, isLoaded: true, message: "Zamówienie zostało zakończone"}))
+                .catch(err => setState({carts: state.carts, isLoaded: true, message: "Nie można zakończyć zamówienia"}));
+        }
     }
 
     return (
@@ -85,7 +92,7 @@ const CartManager = () => {
                                                         <span className="glyphicon glyphicon-info-sign"/> Szczegóły zamówienia
                                                     </button>
                                                     <button type="button" className="btn btn-success btn-sm btn-block"
-                                                            onClick={() => completeOrder(cart.id)}
+                                                            onClick={() => completeOrder(cart)}
                                                             style={{margin: "2em auto 0 auto", width: "70%"}}>
                                                         <span className="glyphicon glyphicon-check"/> Zakończ zamówienie
                                                     </button>
