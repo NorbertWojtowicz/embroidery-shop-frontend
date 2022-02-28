@@ -29,8 +29,11 @@ const NavBar = () => {
 
     function logout() {
         document.cookie = "token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
-        console.log(document.cookie);
         document.location.replace("/");
+    }
+
+    function openAdminPage() {
+        navigate("/admin/glowna");
     }
 
     return (
@@ -45,13 +48,14 @@ const NavBar = () => {
                 <Nav>
                     <Nav.Link href="#produkty">Produkty</Nav.Link>
                     <Nav.Link href="#kontakt">Kontakt</Nav.Link>
-                    {/*<Nav.Link href="/regulamin">Regulamin</Nav.Link>*/}
-                    {/*<Nav.Link href="/faq">FAQ</Nav.Link>*/}
                 </Nav>
                 </Navbar.Collapse>
                 {!loggedIn ? <a href={"/logowanie"} type="button" className="btn btn-outline-primary search-btn">Zaloguj się</a> :
                     <div>
                         <span className="name-header">Witaj {user.username}</span>
+                        {user.roles.includes("ADMIN") ?
+                            <button type="button" className="btn btn-warning btn-admin" onClick={() => openAdminPage()}>Panel admina</button>
+                            : ""}
                         <button type="button" className="btn btn-outline-primary" style={{margin: "0 1em"}} onClick={() => navigate("/koszyk")}>Koszyk</button>
                         <button type="button" className="btn btn-outline-danger" onClick={() => logout()}>Wyloguj</button>
                     </div>

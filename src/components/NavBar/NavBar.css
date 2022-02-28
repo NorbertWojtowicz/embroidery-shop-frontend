@@ -38,3 +38,7 @@
 .underlineHover:hover:after{
     width: 100%;
 }
+
+.btn-admin {
+    margin-left: 0.5em;
+}
