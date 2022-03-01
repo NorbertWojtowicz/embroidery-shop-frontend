@@ -35,16 +35,18 @@ const ProductsWrapper = () => {
             <SearchBar setSearchType={setSearchType} setSearchName={setSearchName}/>
             <SortingBar setSortCriteria={setSortCriteria}/>
             <CategoriesMenu setSearchType={setSearchType} setSearchName={setSearchName}/>
-          <div className="products-wrapper">
-              {
-                  state.products.length === 0
-                      ? <ErrorMessage message={"Żaden z produktów nie spełnia określonych kryteriów..."}/>
-                      : state.products.map(product =>
-                          <div className="product" key={product.id}>
-                            <Product product={product} />
-                          </div>
-              )}
-          </div>
+            {state.products.length === 0
+                    ? <ErrorMessage message={"Żaden z produktów nie spełnia określonych kryteriów..."}/>
+                    :
+                      <div className="products-wrapper">
+                          {state.products.map(product =>
+                                      <div className="product" key={product.id}>
+                                        <Product product={product} />
+                                      </div>)}
+                      </div>
+            }
+            {/*Grid helper div*/}
+            <div></div>
             <PaginationBar state={state} setPage={setPage}/>
         </div>
     );

@@ -2,12 +2,18 @@ body {
     background-color: #f5f8fe;
 }
 .main-container {
-    width: 90em;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 19em 72em;
+    justify-content: center;
+    grid-row-gap: 3em;
+    grid-column-gap: 3.5em;
+    margin: 3em auto;
 }
 
 .products-wrapper {
-    width: 68em;
-    margin-left: 1em;
-    float: left;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 15em);
+    grid-row-gap: 2em;
+    grid-column-gap: 4em;
 }

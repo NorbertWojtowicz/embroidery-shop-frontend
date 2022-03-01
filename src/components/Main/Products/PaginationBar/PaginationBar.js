@@ -34,7 +34,7 @@ const PaginationBar = ({state, setPage}) => {
 
 
     return (
-        <section className="panel blue-wrapper bottom-margin-8 top-margin-3">
+        <section className="panel blue-wrapper top-margin-3">
             <div className="pagination pagination-bar">
                 <li className="page-item" onClick={(e) => changePage(e, previousPageReal)}><a className="page-link" href="/">Poprzednia</a></li>
                 <li className="page-item page1" onClick={(e) => changePage(e, 1)}><a className="page-link" href="/">1</a></li>

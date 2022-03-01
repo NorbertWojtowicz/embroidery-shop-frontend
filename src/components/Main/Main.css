@@ -2,8 +2,8 @@
     background-color: #f5f8fe;
     height: 90.4vh;
 }
-.main-container {
-    /*width: 90vw!important;*/
+.main-container-top {
+    width: 90%!important;
     margin: 0 auto;
 }
 #top-section-wrapper {

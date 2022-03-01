@@ -1,9 +1,6 @@
 .panel {
     border: none;
     box-shadow: none;
-    width: 19em;
-    margin: 1em 0 0 1em;
-    float: left;
 }
 
 .category-header {
