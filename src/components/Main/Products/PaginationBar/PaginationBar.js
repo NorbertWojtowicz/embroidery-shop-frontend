@@ -34,9 +34,9 @@ const PaginationBar = ({state, setPage}) => {
 
 
     return (
-        <section className="panel blue-wrapper top-margin-3">
+        <section className="panel blue-wrapper pagination-wrapper top-margin-3">
             <div className="pagination pagination-bar">
-                <li className="page-item" onClick={(e) => changePage(e, previousPageReal)}><a className="page-link" href="/">Poprzednia</a></li>
+                <li className="page-item previous-btn" onClick={(e) => changePage(e, previousPageReal)}><a className="page-link" href="/">Poprzednia</a></li>
                 <li className="page-item page1" onClick={(e) => changePage(e, 1)}><a className="page-link" href="/">1</a></li>
                 <li className="page-item disabled"><a className="page-link" href="/">...</a></li>
                 <li className={`page-item page${previousPage}`} onClick={(e) => changePage(e, previousPage)}><a className="page-link" href="/">{previousPage}</a></li>
@@ -44,7 +44,7 @@ const PaginationBar = ({state, setPage}) => {
                 <li className={`page-item page${nextPage}`} onClick={(e) => changePage(e, nextPage)}><a className="page-link" href="/">{nextPage}</a></li>
                 <li className="page-item disabled"><a className="page-link" href="/">...</a></li>
                 <li className={`page-item page${totalPages}`} onClick={(e) => changePage(e, totalPages)}><a className="page-link" href="/">{totalPages}</a></li>
-                <li className="page-item" onClick={(e) => changePage(e, nextPageReal)}><a className="page-link" href="/">Następna</a></li>
+                <li className="page-item next-btn" onClick={(e) => changePage(e, nextPageReal)}><a className="page-link" href="/">Następna</a></li>
             </div>
         </section>
     )

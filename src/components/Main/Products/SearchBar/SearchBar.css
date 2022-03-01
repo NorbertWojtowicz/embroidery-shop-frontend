@@ -10,3 +10,46 @@
     width: 12em;
     margin-right: 0.48em;
 }
+
+@media only screen and (max-width: 1650px) {
+    .search-bar-input {
+        width: 11em;
+    }
+}
+
+@media only screen and (max-width: 1500px) {
+    .search-bar-input {
+        width: 9em;
+    }
+}
+
+@media only screen and (max-width: 1350px) {
+    .search-bar-input {
+        width: 10em;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .search-bar-input {
+        width: 9em;
+    }
+}
+
+@media only screen and (max-width: 810px) {
+    .search-bar-input {
+        width: 27em;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .search-bar-input {
+        width: 21em;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .search-bar-input {
+        width: 12em;
+    }
+}
+
