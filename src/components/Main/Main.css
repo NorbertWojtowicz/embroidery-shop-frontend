@@ -3,7 +3,7 @@
     height: 90.4vh;
 }
 .main-container-top {
-    width: 90%!important;
+    width: 90%;
     margin: 0 auto;
 }
 #top-section-wrapper {
@@ -23,4 +23,136 @@
 .check-btn, .check-btn:hover, .check-btn:active, .check-btn:visited {
     background-color: #04369a !important;
     border-color: #042c7c;
+}
+
+@media only screen and (max-width: 1300px) {
+    .main-container-top {
+        width: 100%!important;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    .top-section {
+        text-align: center;
+        margin: 30vh auto 0;
+    }
+
+    #top-section-wrapper {
+        background-image: url(/public/main-bg-4.jpg);
+    }
+}
+
+@media only screen and (max-width: 840px) {
+    .top-section {
+        text-align: center;
+        margin: 25vh auto 0;
+    }
+    .top-section h1 {
+        font-size: 3em;
+    }
+    .top-section h4 {
+        font-size: 1.5em;
+    }
+    .check-btn {
+        font-size: 1.5em;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .top-section {
+        margin: 24vh auto 0;
+    }
+    .top-section h1 {
+        font-size: 2.8em;
+    }
+    .top-section h4 {
+        font-size: 1.4em;
+        font-style: italic;
+    }
+    .check-btn {
+        font-size: 1.4em;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .top-section {
+        margin: 24vh auto 0;
+    }
+    .top-section h1 {
+        font-size: 3em;
+    }
+    .top-section h4 {
+        font-size: 1.3em;
+    }
+    .check-btn {
+        font-size: 1.35em;
+    }
+}
+
+@media only screen and (max-width: 730px) {
+    .top-section {
+        text-align: center;
+        margin: 22vh auto 0;
+    }
+    .check-btn {
+        box-shadow: 1px 1px 20px #212121;
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .top-section {
+        text-align: center;
+        margin: 20vh auto 0;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .top-section {
+        margin: 19vh auto 0!important;
+    }
+    .top-section h1 {
+        margin: 1em auto;
+        width: 90%;
+    }
+    .top-section h4 {
+        margin: 1em auto;
+        width: 90%;
+    }
+
+}
+
+@media only screen and (max-width: 590px) {
+    .top-section {
+        margin: 15vh auto 0!important;
+    }
+    .top-section h1 {
+        font-size: 2.5em;
+    }
+    .top-section h4 {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .top-section {
+        margin: 14vh auto 0!important;
+    }
+    .top-section h1 {
+        font-size: 2.1em;
+    }
+    .top-section h4 {
+        font-size: 0.9em;
+    }
+    .check-btn {
+        font-size: 1.1em;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .top-section h1 {
+        font-size: 2em;
+    }
+    .check-btn {
+        font-size: 1em;
+    }
 }
