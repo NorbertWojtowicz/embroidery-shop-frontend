@@ -40,7 +40,7 @@ const NavBar = () => {
         <Navbar className="bg-navbar" style={{height: '9.6vh'}}>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
             <Container>
-                <Navbar.Brand href="/"><img alt={"logo"} src="/logo.png"
+                <Navbar.Brand href="/" className="brand-logo"><img alt={"logo"} src="/logo.png"
                     className="d-inline-block align-top"
                 /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -49,14 +49,14 @@ const NavBar = () => {
                     <Nav.Link href="#kontakt">Kontakt</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
-                {!loggedIn ? <a href={"/logowanie"} type="button" className="btn btn-outline-primary search-btn">Zaloguj się</a> :
-                    <div>
+                {user.roles?.includes("ADMIN") && loggedIn ?
+                    <button type="button" className="btn btn-warning btn-admin" onClick={() => openAdminPage()}>Panel admina</button>
+                    : ""}
+                {!loggedIn ? <a href={"/logowanie"} type="button" className="btn btn-signin btn-outline-primary search-btn">Zaloguj się</a> :
+                    <div className="btn-container">
                         <span className="name-header">Witaj {user.username}</span>
-                        {user.roles.includes("ADMIN") ?
-                            <button type="button" className="btn btn-warning btn-admin" onClick={() => openAdminPage()}>Panel admina</button>
-                            : ""}
-                        <button type="button" className="btn btn-outline-primary" style={{margin: "0 1em"}} onClick={() => navigate("/koszyk")}>Koszyk</button>
-                        <button type="button" className="btn btn-outline-danger" onClick={() => logout()}>Wyloguj</button>
+                        <button type="button" className="btn btn-acc-cart btn-outline-primary" style={{margin: "0 1em"}} onClick={() => navigate("/koszyk")}>Koszyk</button>
+                        <button type="button" className="btn btn-acc-logout btn-outline-danger" onClick={() => logout()}>Wyloguj</button>
                     </div>
                 }
             </Container>

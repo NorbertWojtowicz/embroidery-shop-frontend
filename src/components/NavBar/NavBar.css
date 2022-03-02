@@ -40,5 +40,149 @@
 }
 
 .btn-admin {
-    margin-left: 0.5em;
+    margin-right: 1em;
 }
+
+/*Responsiveness*/
+
+@media only screen and (max-width: 770px) {
+    .bg-navbar {
+        height: 13vh!important;
+    }
+    #basic-navbar-nav {
+        display: none!important;
+    }
+    .name-header {
+        display: none;
+    }
+    .btn-admin {
+        position: absolute;
+        margin: 5em 0 0 9em;
+        width: 20em;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        font-size: 0.9em;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .btn-signin {
+        width: 7em;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .btn-signin {
+        width: 8em;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .btn-signin {
+        width: 9em;
+    }
+}
+
+@media only screen and (max-width: 530px) {
+    .btn-acc-cart {
+        margin: 0 auto!important;
+    }
+    .btn-acc-logout {
+        margin-left: 1em;
+    }
+    .btn-admin {
+        margin-left: 7em;
+    }
+}
+
+@media only screen and (max-width: 515px) {
+    .btn-acc-logout {
+        margin-left: 0.5em;
+    }
+    .btn-admin {
+        margin-left: 6.5em;
+    }
+}
+
+@media only screen and (max-width: 507px) {
+    .btn-container {
+        width: 11em!important;
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 494px) {
+    .btn-container {
+        width: 12em!important;
+    }
+    .btn-admin {
+        margin-left: 6em;
+    }
+}
+@media only screen and (max-width: 470px) {
+    .btn-container {
+        margin-right: -1em;
+        width: 10.5em!important;
+    }
+    .btn-acc-logout {
+        font-size: 0.8em;
+    }
+    .btn-acc-cart {
+        font-size: 0.8em;
+    }
+    .brand-logo {
+        width: 70% !important;
+    }
+    .btn-admin {
+        margin-left: 5em;
+    }
+
+}
+@media only screen and (max-width: 450px) {
+    .btn-container {
+        margin-right: -0.5em!important;
+        width: 12em!important;
+    }
+}
+@media only screen and (max-width: 417px) {
+    .btn-container {
+        margin-right: -0.7em!important;
+        width: 12.7em !important;
+    }
+    .btn-acc-logout {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        margin-left: 0.1em;
+    }
+    .btn-acc-cart {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+    .brand-logo {
+        width: 100%!important;
+    }
+    .btn-signin {
+        width: 10em;
+    }
+    .btn-admin {
+        margin-left: 3.5em;
+    }
+}
+@media only screen and (max-width: 390px) {
+    .btn-admin {
+        margin-left: 2.5em;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .btn-container {
+        width: 13.5em !important;
+    }
+    .brand-logo {
+        width: 100%!important;
+    }
+    .btn-admin {
+        margin-left: 1.8em;
+    }
+}
+

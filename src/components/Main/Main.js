@@ -10,7 +10,7 @@ const Main = () => {
             <div id="main-wrapper">
                 <div className='main-container-top'>
                     <div id='top-section-wrapper'>
-                        <Row>
+                        <Row style={{margin: "0"}}>
                             <Col className='top-section'>
                                 <h1 className='display-5'>Personalizowane hafty na każdą okazję</h1>
                                 <h4>Szeroki katalog produktów zawierający m.in poduszki, pluszaki. </h4>
