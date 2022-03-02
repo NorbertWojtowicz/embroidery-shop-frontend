@@ -62,3 +62,49 @@ footer a:hover {
 footer p {
     margin: 0 0 0.4em;
 }
+@media only screen and (max-width: 617px) {
+    .footer-left-top {
+        width: 50%;
+        height: 90%;
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .footer-left-top {
+        width: 50%;
+        height: 90%;
+    }
+    .footer-right-top {
+        font-size: 0.9em;
+    }
+}
+
+@media only screen and (max-width: 455px) {
+    footer {
+        height: 27em!important;
+    }
+    .footer-top {
+        flex-direction: column;
+        margin: 0 auto!important;
+    }
+    .footer-left-top {
+        width: 70%;
+        height: 70%;
+        margin: 3.2vh auto 4vh auto;
+    }
+    .footer-right-top {
+        font-size: 0.9em;
+        text-align: center;
+    }
+    .footer-bottom {
+        font-size: 0.9em;
+    }
+    .footer-divide-line {
+        margin-top: 0.8vh;
+    }
+}
+@media only screen and (max-width: 400px) {
+    footer {
+        height: 26em!important;
+    }
+}
