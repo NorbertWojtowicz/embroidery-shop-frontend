@@ -150,7 +150,7 @@ const Cart = () => {
                                         <div className="row">{cartItem.product.name}</div>
                                     </div>
                                     <div className="col">
-                                        <a href="#"
+                                        <a href="/"
                                            onClick={e =>
                                                updateProductQuantity(e, cartItem, "-")}
                                            className="operator-sign">-</a>
@@ -162,7 +162,11 @@ const Cart = () => {
                                                updateProductQuantity(e, cartItem, "+")}
                                            className="operator-sign">+</a>
                                     </div>
-                                    <div className="col">{cartItem.product.price * cartItem.quantity} zł<a href={"/"} className="close" onClick={(e) => removeCartItem(e, cartItem)}>&#10005;</a></div>
+                                    <div className="col price-label">{cartItem.product.price * cartItem.quantity} zł
+                                        <a href={"/"} className="close"
+                                           onClick={(e) => removeCartItem(e, cartItem)}>&#10005;
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         )}
