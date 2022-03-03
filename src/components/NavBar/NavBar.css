@@ -52,7 +52,7 @@
     #basic-navbar-nav {
         display: none!important;
     }
-    .name-header {
+    .header-navbar {
         display: none;
     }
     .btn-admin {
@@ -173,7 +173,6 @@
         margin-left: 2.5em;
     }
 }
-
 @media only screen and (max-width: 370px) {
     .btn-container {
         width: 13.5em !important;
@@ -182,7 +181,8 @@
         width: 100%!important;
     }
     .btn-admin {
-        margin-left: 1.8em;
+        margin-left: 4em;
+        width: 15em;
     }
 }
 

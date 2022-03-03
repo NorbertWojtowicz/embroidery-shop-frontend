@@ -19,12 +19,7 @@ const ProductDetails = () => {
             }
             fetchData();
         }
-    , [id])
-
-
-    console.log("# ProductDetails #")
-    console.log("Id: " + id);
-    console.log("Product: " + product);
+    , [id]);
 
     return (
             <div className="p-4">
@@ -32,7 +27,8 @@ const ProductDetails = () => {
                     error ? "Brak podanego produktu..." :
                             <div className="product-details-wrapper">
                                 <div className="img-container bottom-margin-8">
-                                    <img src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName} alt="Zdjecie produktu"/>
+                                    <img src={"http://localhost:8080/resources/mainImages/" + product.id + "/" + product.mainImageName}
+                                         alt="Zdjecie produktu"/>
                                 </div>
                                 <div className="details-container">
                                     <h1 className="name-header">{product.name}</h1>
@@ -50,7 +46,7 @@ const ProductDetails = () => {
                                     <p className="lead font-weight-bold footer-right-top">Opis:</p>
                                     <p className="lead field-value-wrapper">{product.description}</p>
 
-                                    <form className="d-flex justify-content-left top-margin-2">
+                                    <form className="d-flex justify-content-left top-margin-2 details-form">
                                         <input type="number" aria-label="Search" className="form-control quantity-input"/>
                                         <button className="btn btn-add-to-cart btn-primary btn-md my-0 p" type="submit">Dodaj do koszyka&nbsp;
                                             <i className="fa fa-shopping-cart ml-1"/>

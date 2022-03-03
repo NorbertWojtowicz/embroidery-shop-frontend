@@ -133,7 +133,9 @@ const Cart = () => {
                 <div className="col">
                 <h4><b>Twój koszyk</b></h4>
                 </div>
-                <div className="col align-self-center text-right text-muted">Ilość przedmiotów: {state.cartItems.length}</div>
+                <div className="col align-self-center text-right text-muted">
+                    Ilość przedmiotów: {state.cartItems.length}
+                </div>
                 </div>
                 </div>
                     {state.cartItems.map(cartItem =>
@@ -170,8 +172,12 @@ const Cart = () => {
                                 </div>
                             </div>
                         )}
-                <div className="back-to-shop"><a href="/" className="left-arrow"><i className="fa fa-arrow-left"/></a><span
-                className="text-muted">Wróć do strony głównej</span></div>
+                <div className="back-to-shop">
+                    <a href="/" className="left-arrow">
+                        <i className="fa fa-arrow-left"/>
+                    </a>
+                    <span className="text-muted">Wróć do strony głównej</span>
+                </div>
                 </div>
                 <div className="col-md-4 summary">
                 <div>
@@ -181,7 +187,8 @@ const Cart = () => {
                     {state.cartItems.map(cartItem =>
                             <div className="row" style={{marginBottom: "0.5em"}} key={cartItem.product.id}>
                                 <div className="col-7" style={{paddingLeft: "0"}}>{cartItem.product.name}</div>
-                                <div className="col-5 text-right" style={{paddingLeft: "0"}}>{cartItem.quantity} x {cartItem.product.price} zł</div>
+                                <div className="col-5 text-right" style={{paddingLeft: "0"}}>
+                                    {cartItem.quantity} x {cartItem.product.price} zł</div>
                             </div>
                         )}
 

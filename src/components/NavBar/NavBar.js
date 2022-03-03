@@ -54,7 +54,7 @@ const NavBar = () => {
                     : ""}
                 {!loggedIn ? <a href={"/logowanie"} type="button" className="btn btn-signin btn-outline-primary search-btn">Zaloguj się</a> :
                     <div className="btn-container">
-                        <span className="name-header">Witaj {user.username}</span>
+                        <span className="name-header header-navbar">Witaj {user.username}</span>
                         <button type="button" className="btn btn-acc-cart btn-outline-primary" style={{margin: "0 1em"}} onClick={() => navigate("/koszyk")}>Koszyk</button>
                         <button type="button" className="btn btn-acc-logout btn-outline-danger" onClick={() => logout()}>Wyloguj</button>
                     </div>
