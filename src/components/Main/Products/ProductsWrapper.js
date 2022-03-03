@@ -8,6 +8,7 @@ import SortingBar from "./SortingBar/SortingBar";
 import SearchBar from "./SearchBar/SearchBar";
 import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 import PaginationBar from "./PaginationBar/PaginationBar";
+import SuccessMessage from "../../ErrorContainers/SuccessMessage/SuccessMessage";
 
 const ProductsWrapper = () => {
     const [state, setState] = useState({
@@ -18,18 +19,13 @@ const ProductsWrapper = () => {
     let [searchType, setSearchType] = useState("");
     let [searchName, setSearchName] = useState("");
     let [page, setPage] = useState(state.currentPage);
-    console.log("Page: " + state.currentPage);
-    console.log("Total pages: " + state.totalPages);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}&page=${page - 1}`).then(res => res.json()).then(data => setState(data));
+        fetch(`http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}&page=${page - 1}`)
+            .then(res => res.json()).then(data => setState(data));
     }, [sortCriteria, searchType, searchName, page]);
 
-
-    console.log("First Product: " + state.products[0]);
-    console.log("Sort Criteria: " + sortCriteria);
-    console.log("Search Type: " + searchType);
-    console.log("Search Name: " + searchName);
     return (
         <div className="main-container" id="produkty">
             <SearchBar setSearchType={setSearchType} setSearchName={setSearchName}/>
@@ -38,12 +34,15 @@ const ProductsWrapper = () => {
             {state.products.length === 0
                     ? <ErrorMessage message={"Żaden z produktów nie spełnia określonych kryteriów..."}/>
                     :
+                <div>
+                {message !== "" ? <SuccessMessage message={message}/> : ""}
                       <div className="products-wrapper">
                           {state.products.map(product =>
                                       <div className="product" key={product.id}>
-                                        <Product product={product} />
+                                        <Product product={product} setMessage={setMessage} />
                                       </div>)}
                       </div>
+                </div>
             }
             {/*Grid helper div*/}
             <div></div>
