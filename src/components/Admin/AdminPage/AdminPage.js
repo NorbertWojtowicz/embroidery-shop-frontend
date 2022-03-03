@@ -19,8 +19,6 @@ const AdminPage = () => {
         fetchProfileData();
     }, [token]);
 
-    console.log(isAdmin);
-
     return (
         <div>
             {!isAdmin ? "" :

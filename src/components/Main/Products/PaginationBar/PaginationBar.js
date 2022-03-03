@@ -27,7 +27,6 @@ const PaginationBar = ({state, setPage}) => {
 
     function removeActiveTagFromPageElement(pageClass) {
         const el = document.querySelector(pageClass);
-        console.log(el);
         el.classList.remove("active");
     }
 

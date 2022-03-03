@@ -5,7 +5,6 @@ const CategoriesMenu = ({setSearchType, setSearchName}) => {
     const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState(null);
     useEffect(() => {
-        console.log("Fetching...");
         fetch("http://localhost:8080/products/category").then(res => res.json()).then(data => setCategories(data));
     }, [activeCategory]);
 

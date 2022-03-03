@@ -26,11 +26,11 @@ const ProductEditor = () => {
             let categories = [];
             await axios.get("http://localhost:8080/products/category")
                 .then(res => {categories = res.data})
-                .catch(err => console.log(err));
+                .catch();
             await axios.get(`http://localhost:8080/products/${id}`)
                 .then(res => setState({categories: categories, message: "", product: res.data,
                     isLoaded: true, isAdmin: isAdminTemp}))
-                .catch(err => console.log(err));
+                .catch();
         }
         fetchData();
     }, [id, token]);
