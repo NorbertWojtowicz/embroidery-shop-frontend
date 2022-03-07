@@ -1,11 +1,12 @@
 import './AdminPage.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
 const AdminPage = () => {
 
     const [isAdmin, setAdmin] = useState(false);
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
     useEffect(() => {
         async function fetchProfileData() {
             await axios.get("http://localhost:8080/profile/details", {

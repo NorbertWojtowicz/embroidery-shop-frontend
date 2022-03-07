@@ -2,11 +2,12 @@ import './ProductCreator.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
 const ProductCreator = () => {
 
     const navigate = useNavigate();
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
 
     const [state, setState] = useState({
         categories: [],

@@ -4,11 +4,12 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import ErrorMessage from "../ErrorContainers/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
+import CookieUtil from "../../CookieUtil/CookieUtil";
 
 const ProductDetails = () => {
 
     const navigate = useNavigate();
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
     const {id} = useParams();
     const [product, setProduct] = useState({
         isLoaded: false

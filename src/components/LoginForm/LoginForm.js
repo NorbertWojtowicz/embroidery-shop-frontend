@@ -26,8 +26,13 @@ const LoginForm = () => {
 
     function setTokenAndNavigateToHome(token) {
         const cookieExpire = new Date();
+        const cookieExpireRefresh = new Date();
+         // [0] = access token, [1] = refresh_token
+        const tokens = token.split("refresh_token");
         cookieExpire.setTime(Date.now() + 3600000 * 24 * 7);
-        document.cookie = `token=${encodeURI(token)};expires=${cookieExpire.toGMTString()}`;
+        cookieExpireRefresh.setTime(Date.now() + 200 * 24 * 60 * 60 * 1000);
+        document.cookie = `access_token=${encodeURI(tokens[0])};expires=${cookieExpire.toGMTString()}`;
+        document.cookie = `refresh_token=${encodeURI(tokens[1])};expires=${cookieExpireRefresh.toGMTString()}`;
         document.location.replace("/");
     }
 

@@ -4,11 +4,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './Product.css';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import CookieUtil from "../../../../CookieUtil/CookieUtil";
 
 const Product = ({product, setMessage}) => {
 
     const navigate = useNavigate();
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
 
     function navigateToProductDetails(e) {
         e.preventDefault();

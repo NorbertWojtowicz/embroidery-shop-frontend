@@ -30,8 +30,6 @@ const PaginationBar = ({state, setPage}) => {
         el.classList.remove("active");
     }
 
-
-
     return (
         <section className="panel blue-wrapper pagination-wrapper top-margin-3">
             <div className="pagination pagination-bar">

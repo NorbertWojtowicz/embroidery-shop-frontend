@@ -2,11 +2,12 @@ import './CartManager.css';
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
 const CartManager = () => {
 
     const navigate = useNavigate();
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
 
     const [state, setState] = useState({
         carts: [],

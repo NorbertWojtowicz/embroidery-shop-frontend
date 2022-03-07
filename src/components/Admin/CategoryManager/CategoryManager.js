@@ -2,11 +2,12 @@ import './CategoryManager.css';
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
 const CategoryManager = () => {
 
     const navigate = useNavigate();
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
 
     const [state, setState] = useState({
         categories: [],

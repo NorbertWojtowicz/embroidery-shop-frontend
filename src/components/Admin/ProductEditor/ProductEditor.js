@@ -2,11 +2,12 @@ import './ProductEditor.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
 const ProductEditor = () => {
 
     const {id} = useParams();
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
     const navigate = useNavigate();
 
     const [state, setState] = useState({

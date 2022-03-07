@@ -1,6 +1,7 @@
 import './Cart.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import CookieUtil from "../../CookieUtil/CookieUtil";
 
 const Cart = () => {
 
@@ -9,7 +10,7 @@ const Cart = () => {
         totalPrice: 0,
         message: ""
     })
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
 
     useEffect(() => {
         axios.get("http://localhost:8080/cart", {headers: {

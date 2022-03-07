@@ -3,10 +3,11 @@ import PaginationBar from "../../Main/Products/PaginationBar/PaginationBar";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
 const ProductManager = () => {
 
-    const token = decodeURI(document.cookie.split("=")[1]);
+    const token = CookieUtil.getCookie("access_token");
     const navigate = useNavigate();
 
     const [state, setState] = useState({
