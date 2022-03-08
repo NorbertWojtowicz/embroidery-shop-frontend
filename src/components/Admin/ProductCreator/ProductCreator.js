@@ -1,27 +1,27 @@
 import './ProductCreator.css';
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
 const ProductCreator = () => {
 
     const navigate = useNavigate();
-    const token = CookieUtil.getCookie("access_token");
-
     const [state, setState] = useState({
         categories: [],
         message: "",
         isAdmin: false
     });
 
+    const token = CookieUtil.getCookie("access_token");
+
     useEffect(() => {
         async function fetchData() {
             let isAdminTemp = false;
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
-            await axios.get("http://localhost:8080/products/category")
+            await axiosApiInstance.get("http://localhost:8080/products/category")
                 .then(res => setState({categories: res.data, message: "", isAdmin: isAdminTemp}));
         }
         fetchData();
@@ -40,12 +40,13 @@ const ProductCreator = () => {
         formData.append("product", JSON.stringify(newProduct));
         formData.append("multipartFile", productForm.file.files[0]);
         formData.append("category", JSON.stringify(productForm.category.value));
-        await axios.post("http://localhost:8080/products", formData, {
+        await axiosApiInstance.post("http://localhost:8080/products", formData, {
             headers: {"Authorization": token, "Content-Type": "multipart/form-data"},
         })
             .then(res => setState({
                 categories: state.categories,
-                message: "Produkt pomyślnie dodany"
+                message: "Produkt pomyślnie dodany",
+                isAdmin: state.isAdmin
             })).catch();
     }
 

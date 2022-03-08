@@ -2,8 +2,8 @@ import './ProductManager.css';
 import PaginationBar from "../../Main/Products/PaginationBar/PaginationBar";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
 const ProductManager = () => {
 
@@ -21,7 +21,7 @@ const ProductManager = () => {
     useEffect(() => {
         async function fetchData() {
             let isAdminTemp = false;
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             await fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json())
@@ -31,19 +31,19 @@ const ProductManager = () => {
         fetchData();
     }, [page, token]);
 
-
     function openEditor(id) {
         navigate(`/admin/edytor-produktow/${id}`);
     }
 
     function deleteProduct(id) {
-        axios.delete(`http://localhost:8080/products/${id}`, {
+        axiosApiInstance.delete(`http://localhost:8080/products/${id}`, {
             headers: {"Authorization": token},
         })
             .then(() => setState({
                 message: `Produkt ${id} usuniety`,
                 products: state.products,
-                currentPage: state.currentPage
+                currentPage: state.currentPage,
+                isAdmin: state.isAdmin
             })).catch();
     }
 

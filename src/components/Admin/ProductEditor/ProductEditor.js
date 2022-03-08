@@ -1,8 +1,8 @@
 import './ProductEditor.css';
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
 const ProductEditor = () => {
 
@@ -21,14 +21,14 @@ const ProductEditor = () => {
     useEffect(() => {
         async function fetchData() {
             let isAdminTemp = false;
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             let categories = [];
-            await axios.get("http://localhost:8080/products/category")
+            await axiosApiInstance.get("http://localhost:8080/products/category")
                 .then(res => {categories = res.data})
                 .catch();
-            await axios.get(`http://localhost:8080/products/${id}`)
+            await axiosApiInstance.get(`http://localhost:8080/products/${id}`)
                 .then(res => setState({categories: categories, message: "", product: res.data,
                     isLoaded: true, isAdmin: isAdminTemp}))
                 .catch();
@@ -47,7 +47,7 @@ const ProductEditor = () => {
             category: {name: productForm.category.value},
             mainImageName:state.product.mainImageName
         }
-        axios.put("http://localhost:8080/products", modifiedProduct, {
+        axiosApiInstance.put("http://localhost:8080/products", modifiedProduct, {
             headers: {"Authorization": token},
         })
             .then(res => setState({categories: state.categories, message: "Edycja przebiegła pomyślnie",

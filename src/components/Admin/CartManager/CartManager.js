@@ -1,8 +1,8 @@
 import './CartManager.css';
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
 const CartManager = () => {
 
@@ -19,10 +19,10 @@ const CartManager = () => {
     useEffect(() => {
         async function fetchData() {
             let isAdminTemp = false;
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
-            await axios.get(`http://localhost:8080/cart/all`, {headers: {"Authorization": token}})
+            await axiosApiInstance.get(`http://localhost:8080/cart/all`, {headers: {"Authorization": token}})
                 .then(res => setState({message: "", carts: res.data, isLoaded: true, isAdmin: isAdminTemp}));
         }
         fetchData();
@@ -41,7 +41,7 @@ const CartManager = () => {
             setState({carts: state.carts, isLoaded: true,
                 message: "Zamówienie jest już zakończone", isAdmin: state.isAdmin});
         } else {
-            axios.post(`http://localhost:8080/cart/complete/${cart.id}`, {},
+            axiosApiInstance.post(`http://localhost:8080/cart/complete/${cart.id}`, {},
                 {headers: {"Authorization": token}})
                 .then(res => setState({carts: state.carts, isLoaded: true,
                     message: "Zamówienie zostało zakończone", isAdmin: state.isAdmin}))

@@ -1,10 +1,10 @@
 import './ProductDetails.css';
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import ErrorMessage from "../ErrorContainers/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
 import CookieUtil from "../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../Config/AxiosApiInstance";
 
 const ProductDetails = () => {
 
@@ -22,7 +22,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
             async function fetchData() {
-                await axios.get(`http://localhost:8080/products/${id}`)
+                await axiosApiInstance.get(`http://localhost:8080/products/${id}`)
                     .then(res => setProduct({...res.data, isLoaded: true}))
                     .catch((err) => {
                         setMessages({error: err.response.data.message, success: ""});
@@ -36,7 +36,7 @@ const ProductDetails = () => {
         e.preventDefault();
         const form = document.querySelector(".details-form");
         const quantity = form.quantity.value;
-        await axios.post(`http://localhost:8080/cart/add/${id}/${quantity}`, {},
+        await axiosApiInstance.post(`http://localhost:8080/cart/add/${id}/${quantity}`, {},
             {headers: {"Authorization": token}})
             .then(res => setMessages({success: "Produkt dodany!", error: ""}))
             .catch(err => {

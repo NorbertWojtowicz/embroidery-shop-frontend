@@ -1,7 +1,7 @@
 import './Cart.css';
 import {useEffect, useState} from "react";
-import axios from "axios";
 import CookieUtil from "../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../Config/AxiosApiInstance";
 
 const Cart = () => {
 
@@ -13,7 +13,7 @@ const Cart = () => {
     const token = CookieUtil.getCookie("access_token");
 
     useEffect(() => {
-        axios.get("http://localhost:8080/cart", {headers: {
+        axiosApiInstance.get("http://localhost:8080/cart", {headers: {
             "Authorization": token
             }
         }).then(res => {
@@ -45,7 +45,7 @@ const Cart = () => {
     }
 
     async function sendRequestToUpdateQuantity(cartItem, quantity) {
-        await axios.put(`http://localhost:8080/cart/update/${cartItem.product.id}/${quantity}`, {}, {
+        await axiosApiInstance.put(`http://localhost:8080/cart/update/${cartItem.product.id}/${quantity}`, {}, {
             headers: {"Authorization": token}
         }).then((res) => {
             updateCartItemQuantity(cartItem.id, quantity);
@@ -79,7 +79,7 @@ const Cart = () => {
 
     async function removeCartItem(e, cartItem) {
        e.preventDefault();
-       await axios.delete(`http://localhost:8080/cart/remove/${cartItem.product.id}`, {
+       await axiosApiInstance.delete(`http://localhost:8080/cart/remove/${cartItem.product.id}`, {
            headers: {"Authorization": token}
        })
            .then(res => {
@@ -93,18 +93,18 @@ const Cart = () => {
     }
 
     async function finalizeCart() {
-        await axios.post("http://localhost:8080/cart/finalize", {}, {
+        await axiosApiInstance.post("http://localhost:8080/cart/finalize", {}, {
             headers: {"Authorization": token}
         })
-            .then(() => setState(
-                {
+            .then(() => {
+                setState({
                     cartItems: [],
                     totalPrice: 0,
                     message: "Zamówienie zostało pomyślnie zatwierdzone, " +
                         "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
                         "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie 'TUTAJ' " +
                         "spowoduje przejście do konwersacji.</a>"
-                }))
+                })})
             .catch();
     }
 

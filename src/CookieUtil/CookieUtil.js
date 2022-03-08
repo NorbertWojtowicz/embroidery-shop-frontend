@@ -7,7 +7,8 @@ class CookieUtil {
     static setRefreshedToken(token) {
         const cookieExpire = new Date();
         cookieExpire.setTime(Date.now() + 3600000 * 24 * 7);
-        document.cookie = `access_token=${encodeURI(token)};expires=${cookieExpire.toGMTString()}`;
+        document.cookie = 'access_token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+        document.cookie = `access_token=${encodeURI(token)};expires=${cookieExpire.toGMTString()};path=/`;
     }
 }
 

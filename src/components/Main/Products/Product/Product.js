@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './Product.css';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import CookieUtil from "../../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../../Config/AxiosApiInstance";
 
 const Product = ({product, setMessage}) => {
 
@@ -18,7 +18,7 @@ const Product = ({product, setMessage}) => {
 
     async function addToCart(e, quantity) {
         e.preventDefault();
-        await axios.post(`http://localhost:8080/cart/add/${product.id}/${quantity}`, {},
+        await axiosApiInstance.post(`http://localhost:8080/cart/add/${product.id}/${quantity}`, {},
             {headers: {"Authorization": token}})
             .then(res => setMessage("Pomyślnie dodano produkt"))
             .catch(err => {

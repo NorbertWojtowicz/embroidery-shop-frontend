@@ -19,7 +19,6 @@ import CartManager from "./components/Admin/CartManager/CartManager";
 import CartDetails from "./components/Admin/CartDetails/CartDetails";
 
 function App() {
-
   return (
       <div className="app-container">
         <Router>

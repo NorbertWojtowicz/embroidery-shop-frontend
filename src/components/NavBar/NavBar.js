@@ -2,45 +2,31 @@ import {Navbar, Container, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavBar.css'
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import CookieUtil from "../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../Config/AxiosApiInstance";
 
 const NavBar = () => {
 
     const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
-    const [token, setToken] = useState("");
-    const tokenTemp = CookieUtil.getCookie("access_token");
-    if (token !== tokenTemp) {
-        setToken(tokenTemp);
-    }
+    const token = CookieUtil.getCookie("access_token");
 
     useEffect(() => {
-        async function tryRefreshToken() {
-            const refreshToken = CookieUtil.getCookie("refresh_token");
-            console.log(refreshToken);
-            await axios.post("http://localhost:8080/token/refresh", {}, {
-                headers: {'Authorization': refreshToken}
-            }).then((res) => {
-                CookieUtil.setRefreshedToken(res.headers.authorization);
-                setToken(res.headers.authorization);
-            }).catch(err => setLoggedIn(false));
-        }
         async function fetchProfileData() {
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             })
                 .then(res => {setUser(res.data); setLoggedIn(true)})
-                .catch(err => tryRefreshToken());
+                .catch(err => setLoggedIn(false));
         }
         fetchProfileData();
     }, [token]);
 
     function logout() {
-        document.cookie = "access_token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
-        document.cookie = "refresh_token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+        document.cookie = "access_token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        document.cookie = "refresh_token=noToken;expires=Thu, 01 Jan 1970 00:00:01 GMT";
         document.location.replace("/");
     }
 

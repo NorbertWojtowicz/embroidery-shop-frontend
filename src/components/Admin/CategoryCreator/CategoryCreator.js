@@ -1,8 +1,8 @@
 import './CategoryCreator.css';
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
 const CategoryCreator = () => {
 
@@ -17,7 +17,7 @@ const CategoryCreator = () => {
     useEffect(() => {
         async function fetchData() {
             let isAdminTemp = false;
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             setState({message: "", isAdmin: isAdminTemp});
@@ -35,11 +35,11 @@ const CategoryCreator = () => {
         const newCategory = {
             name: categoryForm.name.value,
         }
-        await axios.post("http://localhost:8080/products/category", newCategory, {
+        await axiosApiInstance.post("http://localhost:8080/products/category", newCategory, {
             headers: {"Authorization": token},
         })
             .then(res => setState({
-                message: "Kategoria pomyślnie dodana"
+                message: "Kategoria pomyślnie dodana", isAdmin: state.isAdmin
             })).catch(err => setState({message: err.response.data.message, isAdmin: state.isAdmin}));
     }
 

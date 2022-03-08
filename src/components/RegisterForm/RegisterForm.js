@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import FormError from "../ErrorContainers/FormError/FormError";
-import axios from "axios";
+import axiosApiInstance from "../../Config/AxiosApiInstance";
 
 const RegisterForm = () => {
 
@@ -18,7 +18,7 @@ const RegisterForm = () => {
         };
         if (validateUser(newUser)) {
             const {passwordRepeat, ...userDto} = newUser;
-            await axios.post("http://localhost:8080/register", userDto)
+            await axiosApiInstance.post("http://localhost:8080/register", userDto)
                 .then(() => setSuccess(true))
                 .catch(err => setError(err.response.data.message));
         }

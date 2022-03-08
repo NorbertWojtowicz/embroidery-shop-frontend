@@ -1,7 +1,7 @@
 import './LoginForm.css';
 import React, {useState} from "react";
-import axios from "axios";
 import FormError from "../ErrorContainers/FormError/FormError";
+import axiosApiInstance from "../../Config/AxiosApiInstance";
 
 const LoginForm = () => {
 
@@ -15,7 +15,7 @@ const LoginForm = () => {
             password: loginForm.password.value
         };
         if (validateUser(user)) {
-            await axios.post("http://localhost:8080/login", user)
+            await axiosApiInstance.post("http://localhost:8080/login", user)
                 .then(res => setTokenAndNavigateToHome(res.headers.authorization))
                 .catch(err => {
                     const error = err.response.data.message;

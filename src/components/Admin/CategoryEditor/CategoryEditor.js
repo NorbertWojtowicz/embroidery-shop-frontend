@@ -1,8 +1,8 @@
 import './CategoryEditor.css';
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
 const CategoryEditor = () => {
 
@@ -20,11 +20,11 @@ const CategoryEditor = () => {
     useEffect(() => {
         async function fetchData() {
             let isAdminTemp = false;
-            await axios.get("http://localhost:8080/profile/details", {
+            await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             let categories = [];
-            await axios.get(`http://localhost:8080/products/category`)
+            await axiosApiInstance.get(`http://localhost:8080/products/category`)
                 .then(res => {categories = res.data})
                 .catch();
             for (const cat of categories) {
@@ -48,7 +48,7 @@ const CategoryEditor = () => {
             categoryId: state.category.categoryId,
             name: categoryForm.name.value,
         }
-        axios.put("http://localhost:8080/products/category", modifiedCategory, {
+        axiosApiInstance.put("http://localhost:8080/products/category", modifiedCategory, {
             headers: {"Authorization": token},
         })
             .then(res => setState({category: res.data, message: "Edycja przebiegła pomyślnie",
