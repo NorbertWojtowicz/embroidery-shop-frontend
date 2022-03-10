@@ -110,7 +110,7 @@ const CartManager = ({setMessage}) => {
                                                 <h5>Całkowita cena zamówienia</h5>
                                                 <div className="col-xs-9 text-center">
                                                     <h5>
-                                                        <strong>{cart.totalPrice}
+                                                        <strong>{Math.round(cart.totalPrice * 100) / 100}
                                                             <span className="text-muted">zł</span>
                                                         </strong>
                                                     </h5>

@@ -28,7 +28,8 @@ const Cart = ({setMessage}) => {
         const updatedQuantity = getUpdatedQuantity(operation, cartItem.quantity);
         if (!updatedQuantity.isValid) return;
         await sendRequestToUpdateQuantity(cartItem, updatedQuantity.value);
-        const updatedTotalPrice = state.cartItems.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0);
+        const updatedTotalPrice = state.cartItems.reduce((tot, cur) =>
+            tot + (Math.round(cur.product.price * cur.quantity)), 0);
         if (updatedQuantity.value === 0) {
             updateStatePriceAndRemoveCartItem(updatedTotalPrice, cartItem);
             return;
@@ -153,7 +154,8 @@ const Cart = ({setMessage}) => {
                                                updateProductQuantity(e, cartItem, "+")}
                                            className="operator-sign">+</a>
                                     </div>
-                                    <div className="col price-label">{cartItem.product.price * cartItem.quantity} zł
+                                    <div className="col price-label">
+                                        {Math.round(cartItem.product.price * cartItem.quantity * 100) / 100} zł
                                         <a href={"/"} className="close"
                                            onClick={(e) => removeCartItem(e, cartItem)}>&#10005;
                                         </a>
@@ -188,7 +190,7 @@ const Cart = ({setMessage}) => {
 
                 <div className="row row-summary" style={{borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0"}}>
                     <div className="col-7">SUMA</div>
-                    <div className="col-5 text-right">{state.totalPrice} zł</div>
+                    <div className="col-5 text-right">{Math.round(state.totalPrice * 100) / 100} zł</div>
                 </div>
                 <button className="btn" onClick={() => finalizeCart()}>ZATWIERDŹ ZAMÓWIENIE</button>
                 </div>
