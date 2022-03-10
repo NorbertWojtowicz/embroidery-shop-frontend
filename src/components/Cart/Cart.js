@@ -3,12 +3,11 @@ import {useEffect, useState} from "react";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 
-const Cart = () => {
+const Cart = ({setMessage}) => {
 
     const [state, setState] = useState({
         cartItems: [],
         totalPrice: 0,
-        message: ""
     })
     const token = CookieUtil.getCookie("access_token");
 
@@ -20,7 +19,6 @@ const Cart = () => {
             setState({
                 cartItems: [...res.data],
                 totalPrice: res.data.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0),
-                message: ""
             });
         }).catch();
     }, [token]);
@@ -65,7 +63,6 @@ const Cart = () => {
         setState({
             totalPrice: updatedTotalPrice,
             cartItems: state.cartItems.filter(item => item.id !== cartItem.id),
-            message: ""
         });
     }
 
@@ -73,7 +70,6 @@ const Cart = () => {
         setState({
             totalPrice: updatedTotalPrice,
             cartItems: state.cartItems,
-            message: ""
         });
     }
 
@@ -87,7 +83,6 @@ const Cart = () => {
                setState({
                    cartItems: updatedItems,
                    totalPrice: updatedItems.reduce((tot, cur) => tot + (cur.product.price * cur.quantity), 0),
-                   message: ""
                })
            }).catch();
     }
@@ -95,27 +90,20 @@ const Cart = () => {
     async function finalizeCart() {
         await axiosApiInstance.post("http://localhost:8080/cart/finalize", {}, {
             headers: {"Authorization": token}
-        })
-            .then(() => {
-                setState({
-                    cartItems: [],
-                    totalPrice: 0,
-                    message: "Zamówienie zostało pomyślnie zatwierdzone, " +
-                        "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
-                        "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie 'TUTAJ' " +
-                        "spowoduje przejście do konwersacji.</a>"
-                })})
-            .catch();
+        }).then(() => {
+            setMessage("Zamówienie zostało pomyślnie zatwierdzone, " +
+                "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
+                "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie 'TUTAJ' " +
+                "spowoduje przejście do konwersacji.</a>");
+            setState({
+                cartItems: [],
+                totalPrice: 0,
+            });
+        }).catch();
     }
 
     return (
         <div>
-            {state.message !== "" ?
-                <div className="alert alert-success alert-cart" dangerouslySetInnerHTML={{__html: state.message}}
-                     role="alert" style={{margin: "2em auto"}}>
-                </div>
-                : ""}
-
             {state.cartItems.length === 0 ?
                 <div className="alert alert-danger alert-cart" role="alert" style={{marginBottom: "30em"}}>
                     {token !== "undefined" ? "Koszyk jest pusty" : "Nie jesteś zalogowany"}

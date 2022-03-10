@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
-const ProductManager = () => {
+const ProductManager = ({setMessage}) => {
 
     const token = CookieUtil.getCookie("access_token");
     const navigate = useNavigate();
@@ -13,7 +13,6 @@ const ProductManager = () => {
     const [state, setState] = useState({
         products: [],
         currentPage: 1,
-        message: "",
         isAdmin: false
     });
     let [page, setPage] = useState(state.currentPage);
@@ -24,9 +23,9 @@ const ProductManager = () => {
             await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
-            await fetch(`http://localhost:8080/products?page=${page - 1}`).then(res => res.json())
-                .then(data => setState({message: "", currentPage: data.currentPage,
-                    isAdmin: isAdminTemp, products: data.products}));
+            await axiosApiInstance.get(`http://localhost:8080/products?page=${page - 1}`)
+                .then(res => setState({currentPage: res.data.currentPage,
+                    isAdmin: isAdminTemp, products: res.data.products, ...res.data}));
         }
         fetchData();
     }, [page, token]);
@@ -38,13 +37,14 @@ const ProductManager = () => {
     function deleteProduct(id) {
         axiosApiInstance.delete(`http://localhost:8080/products/${id}`, {
             headers: {"Authorization": token},
-        })
-            .then(() => setState({
-                message: `Produkt ${id} usuniety`,
+        }).then(() => {
+            setMessage(`Produkt ${id} usuniety`);
+            setState({
                 products: state.products,
                 currentPage: state.currentPage,
                 isAdmin: state.isAdmin
-            })).catch();
+            })
+        }).catch();
     }
 
     function backToAdminPage() {
@@ -59,11 +59,6 @@ const ProductManager = () => {
         <div>
         {!state.isAdmin ? "" :
         <div className="container">
-            {state.message !== "" ?
-                <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
-                    {state.message}
-                </div>
-                : ""}
             <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
                   rel="stylesheet" id="bootstrap-css"/>
             <div className="row">

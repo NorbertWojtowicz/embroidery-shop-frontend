@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
-const CategoryEditor = () => {
+const CategoryEditor = ({setMessage}) => {
 
     const {id} = useParams();
     const token = CookieUtil.getCookie("access_token");
@@ -12,7 +12,6 @@ const CategoryEditor = () => {
 
     const [state, setState] = useState({
         category: {},
-        message: "",
         isLoaded: false,
         isAdmin: false
     });
@@ -29,7 +28,7 @@ const CategoryEditor = () => {
                 .catch();
             for (const cat of categories) {
                 if (cat.categoryId === Number(id)) {
-                    setState({category: cat, message: "", isLoaded: true, isAdmin: isAdminTemp});
+                    setState({category: cat, isLoaded: true, isAdmin: isAdminTemp});
                     break;
                 }
             }
@@ -51,21 +50,22 @@ const CategoryEditor = () => {
         axiosApiInstance.put("http://localhost:8080/products/category", modifiedCategory, {
             headers: {"Authorization": token},
         })
-            .then(res => setState({category: res.data, message: "Edycja przebiegła pomyślnie",
-                isLoaded: true, isAdmin: state.isAdmin}))
-            .catch(err => setState({category: state.category, message: err.response.data.message,
-                isLoaded: true, isAdmin: state.isAdmin}));
+            .then(res => {
+                setMessage("Edycja przebiegła pomyślnie");
+                setState({category: res.data,
+                    isLoaded: true, isAdmin: state.isAdmin})
+            })
+            .catch(err => {
+                setMessage(err.response.data.message);
+                setState({category: state.category,
+                    isLoaded: true, isAdmin: state.isAdmin})
+            });
     }
 
     return (
         <div>
             {state.isLoaded && state.isAdmin ?
                 <div className="product-creator">
-                    {state.message !== "" ?
-                        <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
-                            {state.message}
-                        </div>
-                        : ""}
                     <form id="category-form">
                         <button type="button" className="btn btn-primary btn-sm btn-block" style={{margin: "0"}}
                                 onClick={() => backToCategoryManager()}>

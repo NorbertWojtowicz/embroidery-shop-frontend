@@ -2,15 +2,16 @@ import './CartDetails.css';
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import CookieUtil from "../../../CookieUtil/CookieUtil";
 
-const CartDetails = ({token}) => {
+const CartDetails = ({setMessage}) => {
 
     const {id} = useParams();
     const navigate = useNavigate();
+    const token = CookieUtil.getCookie("access_token");
 
     const [state, setState] = useState({
         cart: {},
-        message: "",
         isLoaded: false,
         isAdmin: false,
     });
@@ -23,7 +24,7 @@ const CartDetails = ({token}) => {
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             await axiosApiInstance.get(`http://localhost:8080/cart/${id}`,
                 {headers: {"Authorization": token}})
-                .then(res => setState({cart: res.data, message: "", isLoaded: true, isAdmin: isAdminTemp}))
+                .then(res => setState({cart: res.data, isLoaded: true, isAdmin: isAdminTemp}))
                 .catch();
         }
         fetchData();
@@ -35,26 +36,25 @@ const CartDetails = ({token}) => {
 
     function completeOrder(id) {
         if (state.cart.completed) {
-            setState({cart: state.cart, isLoaded: true,
-                message: "Zamówienie jest już zakończone", isAdmin: state.isAdmin});
+            setMessage("Zamówienie jest już zakończone");
+            setState({cart: state.cart, isLoaded: true, isAdmin: state.isAdmin});
         } else {
             axiosApiInstance.post(`http://localhost:8080/cart/complete/${id}`, {},
                 {headers: {"Authorization": token}})
-                .then(res => setState({cart: state.cart, isLoaded: true,
-                    message: "Zamówienie zostało zakończone", isAdmin: state.isAdmin}))
-                .catch(err => setState({cart: state.cart, isLoaded: true,
-                    message: "Nie można zakończyć zamówienia", isAdmin: state.isAdmin}));
+                .then(res => {
+                    setMessage("Zamówienie zostało zakończone");
+                    setState({cart: state.cart, isLoaded: true, isAdmin: state.isAdmin})
+                })
+                .catch(err => {
+                    setMessage("Nie można zakończyć zamówienia");
+                    setState({cart: state.cart, isLoaded: true, isAdmin: state.isAdmin})
+                });
         }
     }
 
     return (
         <div className="container">
             {state.isLoaded && state.isAdmin ? <div>
-                {state.message !== "" ?
-                    <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
-                        {state.message}
-                    </div>
-                    : ""}
                 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
                       rel="stylesheet" id="bootstrap-css"/>
                 <div className="row">

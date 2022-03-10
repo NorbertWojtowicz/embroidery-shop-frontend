@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
-const ProductEditor = () => {
+const ProductEditor = ({setMessage}) => {
 
     const {id} = useParams();
     const token = CookieUtil.getCookie("access_token");
@@ -13,7 +13,6 @@ const ProductEditor = () => {
     const [state, setState] = useState({
         categories: [],
         product: {},
-        message: "",
         isLoaded: false,
         isAdmin: false,
     });
@@ -29,7 +28,7 @@ const ProductEditor = () => {
                 .then(res => {categories = res.data})
                 .catch();
             await axiosApiInstance.get(`http://localhost:8080/products/${id}`)
-                .then(res => setState({categories: categories, message: "", product: res.data,
+                .then(res => setState({categories: categories, product: res.data,
                     isLoaded: true, isAdmin: isAdminTemp}))
                 .catch();
         }
@@ -50,10 +49,16 @@ const ProductEditor = () => {
         axiosApiInstance.put("http://localhost:8080/products", modifiedProduct, {
             headers: {"Authorization": token},
         })
-            .then(res => setState({categories: state.categories, message: "Edycja przebiegła pomyślnie",
-                product: res.data, isLoaded: true, isAdmin: state.isAdmin}))
-            .catch(err => setState({categories: state.categories, message: err.response.data.message,
-                product: modifiedProduct, isLoaded: true, isAdmin: state.isAdmin}));
+            .then(res => {
+                setMessage("Edycja przebiegła pomyślnie");
+                setState({categories: state.categories,
+                    product: res.data, isLoaded: true, isAdmin: state.isAdmin});
+            })
+            .catch(err => {
+                setMessage(err.response.data.message);
+                setState({categories: state.categories,
+                    product: modifiedProduct, isLoaded: true, isAdmin: state.isAdmin});
+            });
     }
 
     function backToProductManager() {
@@ -64,11 +69,6 @@ const ProductEditor = () => {
         <div>
         {state.isLoaded && state.isAdmin ?
                 <div className="product-creator">
-                    {state.message !== "" ?
-                        <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
-                            {state.message}
-                        </div>
-                        : ""}
                     <form id="product-form">
                         <button type="button" className="btn btn-primary btn-sm btn-block" style={{margin: "0"}}
                                 onClick={() => backToProductManager()}>

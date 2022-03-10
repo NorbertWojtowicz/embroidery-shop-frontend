@@ -4,12 +4,11 @@ import {useNavigate} from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
-const ProductCreator = () => {
+const ProductCreator = ({setMessage}) => {
 
     const navigate = useNavigate();
     const [state, setState] = useState({
         categories: [],
-        message: "",
         isAdmin: false
     });
 
@@ -22,7 +21,7 @@ const ProductCreator = () => {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             await axiosApiInstance.get("http://localhost:8080/products/category")
-                .then(res => setState({categories: res.data, message: "", isAdmin: isAdminTemp}));
+                .then(res => setState({categories: res.data, isAdmin: isAdminTemp}));
         }
         fetchData();
     }, [token]);
@@ -42,12 +41,13 @@ const ProductCreator = () => {
         formData.append("category", JSON.stringify(productForm.category.value));
         await axiosApiInstance.post("http://localhost:8080/products", formData, {
             headers: {"Authorization": token, "Content-Type": "multipart/form-data"},
-        })
-            .then(res => setState({
+        }).then(res => {
+            setMessage("Produkt pomyślnie dodany");
+            setState({
                 categories: state.categories,
-                message: "Produkt pomyślnie dodany",
                 isAdmin: state.isAdmin
-            })).catch();
+            });
+        }).catch();
     }
 
     function backToAdminPage() {
@@ -62,11 +62,6 @@ const ProductCreator = () => {
         <div>
         {!state.isAdmin ? "" :
             <div className="product-creator">
-                {state.message !== "" ?
-                    <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
-                        {state.message}
-                    </div>
-                    : ""}
                 <form id="product-form">
                     <button type="button" className="btn btn-primary btn-sm btn-block"
                             onClick={() => backToAdminPage()} style={{margin: "0"}}>

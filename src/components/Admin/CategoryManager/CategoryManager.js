@@ -4,14 +4,13 @@ import {useEffect, useState} from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
-const CategoryManager = () => {
+const CategoryManager = ({setMessage}) => {
 
     const navigate = useNavigate();
     const token = CookieUtil.getCookie("access_token");
 
     const [state, setState] = useState({
         categories: [],
-        message: "",
         isAdmin: false
     });
 
@@ -22,7 +21,8 @@ const CategoryManager = () => {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
             await axiosApiInstance.get("http://localhost:8080/products/category")
-                .then(res => setState({categories: res.data, message: "", isAdmin: isAdminTemp}));
+                .then(res => setState({categories: res.data,
+                    isAdmin: isAdminTemp}));
         }
         fetchData();
     }, [token]);
@@ -35,16 +35,15 @@ const CategoryManager = () => {
         axiosApiInstance.delete(`http://localhost:8080/products/category/${id}`, {
             headers: {"Authorization": token},
         })
-            .then(() => setState({
-                message: `Kategoria ${id} usunieta`,
-                categories: state.categories,
-                isAdmin: state.isAdmin
-            }))
-            .catch((err) => setState({
-                message: err.response.data.message,
-                categories: state.categories,
-                isAdmin: state.isAdmin
-        }));
+            .then(() => {
+                setMessage(`Kategoria ${id} usunieta`);
+                setState({categories: state.categories,
+                isAdmin: state.isAdmin});
+            }).catch((err) => {
+                setMessage(err.response.data.message);
+                setState({categories: state.categories,
+                isAdmin: state.isAdmin});
+            });
     }
 
     function openCategoryEditor(id) {
@@ -59,11 +58,6 @@ const CategoryManager = () => {
         <div>
         {!state.isAdmin ? "" :
         <div className="container">
-            {state.message !== "" ?
-                <div className="alert alert-info alert-cart" role="alert" style={{margin: "1em auto"}}>
-                    {state.message}
-                </div>
-                : ""}
             <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
                   rel="stylesheet" id="bootstrap-css"/>
             <div className="row">

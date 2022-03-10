@@ -4,13 +4,12 @@ import {useEffect, useState} from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 
-const CategoryCreator = () => {
+const CategoryCreator = ({setMessage}) => {
 
     const navigate = useNavigate();
     const token = CookieUtil.getCookie("access_token");
 
     const [state, setState] = useState({
-        message: "",
         isAdmin: false
     });
 
@@ -20,7 +19,7 @@ const CategoryCreator = () => {
             await axiosApiInstance.get("http://localhost:8080/profile/details", {
                 headers: {'Authorization': token}
             }).then(res => {isAdminTemp = res.data.roles.includes("ADMIN")});
-            setState({message: "", isAdmin: isAdminTemp});
+            setState({isAdmin: isAdminTemp});
         }
         fetchData();
     }, [token]);
@@ -38,20 +37,19 @@ const CategoryCreator = () => {
         await axiosApiInstance.post("http://localhost:8080/products/category", newCategory, {
             headers: {"Authorization": token},
         })
-            .then(res => setState({
-                message: "Kategoria pomyślnie dodana", isAdmin: state.isAdmin
-            })).catch(err => setState({message: err.response.data.message, isAdmin: state.isAdmin}));
+            .then(res => {
+                setMessage("Kategoria pomyślnie dodana");
+                setState({isAdmin: state.isAdmin})
+            }).catch(err => {
+                setMessage(err.response.data.message);
+                setState({isAdmin: state.isAdmin})
+            });
     }
 
     return (
         <div>
         {!state.isAdmin ? "" :
             <div className="product-creator">
-                {state.message !== "" ?
-                    <div className="alert alert-success alert-cart" role="alert" style={{margin: "1em auto"}}>
-                        {state.message}
-                    </div>
-                    : ""}
                 <form id="category-form">
                     <button type="button" className="btn btn-primary btn-sm btn-block"
                             onClick={() => backToCategoryManager()} style={{margin: "0"}}>
