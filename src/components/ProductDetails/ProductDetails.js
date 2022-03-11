@@ -5,6 +5,7 @@ import ErrorMessage from "../ErrorContainers/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
+import axios from "axios";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     async function fetchData() {
-      await axiosApiInstance
+      await axios
         .get(`http://localhost:8080/products/${id}`)
         .then((res) => setProduct({ ...res.data, isLoaded: true }))
         .catch((err) => {
