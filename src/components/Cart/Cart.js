@@ -123,7 +123,7 @@ const Cart = ({ setMessage }) => {
         setMessage(
           "Zamówienie zostało pomyślnie zatwierdzone, " +
             "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
-            "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie 'TUTAJ' " +
+            "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie tutaj " +
             "spowoduje przejście do konwersacji.</a>"
         );
         setState({
