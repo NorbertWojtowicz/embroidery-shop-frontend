@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const CategoryEditor = ({ setMessage }) => {
   const { id } = useParams();
@@ -54,7 +55,7 @@ const CategoryEditor = ({ setMessage }) => {
       name: categoryForm.name.value,
     };
     axiosApiInstance
-      .put("http://localhost:8080/products/category", modifiedCategory, {
+      .put(API_URL + "/products/category", modifiedCategory, {
         headers: { Authorization: token },
       })
       .then((res) => {

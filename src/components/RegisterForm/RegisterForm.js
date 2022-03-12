@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FormError from "../ErrorContainers/FormError/FormError";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
+import API_URL from "../../Config/API_URL";
 
 const RegisterForm = () => {
   const [error, setError] = useState("");
@@ -18,7 +19,7 @@ const RegisterForm = () => {
     if (validateUser(newUser)) {
       const { passwordRepeat, ...userDto } = newUser;
       await axiosApiInstance
-        .post("http://localhost:8080/register", userDto)
+        .post(API_URL + "/register", userDto)
         .then(() => setSuccess(true))
         .catch((err) => setError(err.response.data.message));
     }

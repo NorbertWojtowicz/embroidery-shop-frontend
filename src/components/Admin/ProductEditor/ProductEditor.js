@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const ProductEditor = ({ setMessage }) => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const ProductEditor = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
@@ -28,13 +29,13 @@ const ProductEditor = ({ setMessage }) => {
         });
       let categories = [];
       await axiosApiInstance
-        .get("http://localhost:8080/products/category")
+        .get(API_URL + "/products/category")
         .then((res) => {
           categories = res.data;
         })
         .catch();
       await axiosApiInstance
-        .get(`http://localhost:8080/products/${id}`)
+        .get(API_URL + `/products/${id}`)
         .then((res) =>
           setState({
             categories: categories,
@@ -60,7 +61,7 @@ const ProductEditor = ({ setMessage }) => {
       mainImageName: state.product.mainImageName,
     };
     axiosApiInstance
-      .put("http://localhost:8080/products", modifiedProduct, {
+      .put(API_URL + "/products", modifiedProduct, {
         headers: { Authorization: token },
       })
       .then((res) => {

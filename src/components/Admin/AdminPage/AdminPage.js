@@ -2,6 +2,7 @@ import "./AdminPage.css";
 import { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const AdminPage = () => {
   const [isAdmin, setAdmin] = useState(false);
@@ -9,7 +10,7 @@ const AdminPage = () => {
   useEffect(() => {
     async function fetchProfileData() {
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./CategoriesMenu.css";
+import API_URL from "../../../../Config/API_URL";
 
 const CategoriesMenu = ({ setSearchType, setSearchName }) => {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   useEffect(() => {
-    fetch("http://localhost:8080/products/category")
+    fetch(API_URL + "/products/category")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, [activeCategory]);

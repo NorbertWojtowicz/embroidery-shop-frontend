@@ -9,6 +9,7 @@ import SearchBar from "./SearchBar/SearchBar";
 import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 import PaginationBar from "./PaginationBar/PaginationBar";
 import SuccessMessage from "../../ErrorContainers/SuccessMessage/SuccessMessage";
+import API_URL from "../../../Config/API_URL";
 
 const ProductsWrapper = () => {
   const [state, setState] = useState({
@@ -24,9 +25,10 @@ const ProductsWrapper = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/products${searchType}${searchName}?sort=${sortCriteria}&page=${
-        page - 1
-      }`
+      API_URL +
+        `/products${searchType}${searchName}?sort=${sortCriteria}&page=${
+          page - 1
+        }`
     )
       .then((res) => res.json())
       .then((data) => setState(data));

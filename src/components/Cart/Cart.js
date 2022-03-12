@@ -2,6 +2,7 @@ import "./Cart.css";
 import { useEffect, useState } from "react";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
+import API_URL from "../../Config/API_URL";
 
 const Cart = ({ setMessage }) => {
   const [state, setState] = useState({
@@ -12,7 +13,7 @@ const Cart = ({ setMessage }) => {
 
   useEffect(() => {
     axiosApiInstance
-      .get("http://localhost:8080/cart", {
+      .get(API_URL + "/cart", {
         headers: {
           Authorization: token,
         },
@@ -55,7 +56,7 @@ const Cart = ({ setMessage }) => {
   async function sendRequestToUpdateQuantity(cartItem, quantity) {
     await axiosApiInstance
       .put(
-        `http://localhost:8080/cart/update/${cartItem.product.id}/${quantity}`,
+        API_URL + `/cart/update/${cartItem.product.id}/${quantity}`,
         {},
         {
           headers: { Authorization: token },
@@ -92,7 +93,7 @@ const Cart = ({ setMessage }) => {
   async function removeCartItem(e, cartItem) {
     e.preventDefault();
     await axiosApiInstance
-      .delete(`http://localhost:8080/cart/remove/${cartItem.product.id}`, {
+      .delete(API_URL + `/cart/remove/${cartItem.product.id}`, {
         headers: { Authorization: token },
       })
       .then((res) => {
@@ -113,7 +114,7 @@ const Cart = ({ setMessage }) => {
   async function finalizeCart() {
     await axiosApiInstance
       .post(
-        "http://localhost:8080/cart/finalize",
+        API_URL + "/cart/finalize",
         {},
         {
           headers: { Authorization: token },

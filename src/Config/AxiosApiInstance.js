@@ -1,6 +1,5 @@
 import CookieUtil from "../CookieUtil/CookieUtil";
-
-const API_URL = "http://localhost:8080";
+import API_URL from "./API_URL";
 const axios = require("axios");
 const axiosApiInstance = axios.create();
 

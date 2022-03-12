@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
+import API_URL from "../../../Config/API_URL";
 
 const CartDetails = ({ setMessage }) => {
   const { id } = useParams();
@@ -20,14 +21,14 @@ const CartDetails = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
           isAdminTemp = res.data.roles.includes("ADMIN");
         });
       await axiosApiInstance
-        .get(`http://localhost:8080/cart/${id}`, {
+        .get(API_URL + `/cart/${id}`, {
           headers: { Authorization: token },
         })
         .then((res) =>
@@ -49,7 +50,7 @@ const CartDetails = ({ setMessage }) => {
     } else {
       axiosApiInstance
         .post(
-          `http://localhost:8080/cart/complete/${id}`,
+          API_URL + `/cart/complete/${id}`,
           {},
           { headers: { Authorization: token } }
         )

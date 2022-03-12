@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
+import API_URL from "../../Config/API_URL";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const NavBar = () => {
   useEffect(() => {
     async function fetchProfileData() {
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {

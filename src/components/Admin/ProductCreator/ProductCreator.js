@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const ProductCreator = ({ setMessage }) => {
   const navigate = useNavigate();
@@ -17,14 +18,14 @@ const ProductCreator = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
           isAdminTemp = res.data.roles.includes("ADMIN");
         });
       await axiosApiInstance
-        .get("http://localhost:8080/products/category")
+        .get(API_URL + "/products/category")
         .then((res) =>
           setState({ categories: res.data, isAdmin: isAdminTemp })
         );
@@ -46,7 +47,7 @@ const ProductCreator = ({ setMessage }) => {
     formData.append("multipartFile", productForm.file.files[0]);
     formData.append("category", JSON.stringify(productForm.category.value));
     await axiosApiInstance
-      .post("http://localhost:8080/products", formData, {
+      .post(API_URL + "/products", formData, {
         headers: {
           Authorization: token,
           "Content-Type": "multipart/form-data",

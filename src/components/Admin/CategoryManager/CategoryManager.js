@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const CategoryManager = ({ setMessage }) => {
   const navigate = useNavigate();
@@ -17,14 +18,14 @@ const CategoryManager = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
           isAdminTemp = res.data.roles.includes("ADMIN");
         });
       await axiosApiInstance
-        .get("http://localhost:8080/products/category")
+        .get(API_URL + "/products/category")
         .then((res) =>
           setState({ categories: res.data, isAdmin: isAdminTemp })
         );
@@ -38,7 +39,7 @@ const CategoryManager = ({ setMessage }) => {
 
   function deleteCategory(id) {
     axiosApiInstance
-      .delete(`http://localhost:8080/products/category/${id}`, {
+      .delete(API_URL + `/products/category/${id}`, {
         headers: { Authorization: token },
       })
       .then(() => {

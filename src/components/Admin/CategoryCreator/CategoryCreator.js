@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const CategoryCreator = ({ setMessage }) => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const CategoryCreator = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
@@ -38,7 +39,7 @@ const CategoryCreator = ({ setMessage }) => {
       name: categoryForm.name.value,
     };
     await axiosApiInstance
-      .post("http://localhost:8080/products/category", newCategory, {
+      .post(API_URL + "/products/category", newCategory, {
         headers: { Authorization: token },
       })
       .then((res) => {

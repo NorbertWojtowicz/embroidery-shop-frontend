@@ -3,11 +3,6 @@
   position: relative;
 }
 
-.app-container {
-  /*display: flex;*/
-  position: relative;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;

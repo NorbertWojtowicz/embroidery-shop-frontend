@@ -5,6 +5,7 @@ import "./Product.css";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../../Config/AxiosApiInstance";
+import API_URL from "../../../../Config/API_URL";
 
 const Product = ({ product, setMessage }) => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Product = ({ product, setMessage }) => {
     e.preventDefault();
     await axiosApiInstance
       .post(
-        `http://localhost:8080/cart/add/${product.id}/${quantity}`,
+        API_URL + `/cart/add/${product.id}/${quantity}`,
         {},
         { headers: { Authorization: token } }
       )
@@ -37,7 +38,8 @@ const Product = ({ product, setMessage }) => {
         <img
           className="product-details-image"
           src={
-            "http://localhost:8080/resources/mainImages/" +
+            API_URL +
+            "/resources/mainImages/" +
             product.id +
             "/" +
             product.mainImageName

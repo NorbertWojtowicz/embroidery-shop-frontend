@@ -6,6 +6,7 @@ import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import axios from "axios";
+import API_URL from "../../Config/API_URL";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const ProductDetails = () => {
   useEffect(() => {
     async function fetchData() {
       await axios
-        .get(`http://localhost:8080/products/${id}`)
+        .get(API_URL + `/products/${id}`)
         .then((res) => setProduct({ ...res.data, isLoaded: true }))
         .catch((err) => {
           setMessages({ error: err.response.data.message, success: "" });
@@ -39,7 +40,7 @@ const ProductDetails = () => {
     const quantity = form.quantity.value;
     await axiosApiInstance
       .post(
-        `http://localhost:8080/cart/add/${id}/${quantity}`,
+        API_URL + `/cart/add/${id}/${quantity}`,
         {},
         { headers: { Authorization: token } }
       )

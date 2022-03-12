@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
+import API_URL from "../../../Config/API_URL";
 
 const ProductManager = ({ setMessage }) => {
   const token = CookieUtil.getCookie("access_token");
@@ -21,14 +22,14 @@ const ProductManager = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
           isAdminTemp = res.data.roles.includes("ADMIN");
         });
       await axiosApiInstance
-        .get(`http://localhost:8080/products?page=${page - 1}`)
+        .get(API_URL + `/products?page=${page - 1}`)
         .then((res) =>
           setState({
             currentPage: res.data.currentPage,
@@ -47,7 +48,7 @@ const ProductManager = ({ setMessage }) => {
 
   function deleteProduct(id) {
     axiosApiInstance
-      .delete(`http://localhost:8080/products/${id}`, {
+      .delete(API_URL + `/products/${id}`, {
         headers: { Authorization: token },
       })
       .then(() => {
