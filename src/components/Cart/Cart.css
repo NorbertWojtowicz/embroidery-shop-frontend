@@ -1,0 +1,262 @@
+.cart-wrapper {
+    margin-top: 2em!important;
+}
+
+.alert-cart {
+    max-width: 60em;
+    margin: 2em auto;
+    text-align: center;
+}
+
+.cart-wrapper .row-summary {
+    margin-top: 35%!important;
+}
+
+.cart-wrapper a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+@media(max-width:1000px) {
+    .alert-cart {
+        max-width: 45em;
+    }
+}
+
+@media(max-width:767px) {
+    .alert-cart {
+        width: 90%;
+    }
+    .cart-wrapper .row-summary {
+        margin-top: 5%!important;
+    }
+}
+
+.cart-wrapper body {
+    background: #ddd;
+    min-height: 100vh;
+    vertical-align: middle;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.cart-wrapper .title {
+    margin-bottom: 5vh;
+}
+
+.cart-wrapper {
+    margin: auto;
+    max-width: 950px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+}
+
+@media(max-width:767px) {
+    .cart-wrapper {
+        margin: 3vh auto;
+    }
+}
+
+.cart-wrapper .cart {
+    background-color: #fff;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+@media(max-width:767px) {
+    .cart-wrapper .cart {
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem;
+    }
+}
+
+.cart-wrapper .summary {
+    background-color: #91b5f9;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    /*color: rgb(65, 65, 65);*/
+    color: black;
+}
+
+@media(max-width:767px) {
+    .cart-wrapper .summary {
+        border-top-right-radius: unset;
+        border-bottom-left-radius: 1rem;
+    }
+}
+
+.cart-wrapper .summary .col-2 {
+    padding: 0;
+}
+
+.cart-wrapper .summary .col-10 {
+    padding: 0;
+}
+
+.cart-wrapper .row {
+    margin: 0;
+}
+
+.cart-wrapper .title b {
+    font-size: 1.5rem;
+    color: #04369a;
+}
+
+.cart-wrapper .main {
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%;
+}
+
+.cart-wrapper .col-2,
+.cart-wrapper .col {
+    padding: 0 1vh;
+}
+
+.cart-wrapper a {
+    padding: 0 1vh;
+}
+
+.cart-wrapper .close {
+    margin-left: auto;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.cart-wrapper img {
+    width: 3.5rem;
+}
+
+.cart-wrapper .back-to-shop {
+    margin-top: 4.5rem;
+}
+
+.cart-wrapper h5 {
+    margin-top: 4vh;
+}
+
+.cart-wrapper hr {
+    margin-top: 1.25rem;
+}
+
+.cart-wrapper form {
+    padding: 2vh 0;
+}
+
+.cart-wrapper select {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+
+.cart-wrapper input {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+
+.cart-wrapper input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.cart-wrapper .btn {
+    background-color: #042c7c;
+    border-color: #04369a;
+    color: white;
+    width: 100%;
+    font-size: 0.7rem;
+    /*margin-top: 50%;*/
+    padding: 1vh;
+    border-radius: 0;
+}
+
+.cart-wrapper .btn:focus {
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+    -webkit-user-select: none;
+    transition: none
+}
+
+.cart-wrapper .btn:hover {
+    color: white;
+}
+
+.cart-wrapper a {
+    color: black;
+    text-decoration: none;
+}
+
+.cart-wrapper a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.cart-wrapper .operator-sign {
+    font-weight: bold;
+}
+
+.cart-wrapper #code {
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center;
+}
+
+.cart-wrapper .left-arrow {
+    font-size: 1.2em;
+}
+
+@media only screen and (max-width: 455px) {
+    .price-label {
+        margin-left: 19.5%;
+    }
+    .close {
+        float: right;
+        margin-right: 27%;
+        border: 1px solid darkred;
+        padding: 0.4em 0.8em!important;
+        border-radius: 3px;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    .close {
+        margin-right: 24.5%;
+    }
+}
+@media only screen and (max-width: 390px) {
+    .close {
+        margin-right: 23%;
+    }
+}
+@media only screen and (max-width: 375px) {
+    .close {
+        margin-right: 21%;
+    }
+}
+@media only screen and (max-width: 360px) {
+    .close {
+        margin-right: 20.3%;
+    }
+}
+@media only screen and (max-width: 350px) {
+    .close {
+        margin-right: 18%;
+    }
+}

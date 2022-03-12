@@ -1,0 +1,20 @@
+.blue-wrapper {
+    border: 1px solid #bbd1fc;
+    background-color: #e0eafe;
+    border-radius: 0.2em;
+    text-align: right;
+}
+
+.sorting-bar {
+    margin: 1em 1em 1em 0;
+}
+
+.sorting-bar-menu {
+    /*margin-left: 55em;*/
+    color:white;
+    background-color: #04369a;
+}
+
+.sorting-bar-menu:hover {
+    color:white;
+}

@@ -1,0 +1,22 @@
+.panel {
+    border: none;
+    box-shadow: none;
+}
+
+.category-header {
+    margin: 0;
+}
+
+.category-header-wrapper {
+    background-color: #042c7c;
+    color: white;
+}
+
+.category-header-wrapper:active {
+    pointer-events: none;
+}
+
+
+.category-header-wrapper:hover {
+    color: white;
+}
