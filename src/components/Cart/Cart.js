@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Cart = ({ setMessage }) => {
   const [state, setState] = useState({
     cartItems: [],
     totalPrice: 0,
+    isLoaded: false,
   });
   const token = CookieUtil.getCookie("access_token");
 
@@ -25,6 +27,7 @@ const Cart = ({ setMessage }) => {
             (tot, cur) => tot + cur.product.price * cur.quantity,
             0
           ),
+          isLoaded: true,
         });
       })
       .catch();
@@ -80,6 +83,7 @@ const Cart = ({ setMessage }) => {
     setState({
       totalPrice: updatedTotalPrice,
       cartItems: state.cartItems.filter((item) => item.id !== cartItem.id),
+      isLoaded: true,
     });
   }
 
@@ -87,6 +91,7 @@ const Cart = ({ setMessage }) => {
     setState({
       totalPrice: updatedTotalPrice,
       cartItems: state.cartItems,
+      isLoaded: true,
     });
   }
 
@@ -130,12 +135,13 @@ const Cart = ({ setMessage }) => {
         setState({
           cartItems: [],
           totalPrice: 0,
+          isLoaded: true,
         });
       })
       .catch();
   }
 
-  return (
+  return state.isLoaded ? (
     <div>
       {state.cartItems.length === 0 ? (
         <div
@@ -151,8 +157,14 @@ const Cart = ({ setMessage }) => {
         <div>
           <div className="alert alert-danger alert-cart" role="alert">
             Po zatwierdzeniu zamówienia proszę o{" "}
-            <a href={"/kontakt"}>kontakt (tutaj)</a> w celu finalizacji
-            zamówienia
+            <a
+              href={"https://www.facebook.com/messages/t/100054510993416"}
+              target={"_blank"}
+              rel="noreferrer"
+            >
+              kontakt (tutaj)
+            </a>{" "}
+            w celu finalizacji zamówienia
           </div>
           <div className="cart-wrapper bottom-margin-8">
             <div className="row">
@@ -291,6 +303,10 @@ const Cart = ({ setMessage }) => {
           </div>
         </div>
       )}
+    </div>
+  ) : (
+    <div className="cart-spinner">
+      <LoadingSpinner />
     </div>
   );
 };

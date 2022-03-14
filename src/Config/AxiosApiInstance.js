@@ -6,9 +6,6 @@ const axiosApiInstance = axios.create();
 // Request interceptor for API calls
 axiosApiInstance.interceptors.request.use(
   async (config) => {
-    config.headers = {
-      Authorization: `Bearer ${CookieUtil.getCookie("access_token")}`,
-    };
     return config;
   },
   (error) => {

@@ -7,6 +7,7 @@ import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import axios from "axios";
 import API_URL from "../../Config/API_URL";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -117,7 +118,9 @@ const ProductDetails = () => {
           </div>
         </div>
       ) : (
-        "Loading spinner"
+        <div style={{ margin: "0 auto!important", width: "100px" }}>
+          <LoadingSpinner />
+        </div>
       )}
     </div>
   );
