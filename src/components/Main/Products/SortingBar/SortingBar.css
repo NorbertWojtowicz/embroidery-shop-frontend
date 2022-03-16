@@ -18,3 +18,8 @@
 .sorting-bar-menu:hover {
     color:white;
 }
+@media only screen and (max-width: 810px) {
+    .sorting-bar-wrapper {
+        grid-row: 3;
+    }
+}
