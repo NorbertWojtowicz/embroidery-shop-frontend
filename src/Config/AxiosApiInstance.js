@@ -17,8 +17,13 @@ axiosApiInstance.interceptors.request.use(
 axiosApiInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    const refreshToken = CookieUtil.getCookie("refresh_token");
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      refreshToken !== undefined
+    ) {
       originalRequest._retry = true;
       await axios
         .post(
@@ -26,7 +31,7 @@ axiosApiInstance.interceptors.response.use(
           {},
           {
             headers: {
-              Authorization: CookieUtil.getCookie("refresh_token"),
+              Authorization: refreshToken,
             },
           }
         )
