@@ -6,6 +6,9 @@ const axiosApiInstance = axios.create();
 // Request interceptor for API calls
 axiosApiInstance.interceptors.request.use(
   async (config) => {
+    config.headers = {
+      Authorization: `Bearer ${CookieUtil.getCookie("access_token")}`,
+    };
     return config;
   },
   (error) => {
@@ -20,7 +23,7 @@ axiosApiInstance.interceptors.response.use(
     const refreshToken = CookieUtil.getCookie("refresh_token");
     const originalRequest = error.config;
     if (
-      error.response.status === 401 &&
+      (error.response.status === 401 || error.response.status === 500) &&
       !originalRequest._retry &&
       refreshToken !== undefined
     ) {

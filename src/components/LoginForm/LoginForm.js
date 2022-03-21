@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import FormError from "../ErrorContainers/FormError/FormError";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
+import LoadingSpinnerGrow from "../LoadingSpinnerGrow/LoadingSpinnerGrow";
 
 const LoginForm = () => {
   const [error, setError] = useState("");
+  const [isLoaded, setLoaded] = useState(true);
 
   async function login(e) {
     e.preventDefault();
@@ -15,13 +17,19 @@ const LoginForm = () => {
       password: loginForm.password.value,
     };
     if (validateUser(user)) {
+      setLoaded(false);
       await axiosApiInstance
         .post(API_URL + "/login", user)
         .then((res) => setTokenAndNavigateToHome(res.headers.authorization))
         .catch((err) => {
           const error = err.response.data.message;
-          setError(error === undefined ? `Sprawdź dane jeszcze raz...` : error);
+          setError(
+            error === undefined || error === "Unauthorized"
+              ? `Sprawdź dane jeszcze raz...`
+              : error
+          );
         });
+      setLoaded(true);
     }
   }
 
@@ -93,14 +101,17 @@ const LoginForm = () => {
             name="password"
             placeholder="Hasło"
           />
-          <input
-            type="submit"
-            onClick={(e) => login(e)}
-            className="fadeIn fourth"
-            value="Zaloguj"
-          />
+          {isLoaded ? (
+            <input
+              type="submit"
+              onClick={(e) => login(e)}
+              className="fadeIn fourth"
+              value="Zaloguj"
+            />
+          ) : (
+            <LoadingSpinnerGrow />
+          )}
         </form>
-
         {/*Forgot password not implemented yet*/}
         {/*<div id="formFooter">*/}
         {/*    <a className="underlineHover" href="#">Forgot Password?</a>*/}
