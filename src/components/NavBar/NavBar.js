@@ -6,14 +6,17 @@ import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoaded, setLoaded] = useState(false);
   const token = CookieUtil.getCookie("access_token");
 
   useEffect(() => {
+    setLoaded(false);
     async function fetchProfileData() {
       await axiosApiInstance
         .get(API_URL + "/profile/details", {
@@ -24,6 +27,7 @@ const NavBar = () => {
           setLoggedIn(true);
         })
         .catch((err) => setLoggedIn(false));
+      setLoaded(true);
     }
     fetchProfileData();
   }, [token]);
@@ -71,7 +75,9 @@ const NavBar = () => {
         ) : (
           ""
         )}
-        {!loggedIn ? (
+        {!isLoaded ? (
+          <LoadingSpinner />
+        ) : !loggedIn ? (
           <a
             href={"/logowanie"}
             type="button"

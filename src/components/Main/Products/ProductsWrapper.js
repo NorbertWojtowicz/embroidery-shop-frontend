@@ -16,7 +16,6 @@ const ProductsWrapper = () => {
   const [state, setState] = useState({
     products: [],
     currentPage: 1,
-    isLoaded: false,
   });
 
   const [sortCriteria, setSortCriteria] = useState("desc-id");
@@ -24,8 +23,10 @@ const ProductsWrapper = () => {
   let [searchName, setSearchName] = useState("");
   let [page, setPage] = useState(state.currentPage);
   const [message, setMessage] = useState("");
+  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    setLoaded(false);
     fetch(
       API_URL +
         `/products${searchType}${searchName}?sort=${sortCriteria}&page=${
@@ -33,7 +34,10 @@ const ProductsWrapper = () => {
         }`
     )
       .then((res) => res.json())
-      .then((data) => setState({ ...data, isLoaded: true }));
+      .then((data) => {
+        setState(data);
+        setLoaded(true);
+      });
   }, [sortCriteria, searchType, searchName, page]);
 
   return (
@@ -44,7 +48,7 @@ const ProductsWrapper = () => {
         setSearchType={setSearchType}
         setSearchName={setSearchName}
       />
-      {state.isLoaded ? (
+      {isLoaded ? (
         <Fragment>
           {state.products.length === 0 ? (
             <ErrorMessage
