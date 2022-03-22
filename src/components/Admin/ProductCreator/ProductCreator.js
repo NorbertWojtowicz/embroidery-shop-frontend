@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
+import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
 
 const ProductCreator = ({ setMessage }) => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const ProductCreator = ({ setMessage }) => {
     categories: [],
     isAdmin: false,
   });
+  const [isLoaded, setLoaded] = useState(true);
 
   const token = CookieUtil.getCookie("access_token");
 
@@ -34,6 +36,8 @@ const ProductCreator = ({ setMessage }) => {
   }, [token]);
 
   async function addProduct(e) {
+    setMessage("");
+    setLoaded(false);
     e.preventDefault();
     const productForm = document.querySelector("#product-form");
     const newProduct = {
@@ -59,8 +63,10 @@ const ProductCreator = ({ setMessage }) => {
           categories: state.categories,
           isAdmin: state.isAdmin,
         });
+        productForm.reset();
       })
       .catch();
+    setLoaded(true);
   }
 
   function backToAdminPage() {
@@ -104,6 +110,7 @@ const ProductCreator = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 placeholder="Pluszak"
+                onFocus={() => setMessage("")}
               />
             </div>
             <div className="form-group">
@@ -132,13 +139,19 @@ const ProductCreator = ({ setMessage }) => {
               <label htmlFor="file">Główny obraz produktu</label>
               <input type="file" className="form-control" id="file" />
             </div>
-            <button
-              type="submit"
-              className="btn btn-primary form-control"
-              onClick={(e) => addProduct(e)}
-            >
-              Dodaj produkt
-            </button>
+            {isLoaded ? (
+              <button
+                type="submit"
+                className="btn btn-primary form-control"
+                onClick={(e) => addProduct(e)}
+              >
+                Dodaj produkt
+              </button>
+            ) : (
+              <span style={{ textAlign: "center" }}>
+                <LoadingSpinnerGrow />
+              </span>
+            )}
           </form>
         </div>
       )}
