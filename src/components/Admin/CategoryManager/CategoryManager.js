@@ -44,7 +44,10 @@ const CategoryManager = ({ setMessage }) => {
       })
       .then(() => {
         setMessage(`Kategoria ${id} usunieta`);
-        setState({ categories: state.categories, isAdmin: state.isAdmin });
+        setState({
+          categories: state.categories.filter((cat) => cat.categoryId !== id),
+          isAdmin: state.isAdmin,
+        });
       })
       .catch((err) => {
         setMessage(err.response.data.message);
@@ -53,6 +56,7 @@ const CategoryManager = ({ setMessage }) => {
   }
 
   function openCategoryEditor(id) {
+    setMessage("");
     navigate(`/admin/edytor-kategorii/${id}`);
   }
 

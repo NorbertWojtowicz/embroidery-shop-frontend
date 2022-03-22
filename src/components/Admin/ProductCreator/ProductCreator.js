@@ -74,6 +74,7 @@ const ProductCreator = ({ setMessage }) => {
   }
 
   function backToProductManager() {
+    setMessage("");
     navigate("/admin/menedzer-produktow");
   }
 

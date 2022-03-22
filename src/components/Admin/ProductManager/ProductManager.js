@@ -43,6 +43,7 @@ const ProductManager = ({ setMessage }) => {
   }, [page, token]);
 
   function openEditor(id) {
+    setMessage("");
     navigate(`/admin/edytor-produktow/${id}`);
   }
 
@@ -54,7 +55,7 @@ const ProductManager = ({ setMessage }) => {
       .then(() => {
         setMessage(`Produkt ${id} usuniety`);
         setState({
-          products: state.products,
+          products: state.products.filter((p) => p.id !== id),
           currentPage: state.currentPage,
           isAdmin: state.isAdmin,
         });
@@ -67,6 +68,7 @@ const ProductManager = ({ setMessage }) => {
   }
 
   function openProductCreator() {
+    setMessage("");
     navigate("/admin/kreator-produktow");
   }
 

@@ -31,6 +31,7 @@ const CategoryCreator = ({ setMessage }) => {
   }, [token]);
 
   function backToCategoryManager() {
+    setMessage("");
     navigate("/admin/menedzer-kategorii");
   }
 
