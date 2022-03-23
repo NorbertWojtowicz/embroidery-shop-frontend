@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
+import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
 
 const CategoryEditor = ({ setMessage }) => {
   const { id } = useParams();
   const token = CookieUtil.getCookie("access_token");
   const navigate = useNavigate();
+  // if put request is processing
+  const [isLoaded, setLoaded] = useState(true);
 
   const [state, setState] = useState({
     category: {},
+    // if product found and fetched from db
     isLoaded: false,
     isAdmin: false,
   });
@@ -44,17 +48,19 @@ const CategoryEditor = ({ setMessage }) => {
   }, [id, token]);
 
   function backToCategoryManager() {
+    setMessage("");
     navigate("/admin/menedzer-kategorii");
   }
 
-  function editCategory(e) {
+  async function editCategory(e) {
     e.preventDefault();
+    setLoaded(false);
     const categoryForm = document.querySelector("#category-form");
     const modifiedCategory = {
       categoryId: state.category.categoryId,
       name: categoryForm.name.value,
     };
-    axiosApiInstance
+    await axiosApiInstance
       .put(API_URL + "/products/category", modifiedCategory, {
         headers: { Authorization: token },
       })
@@ -74,6 +80,7 @@ const CategoryEditor = ({ setMessage }) => {
           isAdmin: state.isAdmin,
         });
       });
+    setLoaded(true);
   }
 
   return (
@@ -98,16 +105,23 @@ const CategoryEditor = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 defaultValue={state.category.name}
+                onFocus={() => setMessage("")}
               />
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary form-control"
-              onClick={(e) => editCategory(e)}
-            >
-              Edytuj kategorię
-            </button>
+            {isLoaded ? (
+              <button
+                type="submit"
+                className="btn btn-primary form-control"
+                onClick={(e) => editCategory(e)}
+              >
+                Edytuj kategorię
+              </button>
+            ) : (
+              <span style={{ textAlign: "center" }}>
+                <LoadingSpinnerGrow />
+              </span>
+            )}
           </form>
         </div>
       ) : (
