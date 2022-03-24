@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./ProductsWrapper.css";
@@ -10,6 +10,7 @@ import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 import PaginationBar from "./PaginationBar/PaginationBar";
 import SuccessMessage from "../../ErrorContainers/SuccessMessage/SuccessMessage";
 import API_URL from "../../../Config/API_URL";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const ProductsWrapper = () => {
   const [state, setState] = useState({
@@ -22,8 +23,10 @@ const ProductsWrapper = () => {
   let [searchName, setSearchName] = useState("");
   let [page, setPage] = useState(state.currentPage);
   const [message, setMessage] = useState("");
+  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    setLoaded(false);
     fetch(
       API_URL +
         `/products${searchType}${searchName}?sort=${sortCriteria}&page=${
@@ -31,7 +34,10 @@ const ProductsWrapper = () => {
         }`
     )
       .then((res) => res.json())
-      .then((data) => setState(data));
+      .then((data) => {
+        setState(data);
+        setLoaded(true);
+      });
   }, [sortCriteria, searchType, searchName, page]);
 
   return (
@@ -42,21 +48,27 @@ const ProductsWrapper = () => {
         setSearchType={setSearchType}
         setSearchName={setSearchName}
       />
-      {state.products.length === 0 ? (
-        <ErrorMessage
-          message={"Żaden z produktów nie spełnia określonych kryteriów..."}
-        />
-      ) : (
-        <div>
-          {message !== "" ? <SuccessMessage message={message} /> : ""}
-          <div className="products-wrapper">
-            {state.products.map((product) => (
-              <div className="product" key={product.id}>
-                <Product product={product} setMessage={setMessage} />
+      {isLoaded ? (
+        <Fragment>
+          {state.products.length === 0 ? (
+            <ErrorMessage
+              message={"Żaden z produktów nie spełnia określonych kryteriów..."}
+            />
+          ) : (
+            <div>
+              {message !== "" ? <SuccessMessage message={message} /> : ""}
+              <div className="products-wrapper">
+                {state.products.map((product) => (
+                  <div className="product" key={product.id}>
+                    <Product product={product} setMessage={setMessage} />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
+        </Fragment>
+      ) : (
+        <LoadingSpinner />
       )}
       {/*Grid helper div*/}
       <div></div>

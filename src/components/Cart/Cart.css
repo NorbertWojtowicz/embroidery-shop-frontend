@@ -17,6 +17,11 @@
     cursor: default;
 }
 
+.cart-spinner {
+    width: 100px;
+    margin: 10em auto;
+}
+
 @media(max-width:1000px) {
     .alert-cart {
         max-width: 45em;

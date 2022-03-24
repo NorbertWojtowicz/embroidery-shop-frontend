@@ -26,7 +26,8 @@ const Product = ({ product, setMessage }) => {
       )
       .then((res) => setMessage("Pomyślnie dodano produkt"))
       .catch((err) => {
-        if (err.response.status === 401) {
+        const status = err.response.status;
+        if (status === 401 || status === 500) {
           navigate("/logowanie");
         }
       });

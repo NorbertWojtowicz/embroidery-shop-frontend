@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
+import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
 
 const CategoryCreator = ({ setMessage }) => {
   const navigate = useNavigate();
   const token = CookieUtil.getCookie("access_token");
+  const [isLoaded, setLoaded] = useState(true);
 
   const [state, setState] = useState({
     isAdmin: false,
@@ -29,10 +31,12 @@ const CategoryCreator = ({ setMessage }) => {
   }, [token]);
 
   function backToCategoryManager() {
+    setMessage("");
     navigate("/admin/menedzer-kategorii");
   }
 
   async function addCategory(e) {
+    setLoaded(false);
     e.preventDefault();
     const categoryForm = document.querySelector("#category-form");
     const newCategory = {
@@ -50,6 +54,8 @@ const CategoryCreator = ({ setMessage }) => {
         setMessage(err.response.data.message);
         setState({ isAdmin: state.isAdmin });
       });
+    categoryForm.reset();
+    setLoaded(true);
   }
 
   return (
@@ -76,16 +82,22 @@ const CategoryCreator = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 placeholder="Pluszaki"
+                onFocus={() => setMessage("")}
               />
             </div>
-
-            <button
-              type="submit"
-              className="btn btn-primary form-control"
-              onClick={(e) => addCategory(e)}
-            >
-              Dodaj kategorię
-            </button>
+            {isLoaded ? (
+              <button
+                type="submit"
+                className="btn btn-primary form-control"
+                onClick={(e) => addCategory(e)}
+              >
+                Dodaj kategorię
+              </button>
+            ) : (
+              <span style={{ textAlign: "center" }}>
+                <LoadingSpinnerGrow />
+              </span>
+            )}
           </form>
         </div>
       )}

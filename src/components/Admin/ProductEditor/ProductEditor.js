@@ -4,15 +4,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
+import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
 
 const ProductEditor = ({ setMessage }) => {
   const { id } = useParams();
   const token = CookieUtil.getCookie("access_token");
   const navigate = useNavigate();
+  // if put request is processing
+  const [isLoaded, setLoaded] = useState(true);
 
   const [state, setState] = useState({
     categories: [],
     product: {},
+    // if product found and fetched from db
     isLoaded: false,
     isAdmin: false,
   });
@@ -49,8 +53,10 @@ const ProductEditor = ({ setMessage }) => {
     fetchData();
   }, [id, token]);
 
-  function editProduct(e) {
+  async function editProduct(e) {
     e.preventDefault();
+    setMessage("");
+    setLoaded(false);
     const productForm = document.querySelector("#product-form");
     const modifiedProduct = {
       id: state.product.id,
@@ -60,7 +66,7 @@ const ProductEditor = ({ setMessage }) => {
       category: { name: productForm.category.value },
       mainImageName: state.product.mainImageName,
     };
-    axiosApiInstance
+    await axiosApiInstance
       .put(API_URL + "/products", modifiedProduct, {
         headers: { Authorization: token },
       })
@@ -82,9 +88,11 @@ const ProductEditor = ({ setMessage }) => {
           isAdmin: state.isAdmin,
         });
       });
+    setLoaded(true);
   }
 
   function backToProductManager() {
+    setMessage("");
     navigate("/admin/menedzer-produktow");
   }
 
@@ -110,6 +118,7 @@ const ProductEditor = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 defaultValue={state.product.name}
+                onFocus={() => setMessage("")}
               />
             </div>
             <div className="form-group">
@@ -143,13 +152,19 @@ const ProductEditor = ({ setMessage }) => {
                 defaultValue={state.product.description}
               />
             </div>
-            <button
-              type="submit"
-              className="btn btn-primary form-control"
-              onClick={(e) => editProduct(e)}
-            >
-              Edytuj produkt
-            </button>
+            {isLoaded ? (
+              <button
+                type="submit"
+                className="btn btn-primary form-control"
+                onClick={(e) => editProduct(e)}
+              >
+                Edytuj produkt
+              </button>
+            ) : (
+              <span style={{ textAlign: "center" }}>
+                <LoadingSpinnerGrow />
+              </span>
+            )}
           </form>
         </div>
       ) : (

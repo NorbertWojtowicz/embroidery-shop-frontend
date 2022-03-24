@@ -24,3 +24,6 @@ yarn-error.log*
 
 # parsed babel and autoprefixer files
 /dest
+
+# Local Netlify folder
+.netlify

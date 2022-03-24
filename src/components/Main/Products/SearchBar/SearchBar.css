@@ -39,6 +39,9 @@
     .search-bar-input {
         width: 27em;
     }
+    .search-bar-wrapper {
+        grid-row: 2;
+    }
 }
 
 @media only screen and (max-width: 580px) {
@@ -49,7 +52,7 @@
 
 @media only screen and (max-width: 480px) {
     .search-bar-input {
-        width: 12em;
+        width: 11.8em;
     }
 }
 

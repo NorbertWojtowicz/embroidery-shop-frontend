@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import FormError from "../ErrorContainers/FormError/FormError";
-import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
+import LoadingSpinnerGrow from "../LoadingSpinnerGrow/LoadingSpinnerGrow";
+import axios from "axios";
 
 const RegisterForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [isLoaded, setLoaded] = useState(true);
 
   async function registerUser(e) {
     e.preventDefault();
@@ -18,10 +20,12 @@ const RegisterForm = () => {
     };
     if (validateUser(newUser)) {
       const { passwordRepeat, ...userDto } = newUser;
-      await axiosApiInstance
+      setLoaded(false);
+      await axios
         .post(API_URL + "/register", userDto)
         .then(() => setSuccess(true))
         .catch((err) => setError(err.response.data.message));
+      setLoaded(true);
     }
   }
 
@@ -101,12 +105,16 @@ const RegisterForm = () => {
             name="passwordRepeat"
             placeholder="Powtórz hasło"
           />
-          <input
-            type="submit"
-            onClick={(e) => registerUser(e)}
-            className="fadeIn fourth"
-            value="Zarejestruj"
-          />
+          {!isLoaded ? (
+            <LoadingSpinnerGrow />
+          ) : (
+            <input
+              type="submit"
+              onClick={(e) => registerUser(e)}
+              className="fadeIn fourth"
+              value="Zarejestruj"
+            />
+          )}
         </form>
 
         {error.length !== 0 ? <FormError message={error} /> : ""}
