@@ -18,6 +18,8 @@ import CategoryCreator from "./components/Admin/CategoryCreator/CategoryCreator"
 import CartManager from "./components/Admin/CartManager/CartManager";
 import CartDetails from "./components/Admin/CartDetails/CartDetails";
 import ComponentWrapper from "./components/ComponentWrapper/ComponentWrapper";
+import CheckoutForm from "./components/CheckoutForm/CheckoutForm";
+import CartCheckout from "./components/CartCheckout/CartCheckout";
 
 function App() {
   return (
@@ -73,6 +75,11 @@ function App() {
           exact
           path={"/admin/menedzer-zamowien/:id"}
           element={<ComponentWrapper Component={CartDetails} />}
+        />
+        <Route
+          exact
+          path={"/zamowienie"}
+          element={<ComponentWrapper Component={CartCheckout} />}
         />
       </Routes>
       <Footer />

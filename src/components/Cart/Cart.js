@@ -4,8 +4,10 @@ import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ setMessage }) => {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     cartItems: [],
     totalPrice: 0,
@@ -116,29 +118,8 @@ const Cart = ({ setMessage }) => {
       .catch();
   }
 
-  async function finalizeCart() {
-    await axiosApiInstance
-      .post(
-        API_URL + "/cart/finalize",
-        {},
-        {
-          headers: { Authorization: token },
-        }
-      )
-      .then(() => {
-        setMessage(
-          "Zamówienie zostało pomyślnie zatwierdzone, " +
-            "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
-            "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie tutaj " +
-            "spowoduje przejście do konwersacji.</a>"
-        );
-        setState({
-          cartItems: [],
-          totalPrice: 0,
-          isLoaded: true,
-        });
-      })
-      .catch();
+  async function navigateToCheckout() {
+    navigate("/zamowienie");
   }
 
   return state.isLoaded ? (
@@ -155,17 +136,6 @@ const Cart = ({ setMessage }) => {
         </div>
       ) : (
         <div>
-          <div className="alert alert-danger alert-cart" role="alert">
-            Po zatwierdzeniu zamówienia proszę o{" "}
-            <a
-              href={"https://www.facebook.com/messages/t/100054510993416"}
-              target={"_blank"}
-              rel="noreferrer"
-            >
-              kontakt (tutaj)
-            </a>{" "}
-            w celu finalizacji zamówienia
-          </div>
           <div className="cart-wrapper bottom-margin-8">
             <div className="row">
               <div className="col-md-8 cart">
@@ -295,8 +265,8 @@ const Cart = ({ setMessage }) => {
                     {Math.round(state.totalPrice * 100) / 100} zł
                   </div>
                 </div>
-                <button className="btn" onClick={() => finalizeCart()}>
-                  ZATWIERDŹ ZAMÓWIENIE
+                <button className="btn" onClick={() => navigateToCheckout()}>
+                  PRZEJDŹ DO PŁATNOŚCI
                 </button>
               </div>
             </div>
