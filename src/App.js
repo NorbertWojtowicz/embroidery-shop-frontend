@@ -18,8 +18,8 @@ import CategoryCreator from "./components/Admin/CategoryCreator/CategoryCreator"
 import CartManager from "./components/Admin/CartManager/CartManager";
 import CartDetails from "./components/Admin/CartDetails/CartDetails";
 import ComponentWrapper from "./components/ComponentWrapper/ComponentWrapper";
-import CheckoutForm from "./components/CheckoutForm/CheckoutForm";
 import CartCheckout from "./components/CartCheckout/CartCheckout";
+import OrdersCheckout from "./components/OrdersCheckout/OrdersCheckout";
 
 function App() {
   return (
@@ -80,6 +80,11 @@ function App() {
           exact
           path={"/zamowienie"}
           element={<ComponentWrapper Component={CartCheckout} />}
+        />
+        <Route
+          exact
+          path={"/zamowienia"}
+          element={<ComponentWrapper Component={OrdersCheckout} />}
         />
       </Routes>
       <Footer />

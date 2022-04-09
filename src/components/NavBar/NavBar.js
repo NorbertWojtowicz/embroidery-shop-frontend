@@ -94,7 +94,7 @@ const NavBar = () => {
               type="button"
               className="btn btn-acc-cart btn-outline-primary"
               style={{ margin: "0 1em" }}
-              onClick={() => navigate("/koszyk")}
+              onClick={() => (window.location.href = "/koszyk")}
             >
               Koszyk
             </button>
