@@ -87,9 +87,13 @@ const NavBar = () => {
           </a>
         ) : (
           <div className="btn-container">
-            <span className="name-header header-navbar">
-              Witaj {user.username}
-            </span>
+            <button
+              type="button"
+              className="btn btn-acc-orders btn-outline-secondary"
+              onClick={() => (window.location.href = "/zamowienia")}
+            >
+              Zamówienia
+            </button>
             <button
               type="button"
               className="btn btn-acc-cart btn-outline-primary"

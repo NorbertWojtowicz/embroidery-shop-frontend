@@ -45,10 +45,30 @@
 
 /*Responsiveness*/
 
-@media only screen and (max-width: 770px) {
-    .bg-navbar {
-        height: 13vh!important;
+@media only screen and (max-width: 991px) {
+    .btn-acc-logout {
+        margin: 0;
     }
+    .btn-acc-orders {
+        width: 11.8em;
+        margin-bottom: 0.8em;
+    }
+    .btn-acc-cart {
+        margin: 0 1.6em 0 0!important;
+    }
+    .btn-admin {
+        margin: 0!important;
+    }
+    .btn-container {
+        width: 15em;
+        text-align: center;
+    }
+    .bg-navbar {
+        height: 15vh!important;
+    }
+}
+
+@media only screen and (max-width: 770px) {
     #basic-navbar-nav {
         display: none!important;
     }
@@ -57,7 +77,7 @@
     }
     .btn-admin {
         position: absolute;
-        margin: 5em 0 0 9em;
+        margin: 10em 0 0 8em!important;
         width: 20em;
         padding-top: 0.2em;
         padding-bottom: 0.2em;
@@ -86,6 +106,9 @@
 @media only screen and (max-width: 530px) {
     .btn-acc-cart {
         margin: 0 auto!important;
+    }
+    .btn-acc-orders {
+        width: 11em;
     }
     .btn-acc-logout {
         margin-left: 1em;
@@ -136,6 +159,9 @@
     .btn-admin {
         margin-left: 5em;
     }
+    .btn-acc-orders {
+        font-size: 0.8em;
+    }
 
 }
 @media only screen and (max-width: 450px) {
@@ -165,12 +191,15 @@
         width: 10em;
     }
     .btn-admin {
-        margin-left: 3.5em;
+        margin-left: 3.5em!important;
+    }
+    .btn-acc-orders {
+        width: 9em;
     }
 }
 @media only screen and (max-width: 390px) {
     .btn-admin {
-        margin-left: 2.5em;
+        margin-left: 2.5em!important;
     }
 }
 @media only screen and (max-width: 370px) {
@@ -181,8 +210,13 @@
         width: 100%!important;
     }
     .btn-admin {
-        margin-left: 4em;
+        margin-left: 4em!important;
         width: 15em;
+    }
+}
+@media only screen and (max-width: 330px) {
+    .btn-admin {
+        margin-left: 3em!important;
     }
 }
 
