@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -6,6 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
+import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
 
 export default function CheckoutForm({ cartItems, clientSecret }) {
   const stripe = useStripe();
@@ -107,131 +108,132 @@ export default function CheckoutForm({ cartItems, clientSecret }) {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <h3>Adres wysyłki</h3>
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            Imię
-          </span>
+    <Fragment>
+      {message !== null ? <SuccessMessage message={message} /> : ""}
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <h3>Adres wysyłki</h3>
+        <div className="input-group input-group-sm mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-sm">
+              Imię
+            </span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            name="firstName"
+            required={true}
+          />
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-sm">
+              Nazwisko
+            </span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            name="lastName"
+            required={true}
+          />
         </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          name="firstName"
-          required={true}
-        />
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            Nazwisko
-          </span>
+        <div className="input-group input-group-sm mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-sm">
+              Miasto
+            </span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            name="city"
+            required={true}
+          />
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-sm">
+              Kod pocztowy
+            </span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            name="postCode"
+            required={true}
+          />
         </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          name="lastName"
-          required={true}
-        />
-      </div>
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            Miasto
-          </span>
+        <div className="input-group input-group-sm mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-sm">
+              Ulica i numer
+            </span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            name="street"
+            required={true}
+          />
         </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          name="city"
-          required={true}
-        />
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            Kod pocztowy
-          </span>
+        <div className="input-group input-group-sm mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-sm">
+              Nr telefonu
+            </span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            name="phone"
+            required={true}
+          />
         </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          name="postCode"
-          required={true}
-        />
-      </div>
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            Ulica i numer
-          </span>
-        </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          name="street"
-          required={true}
-        />
-      </div>
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            Nr telefonu
-          </span>
-        </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          name="phone"
-          required={true}
-        />
-      </div>
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend" style={{ height: "60px" }}>
-          <span
-            className="input-group-text"
-            id="inputGroup-sizing-sm"
-            style={{ height: "60px" }}
-          >
-            Uwagi do zamówienia
-          </span>
-        </div>
+        <div className="input-group input-group-sm mb-3">
+          <div className="input-group-prepend" style={{ height: "60px" }}>
+            <span
+              className="input-group-text"
+              id="inputGroup-sizing-sm"
+              style={{ height: "60px" }}
+            >
+              Uwagi do zamówienia
+            </span>
+          </div>
 
-        <textarea
-          className="form-control"
-          aria-label="Small"
-          style={{ height: "60px" }}
-          aria-describedby="inputGroup-sizing-sm"
-          name="addInfo"
-          required={false}
-        />
-      </div>
-      <h4>
-        Płatność - kwota:{" "}
-        {cartItems.reduce((prev, cur) => prev + cur.subtotal, 0.0)} zł (+15zł
-        wysyłka)
-      </h4>
-      <PaymentElement id="payment-element" />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? (
-            <div className="spinner" id="spinner" />
-          ) : (
-            "Zapłać teraz"
-          )}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+          <textarea
+            className="form-control"
+            aria-label="Small"
+            style={{ height: "60px" }}
+            aria-describedby="inputGroup-sizing-sm"
+            name="addInfo"
+            required={false}
+          />
+        </div>
+        <h4>
+          Płatność - kwota:{" "}
+          {cartItems.reduce((prev, cur) => prev + cur.subtotal, 0.0)} zł (+15zł
+          wysyłka, kurier DPD)
+        </h4>
+        <PaymentElement id="payment-element" />
+        <button disabled={isLoading || !stripe || !elements} id="submit">
+          <span id="button-text">
+            {isLoading ? (
+              <div className="spinner" id="spinner" />
+            ) : (
+              "Zapłać teraz"
+            )}
+          </span>
+        </button>
+      </form>
+    </Fragment>
   );
 }

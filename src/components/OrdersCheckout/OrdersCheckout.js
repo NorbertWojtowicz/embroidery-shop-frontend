@@ -86,7 +86,9 @@ const OrdersCheckout = ({ setMessage }) => {
                                 {state.carts.map((cart) => (
                                   <tr key={cart.id}>
                                     <td>{cart.id}</td>
-                                    <td>{cart.totalPrice} zł</td>
+                                    <td>
+                                      {cart.totalPrice}zł (+15zł kurier DPD)
+                                    </td>
                                     <td>{cart.cartItems.length}</td>
                                     <td>{renderStatus(cart.status)}</td>
                                     <td>
