@@ -17,6 +17,7 @@ const NavBar = () => {
 
   useEffect(() => {
     setLoaded(false);
+    document.title = "Dziecięcy atelier";
     async function fetchProfileData() {
       await axiosApiInstance
         .get(API_URL + "/profile/details", {

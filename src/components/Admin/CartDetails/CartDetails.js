@@ -124,7 +124,8 @@ const CartDetails = ({ setMessage }) => {
                           <img
                             className="img-responsive"
                             src={
-                              "http://localhost:8080/resources/mainImages/" +
+                              API_URL +
+                              "/resources/mainImages/" +
                               cartItem.id +
                               "/" +
                               cartItem.product.mainImageName

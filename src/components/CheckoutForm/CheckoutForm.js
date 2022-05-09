@@ -71,7 +71,7 @@ export default function CheckoutForm({ cartItems, clientSecret }) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/zamowienie",
+        return_url: API_URL + "/zamowienie",
         payment_method_data: {
           billing_details: {
             address: {

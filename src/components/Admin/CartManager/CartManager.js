@@ -131,7 +131,8 @@ const CartManager = ({ setMessage }) => {
                             <img
                               className="img-responsive"
                               src={
-                                "http://localhost:8080/resources/" +
+                                API_URL +
+                                "/resources/" +
                                 (cart.completed ? "check" : "cross") +
                                 ".png"
                               }

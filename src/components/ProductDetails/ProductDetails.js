@@ -63,7 +63,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="">
       {messages.error !== "" ? <ErrorMessage message={messages.error} /> : ""}
       {messages.success !== "" ? (
         <SuccessMessage message={messages.success} />
@@ -75,7 +75,8 @@ const ProductDetails = () => {
           <div className="img-container bottom-margin-8">
             <img
               src={
-                "http://localhost:8080/resources/mainImages/" +
+                API_URL +
+                "/resources/mainImages/" +
                 product.id +
                 "/" +
                 product.mainImageName
@@ -96,7 +97,9 @@ const ProductDetails = () => {
               </p>
             </div>
             <p className="lead font-weight-bold footer-right-top">Opis:</p>
-            <p className="lead field-value-wrapper">{product.description}</p>
+            <p className="lead field-value-wrapper description">
+              {product.description}
+            </p>
 
             <form className="d-flex justify-content-left top-margin-2 details-form">
               <input

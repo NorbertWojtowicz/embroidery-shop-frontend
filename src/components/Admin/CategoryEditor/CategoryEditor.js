@@ -24,7 +24,7 @@ const CategoryEditor = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
@@ -32,7 +32,7 @@ const CategoryEditor = ({ setMessage }) => {
         });
       let categories = [];
       await axiosApiInstance
-        .get(`http://localhost:8080/products/category`)
+        .get(API_URL + `/products/category`)
         .then((res) => {
           categories = res.data;
         })

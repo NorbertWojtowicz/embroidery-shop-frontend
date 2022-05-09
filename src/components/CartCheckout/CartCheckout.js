@@ -6,7 +6,6 @@ import "./CartCheckout.css";
 import API_URL from "../../Config/API_URL";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import CheckoutForm from "../CheckoutForm/CheckoutForm";
-import cookieUtil from "../../CookieUtil/CookieUtil";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -24,7 +23,8 @@ const CartCheckout = () => {
     async function fetchData() {
       await axiosApiInstance
         .post(API_URL + "/payment/create")
-        .then((res) => setClientSecret(res.data));
+        .then((res) => setClientSecret(res.data))
+        .catch(() => (document.location = "/koszyk"));
       await axiosApiInstance
         .get(API_URL + "/cart")
         .then((res) => setCartItems(res.data))

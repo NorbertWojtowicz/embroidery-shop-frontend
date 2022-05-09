@@ -123,7 +123,8 @@ const ProductManager = ({ setMessage }) => {
                           <img
                             className="img-responsive"
                             src={
-                              "http://localhost:8080/resources/mainImages/" +
+                              API_URL +
+                              "/resources/mainImages/" +
                               product.id +
                               "/" +
                               product.mainImageName

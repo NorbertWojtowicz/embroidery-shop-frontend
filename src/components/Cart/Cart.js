@@ -161,7 +161,8 @@ const Cart = ({ setMessage }) => {
                         <img
                           className="img-fluid"
                           src={
-                            "http://localhost:8080/resources/mainImages/" +
+                            API_URL +
+                            "/resources/mainImages/" +
                             cartItem.product.id +
                             "/" +
                             cartItem.product.mainImageName
