@@ -107,13 +107,20 @@ const Cart = ({ setMessage }) => {
         const updatedItems = state.cartItems.filter(
           (item) => item.id !== cartItem.id
         );
-        setState({
-          cartItems: updatedItems,
-          totalPrice: updatedItems.reduce(
+        // setState({
+        //   cartItems: updatedItems,
+        //   totalPrice: updatedItems.reduce(
+        //     (tot, cur) => tot + cur.product.price * cur.quantity,
+        //     0
+        //   ),
+        // });
+        updateStatePriceAndRemoveCartItem(
+          updatedItems.reduce(
             (tot, cur) => tot + cur.product.price * cur.quantity,
             0
           ),
-        });
+          cartItem
+        );
       })
       .catch();
   }
