@@ -17,7 +17,6 @@ import CategoryEditor from "./components/Admin/CategoryEditor/CategoryEditor";
 import CategoryCreator from "./components/Admin/CategoryCreator/CategoryCreator";
 import CartManager from "./components/Admin/CartManager/CartManager";
 import CartDetails from "./components/Admin/CartDetails/CartDetails";
-import ComponentWrapper from "./components/ComponentWrapper/ComponentWrapper";
 import CartCheckout from "./components/CartCheckout/CartCheckout";
 import OrdersCheckout from "./components/OrdersCheckout/OrdersCheckout";
 
@@ -30,62 +29,50 @@ function App() {
         <Route exact path={`/produkty/:id`} element={<ProductDetails />} />
         <Route exact path={"/logowanie"} element={<LoginForm />} />
         <Route exact path={"/rejestracja"} element={<RegisterForm />} />
-        <Route
-          exact
-          path={"/koszyk"}
-          element={<ComponentWrapper Component={Cart} />}
-        />
+        <Route exact path={"/koszyk"} element={<Cart />} />
         <Route exact path={"/admin/glowna"} element={<AdminPage />} />
         <Route
           exact
           path={"/admin/kreator-produktow"}
-          element={<ComponentWrapper Component={ProductCreator} />}
+          element={<ProductCreator />}
         />
         <Route
           exact
           path={"/admin/menedzer-produktow"}
-          element={<ComponentWrapper Component={ProductManager} />}
+          element={<ProductManager />}
         />
         <Route
           exact
           path={"/admin/edytor-produktow/:id"}
-          element={<ComponentWrapper Component={ProductEditor} />}
+          element={<ProductEditor />}
         />
         <Route
           exact
           path={"/admin/menedzer-kategorii"}
-          element={<ComponentWrapper Component={CategoryManager} />}
+          element={<CategoryManager />}
         />
         <Route
           exact
           path={"/admin/edytor-kategorii/:id"}
-          element={<ComponentWrapper Component={CategoryEditor} />}
+          element={<CategoryEditor />}
         />
         <Route
           exact
           path={"/admin/kreator-kategorii"}
-          element={<ComponentWrapper Component={CategoryCreator} />}
+          element={<CategoryCreator />}
         />
         <Route
           exact
           path={"/admin/menedzer-zamowien"}
-          element={<ComponentWrapper Component={CartManager} />}
+          element={<CartManager />}
         />
         <Route
           exact
           path={"/admin/menedzer-zamowien/:id"}
-          element={<ComponentWrapper Component={CartDetails} />}
+          element={<CartDetails />}
         />
-        <Route
-          exact
-          path={"/zamowienie"}
-          element={<ComponentWrapper Component={CartCheckout} />}
-        />
-        <Route
-          exact
-          path={"/zamowienia"}
-          element={<ComponentWrapper Component={OrdersCheckout} />}
-        />
+        <Route exact path={"/zamowienie"} element={<CartCheckout />} />
+        <Route exact path={"/zamowienia"} element={<OrdersCheckout />} />
       </Routes>
       <Footer />
     </Router>

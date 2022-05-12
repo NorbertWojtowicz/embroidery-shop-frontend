@@ -8,7 +8,6 @@ import SortingBar from "./SortingBar/SortingBar";
 import SearchBar from "./SearchBar/SearchBar";
 import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 import PaginationBar from "./PaginationBar/PaginationBar";
-import SuccessMessage from "../../ErrorContainers/SuccessMessage/SuccessMessage";
 import API_URL from "../../../Config/API_URL";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
@@ -22,7 +21,6 @@ const ProductsWrapper = () => {
   let [searchType, setSearchType] = useState("");
   let [searchName, setSearchName] = useState("");
   let [page, setPage] = useState(state.currentPage);
-  const [message, setMessage] = useState("");
   const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -56,11 +54,11 @@ const ProductsWrapper = () => {
             />
           ) : (
             <div>
-              {message !== "" ? <SuccessMessage message={message} /> : ""}
+              <div id={"message-wr"} />
               <div className="products-wrapper">
                 {state.products.map((product) => (
                   <div className="product" key={product.id}>
-                    <Product product={product} setMessage={setMessage} />
+                    <Product product={product} />
                   </div>
                 ))}
               </div>

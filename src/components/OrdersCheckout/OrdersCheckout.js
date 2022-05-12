@@ -4,12 +4,14 @@ import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
 import "./OrdersCheckout.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import InfoMessage from "../ErrorContainers/InfoMessage/InfoMessage";
 
-const OrdersCheckout = ({ setMessage }) => {
+const OrdersCheckout = () => {
   const [state, setState] = useState({
     carts: [],
     isLoaded: false,
   });
+  const [message, setMessage] = useState("");
   const token = CookieUtil.getCookie("access_token");
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const OrdersCheckout = ({ setMessage }) => {
         }
       })
       .catch((err) => setMessage("Zaloguj się aby zobaczyć swoje zamówienia"));
-  }, [token, setMessage]);
+  }, [token]);
 
   function renderStatus(status) {
     switch (status) {
@@ -48,6 +50,7 @@ const OrdersCheckout = ({ setMessage }) => {
 
   return (
     <Fragment>
+      {message !== "" ? <InfoMessage message={message} /> : ""}
       {!state.isLoaded ? (
         <div className="cart-spinner">
           <LoadingSpinner />

@@ -1,12 +1,13 @@
 import "./ProductManager.css";
 import PaginationBar from "../../Main/Products/PaginationBar/PaginationBar";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const ProductManager = ({ setMessage }) => {
+const ProductManager = () => {
   const token = CookieUtil.getCookie("access_token");
   const navigate = useNavigate();
 
@@ -43,7 +44,6 @@ const ProductManager = ({ setMessage }) => {
   }, [page, token]);
 
   function openEditor(id) {
-    setMessage("");
     navigate(`/admin/edytor-produktow/${id}`);
   }
 
@@ -53,7 +53,7 @@ const ProductManager = ({ setMessage }) => {
         headers: { Authorization: token },
       })
       .then(() => {
-        setMessage(`Produkt ${id} usuniety`);
+        MessageUtil.renderSuccessMessage(`Produkt ${id} usuniety`);
         setState({
           products: state.products.filter((p) => p.id !== id),
           currentPage: state.currentPage,
@@ -68,7 +68,6 @@ const ProductManager = ({ setMessage }) => {
   }
 
   function openProductCreator() {
-    setMessage("");
     navigate("/admin/kreator-produktow");
   }
 
@@ -84,6 +83,7 @@ const ProductManager = ({ setMessage }) => {
             id="bootstrap-css"
           />
           <div className="row">
+            <div id={"message-wr"} />
             <div className="col-xs-8">
               <div className="panel panel-info" style={{ width: "100%" }}>
                 <div className="panel-heading">

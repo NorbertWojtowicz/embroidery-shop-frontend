@@ -1,12 +1,12 @@
 import "./Cart.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 
-const Cart = ({ setMessage }) => {
+const Cart = () => {
   const navigate = useNavigate();
   const [state, setState] = useState({
     cartItems: [],
@@ -107,13 +107,6 @@ const Cart = ({ setMessage }) => {
         const updatedItems = state.cartItems.filter(
           (item) => item.id !== cartItem.id
         );
-        // setState({
-        //   cartItems: updatedItems,
-        //   totalPrice: updatedItems.reduce(
-        //     (tot, cur) => tot + cur.product.price * cur.quantity,
-        //     0
-        //   ),
-        // });
         updateStatePriceAndRemoveCartItem(
           updatedItems.reduce(
             (tot, cur) => tot + cur.product.price * cur.quantity,
@@ -145,6 +138,7 @@ const Cart = ({ setMessage }) => {
         <div>
           <div className="cart-wrapper bottom-margin-8">
             <div className="row">
+              <div id={"message-wr"} />
               <div className="col-md-8 cart">
                 <div className="title">
                   <div className="row">

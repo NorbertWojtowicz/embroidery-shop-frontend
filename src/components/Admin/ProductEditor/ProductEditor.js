@@ -1,12 +1,13 @@
 import "./ProductEditor.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const ProductEditor = ({ setMessage }) => {
+const ProductEditor = () => {
   const { id } = useParams();
   const token = CookieUtil.getCookie("access_token");
   const navigate = useNavigate();
@@ -55,7 +56,6 @@ const ProductEditor = ({ setMessage }) => {
 
   async function editProduct(e) {
     e.preventDefault();
-    setMessage("");
     setLoaded(false);
     const productForm = document.querySelector("#product-form");
     const modifiedProduct = {
@@ -71,7 +71,7 @@ const ProductEditor = ({ setMessage }) => {
         headers: { Authorization: token },
       })
       .then((res) => {
-        setMessage("Edycja przebiegła pomyślnie");
+        MessageUtil.renderSuccessMessage("Edycja przebiegła pomyślnie");
         setState({
           categories: state.categories,
           product: res.data,
@@ -80,7 +80,7 @@ const ProductEditor = ({ setMessage }) => {
         });
       })
       .catch((err) => {
-        setMessage(err.response.data.message);
+        MessageUtil.renderSuccessMessage(err.response.data.message);
         setState({
           categories: state.categories,
           product: modifiedProduct,
@@ -92,7 +92,6 @@ const ProductEditor = ({ setMessage }) => {
   }
 
   function backToProductManager() {
-    setMessage("");
     navigate("/admin/menedzer-produktow");
   }
 
@@ -101,6 +100,7 @@ const ProductEditor = ({ setMessage }) => {
       {state.isLoaded && state.isAdmin ? (
         <div className="product-creator">
           <form id="product-form">
+            <div id={"message-wr"} />
             <button
               type="button"
               className="btn btn-primary btn-sm btn-block"
@@ -118,7 +118,6 @@ const ProductEditor = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 defaultValue={state.product.name}
-                onFocus={() => setMessage("")}
               />
             </div>
             <div className="form-group">

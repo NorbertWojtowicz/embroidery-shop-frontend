@@ -1,12 +1,13 @@
 import "./CartManager.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import PaginationBar from "../../Main/Products/PaginationBar/PaginationBar";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const CartManager = ({ setMessage }) => {
+const CartManager = () => {
   const navigate = useNavigate();
   const token = CookieUtil.getCookie("access_token");
 
@@ -49,7 +50,7 @@ const CartManager = ({ setMessage }) => {
 
   function completeOrder(cart) {
     if (cart.completed) {
-      setMessage("Zamówienie jest już zakończone");
+      MessageUtil.renderSuccessMessage("Zamówienie jest już zakończone");
       setState({ carts: state.carts, isLoaded: true, isAdmin: state.isAdmin });
     } else {
       axiosApiInstance
@@ -59,7 +60,7 @@ const CartManager = ({ setMessage }) => {
           { headers: { Authorization: token } }
         )
         .then((res) => {
-          setMessage("Zamówienie zostało zakończone");
+          MessageUtil.renderSuccessMessage("Zamówienie zostało zakończone");
           setState({
             carts: state.carts,
             isLoaded: true,
@@ -67,7 +68,7 @@ const CartManager = ({ setMessage }) => {
           });
         })
         .catch((err) => {
-          setMessage("Nie można zakończyć zamówienia");
+          MessageUtil.renderSuccessMessage("Nie można zakończyć zamówienia");
           setState({
             carts: state.carts,
             isLoaded: true,
@@ -101,6 +102,7 @@ const CartManager = ({ setMessage }) => {
             id="bootstrap-css"
           />
           <div className="row">
+            <div id={"message-wr"} />
             <div className="col-xs-8">
               <div className="panel panel-info" style={{ width: "100%" }}>
                 <div className="panel-heading">

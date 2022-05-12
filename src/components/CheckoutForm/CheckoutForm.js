@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
-import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
+import InfoMessage from "../ErrorContainers/InfoMessage/InfoMessage";
 
 export default function CheckoutForm({ cartItems, clientSecret }) {
   const stripe = useStripe();
@@ -14,8 +14,6 @@ export default function CheckoutForm({ cartItems, clientSecret }) {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(clientSecret);
 
   async function finalizeOrder() {
     await axiosApiInstance.post(API_URL + "/cart/finalize");
@@ -101,7 +99,7 @@ export default function CheckoutForm({ cartItems, clientSecret }) {
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
-      setMessage("An unexpected error occured.");
+      setMessage("Coś poszło nie tak....");
     }
 
     setIsLoading(false);
@@ -109,7 +107,7 @@ export default function CheckoutForm({ cartItems, clientSecret }) {
 
   return (
     <Fragment>
-      {message !== null ? <SuccessMessage message={message} /> : ""}
+      {message !== null ? <InfoMessage message={message} /> : ""}
       <form id="payment-form" onSubmit={handleSubmit}>
         <h3>Adres wysyłki</h3>
         <div className="input-group input-group-sm mb-3">

@@ -1,12 +1,13 @@
 import "./CategoryCreator.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const CategoryCreator = ({ setMessage }) => {
+const CategoryCreator = () => {
   const navigate = useNavigate();
   const token = CookieUtil.getCookie("access_token");
   const [isLoaded, setLoaded] = useState(true);
@@ -31,7 +32,6 @@ const CategoryCreator = ({ setMessage }) => {
   }, [token]);
 
   function backToCategoryManager() {
-    setMessage("");
     navigate("/admin/menedzer-kategorii");
   }
 
@@ -47,11 +47,11 @@ const CategoryCreator = ({ setMessage }) => {
         headers: { Authorization: token },
       })
       .then((res) => {
-        setMessage("Kategoria pomyślnie dodana");
+        MessageUtil.renderSuccessMessage("Kategoria pomyślnie dodana");
         setState({ isAdmin: state.isAdmin });
       })
       .catch((err) => {
-        setMessage(err.response.data.message);
+        MessageUtil.renderSuccessMessage(err.response.data.message);
         setState({ isAdmin: state.isAdmin });
       });
     categoryForm.reset();
@@ -64,6 +64,7 @@ const CategoryCreator = ({ setMessage }) => {
         ""
       ) : (
         <div className="product-creator">
+          <div id={"message-wr"} />
           <form id="category-form">
             <button
               type="button"
@@ -82,7 +83,6 @@ const CategoryCreator = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 placeholder="Pluszaki"
-                onFocus={() => setMessage("")}
               />
             </div>
             {isLoaded ? (

@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../../Config/AxiosApiInstance";
 import API_URL from "../../../../Config/API_URL";
+import MessageUtil from "../../../MessageUtil/MessageUtil";
 
-const Product = ({ product, setMessage }) => {
+const Product = ({ product }) => {
   const navigate = useNavigate();
   const token = CookieUtil.getCookie("access_token");
 
@@ -24,7 +25,11 @@ const Product = ({ product, setMessage }) => {
         {},
         { headers: { Authorization: token } }
       )
-      .then((res) => setMessage("Pomyślnie dodano produkt"))
+      .then((res) =>
+        MessageUtil.renderSuccessMessage(
+          "Pomyślnie dodano produkt '" + product.name + "'"
+        )
+      )
       .catch((err) => {
         const status = err.response.status;
         if (status === 401 || status === 500) {
