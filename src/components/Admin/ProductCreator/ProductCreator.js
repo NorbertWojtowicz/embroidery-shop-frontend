@@ -6,9 +6,11 @@ import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
 import MessageUtil from "../../MessageUtil/MessageUtil";
+import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 
 const ProductCreator = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [state, setState] = useState({
     categories: [],
     isAdmin: false,
@@ -65,7 +67,11 @@ const ProductCreator = () => {
         });
         productForm.reset();
       })
-      .catch();
+      .catch(() =>
+        setError(
+          "Coś poszło nie tak, prawdopodobnie rozmiar zdjęcia lub jego nazwy przekracza limit..."
+        )
+      );
     setLoaded(true);
   }
 
@@ -83,6 +89,7 @@ const ProductCreator = () => {
         ""
       ) : (
         <div className="product-creator">
+          {error !== "" ? <ErrorMessage message={error} /> : ""}
           <div id={"message-wr"} />
           <form id="product-form">
             <button
