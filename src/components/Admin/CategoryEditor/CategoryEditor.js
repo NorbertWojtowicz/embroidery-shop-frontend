@@ -1,12 +1,13 @@
 import "./CategoryEditor.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const CategoryEditor = ({ setMessage }) => {
+const CategoryEditor = () => {
   const { id } = useParams();
   const token = CookieUtil.getCookie("access_token");
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const CategoryEditor = ({ setMessage }) => {
     async function fetchData() {
       let isAdminTemp = false;
       await axiosApiInstance
-        .get("http://localhost:8080/profile/details", {
+        .get(API_URL + "/profile/details", {
           headers: { Authorization: token },
         })
         .then((res) => {
@@ -32,7 +33,7 @@ const CategoryEditor = ({ setMessage }) => {
         });
       let categories = [];
       await axiosApiInstance
-        .get(`http://localhost:8080/products/category`)
+        .get(API_URL + `/products/category`)
         .then((res) => {
           categories = res.data;
         })
@@ -48,7 +49,6 @@ const CategoryEditor = ({ setMessage }) => {
   }, [id, token]);
 
   function backToCategoryManager() {
-    setMessage("");
     navigate("/admin/menedzer-kategorii");
   }
 
@@ -65,7 +65,7 @@ const CategoryEditor = ({ setMessage }) => {
         headers: { Authorization: token },
       })
       .then((res) => {
-        setMessage("Edycja przebiegła pomyślnie");
+        MessageUtil.renderSuccessMessage("Edycja przebiegła pomyślnie");
         setState({
           category: res.data,
           isLoaded: true,
@@ -73,7 +73,7 @@ const CategoryEditor = ({ setMessage }) => {
         });
       })
       .catch((err) => {
-        setMessage(err.response.data.message);
+        MessageUtil.renderSuccessMessage(err.response.data.message);
         setState({
           category: state.category,
           isLoaded: true,
@@ -87,6 +87,7 @@ const CategoryEditor = ({ setMessage }) => {
     <div>
       {state.isLoaded && state.isAdmin ? (
         <div className="product-creator">
+          <div id={"message-wr"} />
           <form id="category-form">
             <button
               type="button"
@@ -105,7 +106,6 @@ const CategoryEditor = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 defaultValue={state.category.name}
-                onFocus={() => setMessage("")}
               />
             </div>
 

@@ -1,11 +1,12 @@
 import "./CategoryManager.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const CategoryManager = ({ setMessage }) => {
+const CategoryManager = () => {
   const navigate = useNavigate();
   const token = CookieUtil.getCookie("access_token");
 
@@ -43,20 +44,19 @@ const CategoryManager = ({ setMessage }) => {
         headers: { Authorization: token },
       })
       .then(() => {
-        setMessage(`Kategoria ${id} usunieta`);
+        MessageUtil.renderSuccessMessage(`Kategoria ${id} usunieta`);
         setState({
           categories: state.categories.filter((cat) => cat.categoryId !== id),
           isAdmin: state.isAdmin,
         });
       })
       .catch((err) => {
-        setMessage(err.response.data.message);
+        MessageUtil.renderSuccessMessage(err.response.data.message);
         setState({ categories: state.categories, isAdmin: state.isAdmin });
       });
   }
 
   function openCategoryEditor(id) {
-    setMessage("");
     navigate(`/admin/edytor-kategorii/${id}`);
   }
 
@@ -76,6 +76,7 @@ const CategoryManager = ({ setMessage }) => {
             id="bootstrap-css"
           />
           <div className="row">
+            <div id={"message-wr"} />
             <div className="col-xs-8">
               <div className="panel panel-info" style={{ width: "100%" }}>
                 <div className="panel-heading">

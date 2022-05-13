@@ -1,13 +1,16 @@
 import "./ProductCreator.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import LoadingSpinnerGrow from "../../LoadingSpinnerGrow/LoadingSpinnerGrow";
+import MessageUtil from "../../MessageUtil/MessageUtil";
+import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 
-const ProductCreator = ({ setMessage }) => {
+const ProductCreator = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [state, setState] = useState({
     categories: [],
     isAdmin: false,
@@ -36,7 +39,6 @@ const ProductCreator = ({ setMessage }) => {
   }, [token]);
 
   async function addProduct(e) {
-    setMessage("");
     setLoaded(false);
     e.preventDefault();
     const productForm = document.querySelector("#product-form");
@@ -58,14 +60,18 @@ const ProductCreator = ({ setMessage }) => {
         },
       })
       .then((res) => {
-        setMessage("Produkt pomyślnie dodany");
+        MessageUtil.renderSuccessMessage("Produkt pomyślnie dodany");
         setState({
           categories: state.categories,
           isAdmin: state.isAdmin,
         });
         productForm.reset();
       })
-      .catch();
+      .catch(() =>
+        setError(
+          "Coś poszło nie tak, prawdopodobnie rozmiar zdjęcia lub jego nazwy przekracza limit..."
+        )
+      );
     setLoaded(true);
   }
 
@@ -74,7 +80,6 @@ const ProductCreator = ({ setMessage }) => {
   }
 
   function backToProductManager() {
-    setMessage("");
     navigate("/admin/menedzer-produktow");
   }
 
@@ -84,6 +89,8 @@ const ProductCreator = ({ setMessage }) => {
         ""
       ) : (
         <div className="product-creator">
+          {error !== "" ? <ErrorMessage message={error} /> : ""}
+          <div id={"message-wr"} />
           <form id="product-form">
             <button
               type="button"
@@ -111,7 +118,6 @@ const ProductCreator = ({ setMessage }) => {
                 className="form-control"
                 id="name"
                 placeholder="Pluszak"
-                onFocus={() => setMessage("")}
               />
             </div>
             <div className="form-group">

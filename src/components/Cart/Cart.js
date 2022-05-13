@@ -1,11 +1,13 @@
 import "./Cart.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import API_URL from "../../Config/API_URL";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
-const Cart = ({ setMessage }) => {
+const Cart = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     cartItems: [],
     totalPrice: 0,
@@ -105,40 +107,19 @@ const Cart = ({ setMessage }) => {
         const updatedItems = state.cartItems.filter(
           (item) => item.id !== cartItem.id
         );
-        setState({
-          cartItems: updatedItems,
-          totalPrice: updatedItems.reduce(
+        updateStatePriceAndRemoveCartItem(
+          updatedItems.reduce(
             (tot, cur) => tot + cur.product.price * cur.quantity,
             0
           ),
-        });
+          cartItem
+        );
       })
       .catch();
   }
 
-  async function finalizeCart() {
-    await axiosApiInstance
-      .post(
-        API_URL + "/cart/finalize",
-        {},
-        {
-          headers: { Authorization: token },
-        }
-      )
-      .then(() => {
-        setMessage(
-          "Zamówienie zostało pomyślnie zatwierdzone, " +
-            "proszę o kontakt na messengerze w celu finalizacji zamówienia (płatnosć oraz wysyłka). " +
-            "<a href='https://www.facebook.com/messages/t/100054510993416' target='_blank'>Kliknięcie tutaj " +
-            "spowoduje przejście do konwersacji.</a>"
-        );
-        setState({
-          cartItems: [],
-          totalPrice: 0,
-          isLoaded: true,
-        });
-      })
-      .catch();
+  async function navigateToCheckout() {
+    navigate("/zamowienie");
   }
 
   return state.isLoaded ? (
@@ -155,19 +136,9 @@ const Cart = ({ setMessage }) => {
         </div>
       ) : (
         <div>
-          <div className="alert alert-danger alert-cart" role="alert">
-            Po zatwierdzeniu zamówienia proszę o{" "}
-            <a
-              href={"https://www.facebook.com/messages/t/100054510993416"}
-              target={"_blank"}
-              rel="noreferrer"
-            >
-              kontakt (tutaj)
-            </a>{" "}
-            w celu finalizacji zamówienia
-          </div>
           <div className="cart-wrapper bottom-margin-8">
             <div className="row">
+              <div id={"message-wr"} />
               <div className="col-md-8 cart">
                 <div className="title">
                   <div className="row">
@@ -191,7 +162,8 @@ const Cart = ({ setMessage }) => {
                         <img
                           className="img-fluid"
                           src={
-                            "http://localhost:8080/resources/mainImages/" +
+                            API_URL +
+                            "/resources/mainImages/" +
                             cartItem.product.id +
                             "/" +
                             cartItem.product.mainImageName
@@ -295,8 +267,8 @@ const Cart = ({ setMessage }) => {
                     {Math.round(state.totalPrice * 100) / 100} zł
                   </div>
                 </div>
-                <button className="btn" onClick={() => finalizeCart()}>
-                  ZATWIERDŹ ZAMÓWIENIE
+                <button className="btn" onClick={() => navigateToCheckout()}>
+                  PRZEJDŹ DO PŁATNOŚCI
                 </button>
               </div>
             </div>

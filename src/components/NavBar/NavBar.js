@@ -17,6 +17,7 @@ const NavBar = () => {
 
   useEffect(() => {
     setLoaded(false);
+    document.title = "Dziecięcy atelier";
     async function fetchProfileData() {
       await axiosApiInstance
         .get(API_URL + "/profile/details", {
@@ -87,14 +88,18 @@ const NavBar = () => {
           </a>
         ) : (
           <div className="btn-container">
-            <span className="name-header header-navbar">
-              Witaj {user.username}
-            </span>
+            <button
+              type="button"
+              className="btn btn-acc-orders btn-outline-secondary"
+              onClick={() => (window.location.href = "/zamowienia")}
+            >
+              Zamówienia
+            </button>
             <button
               type="button"
               className="btn btn-acc-cart btn-outline-primary"
               style={{ margin: "0 1em" }}
-              onClick={() => navigate("/koszyk")}
+              onClick={() => (window.location.href = "/koszyk")}
             >
               Koszyk
             </button>

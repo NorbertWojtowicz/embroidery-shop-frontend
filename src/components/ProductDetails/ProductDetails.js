@@ -2,12 +2,12 @@ import "./ProductDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ErrorMessage from "../ErrorContainers/ErrorMessage/ErrorMessage";
-import SuccessMessage from "../ErrorContainers/SuccessMessage/SuccessMessage";
 import CookieUtil from "../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../Config/AxiosApiInstance";
 import axios from "axios";
 import API_URL from "../../Config/API_URL";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import MessageUtil from "../MessageUtil/MessageUtil";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -17,10 +17,7 @@ const ProductDetails = () => {
     isLoaded: false,
   });
 
-  const [messages, setMessages] = useState({
-    error: "",
-    success: "",
-  });
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -28,7 +25,7 @@ const ProductDetails = () => {
         .get(API_URL + `/products/${id}`)
         .then((res) => setProduct({ ...res.data, isLoaded: true }))
         .catch((err) => {
-          setMessages({ error: err.response.data.message, success: "" });
+          setError(err.response.data.message);
           setProduct({ isLoaded: true });
         });
     }
@@ -45,37 +42,36 @@ const ProductDetails = () => {
         {},
         { headers: { Authorization: token } }
       )
-      .then((res) => setMessages({ success: "Produkt dodany!", error: "" }))
+      .then((res) =>
+        MessageUtil.renderSuccessMessage(
+          "Produkt '" + product.name + "' dodany!"
+        )
+      )
       .catch((err) => {
         if (err.response.status === 401) {
           navigate("/logowanie");
         } else {
           const errMessage = err.response.data.message;
-          setMessages({
-            error:
-              errMessage === "No message available"
-                ? "Coś poszło nie tak..."
-                : errMessage,
-            success: "",
-          });
+          setError(
+            errMessage === "No message available"
+              ? "Coś poszło nie tak..."
+              : errMessage
+          );
         }
       });
   }
 
   return (
-    <div className="p-4">
-      {messages.error !== "" ? <ErrorMessage message={messages.error} /> : ""}
-      {messages.success !== "" ? (
-        <SuccessMessage message={messages.success} />
-      ) : (
-        ""
-      )}
+    <div className="">
+      {error !== "" ? <ErrorMessage message={error} /> : ""}
       {product.isLoaded ? (
         <div className="product-details-wrapper">
+          <div id={"message-wr"} />
           <div className="img-container bottom-margin-8">
             <img
               src={
-                "http://localhost:8080/resources/mainImages/" +
+                API_URL +
+                "/resources/mainImages/" +
                 product.id +
                 "/" +
                 product.mainImageName
@@ -96,7 +92,9 @@ const ProductDetails = () => {
               </p>
             </div>
             <p className="lead font-weight-bold footer-right-top">Opis:</p>
-            <p className="lead field-value-wrapper">{product.description}</p>
+            <p className="lead field-value-wrapper description">
+              {product.description}
+            </p>
 
             <form className="d-flex justify-content-left top-margin-2 details-form">
               <input

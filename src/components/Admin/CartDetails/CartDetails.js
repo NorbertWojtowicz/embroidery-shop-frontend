@@ -1,11 +1,12 @@
 import "./CartDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import CookieUtil from "../../../CookieUtil/CookieUtil";
 import API_URL from "../../../Config/API_URL";
+import MessageUtil from "../../MessageUtil/MessageUtil";
 
-const CartDetails = ({ setMessage }) => {
+const CartDetails = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const CartDetails = ({ setMessage }) => {
 
   function completeOrder(id) {
     if (state.cart.completed) {
-      setMessage("Zamówienie jest już zakończone");
+      MessageUtil.renderSuccessMessage("Zamówienie jest już zakończone");
       setState({ cart: state.cart, isLoaded: true, isAdmin: state.isAdmin });
     } else {
       axiosApiInstance
@@ -55,7 +56,7 @@ const CartDetails = ({ setMessage }) => {
           { headers: { Authorization: token } }
         )
         .then((res) => {
-          setMessage("Zamówienie zostało zakończone");
+          MessageUtil.renderSuccessMessage("Zamówienie zostało zakończone");
           setState({
             cart: state.cart,
             isLoaded: true,
@@ -63,7 +64,7 @@ const CartDetails = ({ setMessage }) => {
           });
         })
         .catch((err) => {
-          setMessage("Nie można zakończyć zamówienia");
+          MessageUtil.renderSuccessMessage("Nie można zakończyć zamówienia");
           setState({
             cart: state.cart,
             isLoaded: true,
@@ -84,6 +85,7 @@ const CartDetails = ({ setMessage }) => {
           />
           <div className="row">
             <div className="col-xs-8">
+              <div id={"message-wr"} />
               <div className="panel panel-info" style={{ width: "100%" }}>
                 <div className="panel-heading">
                   <div className="panel-title">
@@ -124,7 +126,8 @@ const CartDetails = ({ setMessage }) => {
                           <img
                             className="img-responsive"
                             src={
-                              "http://localhost:8080/resources/mainImages/" +
+                              API_URL +
+                              "/resources/mainImages/" +
                               cartItem.id +
                               "/" +
                               cartItem.product.mainImageName

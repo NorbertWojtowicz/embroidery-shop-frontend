@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import CookieUtil from "../../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../../Config/AxiosApiInstance";
 import API_URL from "../../../../Config/API_URL";
+import MessageUtil from "../../../MessageUtil/MessageUtil";
 
-const Product = ({ product, setMessage }) => {
+const Product = ({ product }) => {
   const navigate = useNavigate();
   const token = CookieUtil.getCookie("access_token");
 
@@ -24,7 +25,11 @@ const Product = ({ product, setMessage }) => {
         {},
         { headers: { Authorization: token } }
       )
-      .then((res) => setMessage("Pomyślnie dodano produkt"))
+      .then((res) =>
+        MessageUtil.renderSuccessMessage(
+          "Pomyślnie dodano produkt '" + product.name + "'"
+        )
+      )
       .catch((err) => {
         const status = err.response.status;
         if (status === 401 || status === 500) {
@@ -49,21 +54,23 @@ const Product = ({ product, setMessage }) => {
         />
       </div>
       <div className="card-body text-center mx-auto">
-        <div className="cvp">
-          <h5 className="card-title font-weight-bold">{product.name}</h5>
-          <p className="card-text">{product.price}zł</p>{" "}
-          <a
-            href={"/"}
-            className="btn details"
-            onClick={(e) => navigateToProductDetails(e)}
-          >
-            Zobacz detale
-          </a>
-          <br />
-          <a href={"/"} className="btn cart" onClick={(e) => addToCart(e, 1)}>
-            DO KOSZYKA
-          </a>
-        </div>
+        {/*  <div className="cvp">*/}
+        <h5 className="card-title font-weight-bold">{product.name}</h5>
+        <p className="card-text">{product.price}zł</p> {/*</div>*/}
+        {/*</div>*/}
+      </div>
+      <div className="card-buttons-wrapper">
+        <a
+          href={"/"}
+          className="btn details"
+          onClick={(e) => navigateToProductDetails(e)}
+        >
+          Zobacz detale
+        </a>
+        {/*<br />*/}
+        <a href={"/"} className="btn cart" onClick={(e) => addToCart(e, 1)}>
+          DO KOSZYKA
+        </a>
       </div>
     </div>
   );
