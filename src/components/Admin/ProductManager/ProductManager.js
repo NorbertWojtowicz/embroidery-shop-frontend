@@ -6,10 +6,12 @@ import CookieUtil from "../../../CookieUtil/CookieUtil";
 import axiosApiInstance from "../../../Config/AxiosApiInstance";
 import API_URL from "../../../Config/API_URL";
 import MessageUtil from "../../MessageUtil/MessageUtil";
+import ErrorMessage from "../../ErrorContainers/ErrorMessage/ErrorMessage";
 
 const ProductManager = () => {
   const token = CookieUtil.getCookie("access_token");
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const [state, setState] = useState({
     products: [],
@@ -60,7 +62,11 @@ const ProductManager = () => {
           isAdmin: state.isAdmin,
         });
       })
-      .catch();
+      .catch((err) =>
+        setError(
+          `Nie można usunąć produktu ${id}, prawdobodobnie został on już sprzedany`
+        )
+      );
   }
 
   function backToAdminPage() {
@@ -83,6 +89,7 @@ const ProductManager = () => {
             id="bootstrap-css"
           />
           <div className="row">
+            {error !== "" ? <ErrorMessage message={error} /> : ""}
             <div id={"message-wr"} />
             <div className="col-xs-8">
               <div className="panel panel-info" style={{ width: "100%" }}>
