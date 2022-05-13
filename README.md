@@ -9,7 +9,7 @@ Testing version is available at: <http://34.135.102.223>
 # Short description of frontend project 
 
 ## Navbar section
-NavBar has 4 buttons (1 if you are sign out, 3 if you are sign in but u are not an admin):
+NavBar has 4 buttons (1 if you are signed out, 3 if you are signed in but u are not an admin):
 - Panel admina (Navigates to admin panel - description in *Admin panel* section)
 - Zamówienia (Navigates to site with all orders of currently signed in user)
 - Koszyk (Navigates to cart site with list of added products, sum up and and checkout button)
