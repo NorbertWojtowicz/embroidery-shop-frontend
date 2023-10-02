@@ -4,7 +4,9 @@ Frontend side of embroidery-shop-backend application.
 
 Functionality and informations about backend side of project are available at: <https://github.com/NorbertWojtowicz/embroidery-shop-backend>
 
-Testing version is available at: <http://34.135.102.223>
+(The test server is no longer available)
+
+~~Testing version is available at: <http://34.135.102.223>~~
 
 # Short description of frontend project 
 
